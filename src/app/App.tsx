@@ -12,7 +12,11 @@ const App : FC = () => {
   
   return (
     <Suspense
-      fallback={<Spin />}
+      fallback={
+        <div className="spin">
+          <Spin className="spin-loader" size="large" />
+        </div>
+      }
     >
       <AppProviders>
         <RouterProvider router={router} />

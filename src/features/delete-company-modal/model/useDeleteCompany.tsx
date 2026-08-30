@@ -4,7 +4,7 @@ import { Modal } from "antd";
 export const useDeleteCompany = () => {
   const [modal, contextHolder] = Modal.useModal();
 
-  const confirmDelete = (id: number) => {
+  const confirmDelete = (id: number | string) => {
     console.log(modal)
     modal.confirm({
       title: "Kompaniyani o‘chirish kerakmi?",

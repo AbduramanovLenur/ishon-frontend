@@ -1,3 +1,3 @@
-export const auth_endpoints = {
+export const authEndpoints = {
   LOGIN: "/api/auth/login"
 } as const;

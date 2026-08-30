@@ -1,1 +1,1 @@
-export const getFirstChar = (value: string) => value.trim().charAt(0);
+export const getFirstChar = (value: string) => value?.trim()?.charAt(0) || '';

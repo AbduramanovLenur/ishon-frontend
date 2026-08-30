@@ -3,7 +3,8 @@ import { Form, Input, InputNumber, Modal, Switch, type FormProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 
 import { close, stateManageCompany } from "../model/manageCompanySlice";
-import type { IManageFields } from "../model/types";
+import type { IManageCompanyFields } from "../model/types";
+import { useCreateCompany } from "../model/mutations";
 
 import styles from "./ManageCompanyModal.module.scss";
 
@@ -11,8 +12,9 @@ const ManageCompanyModal: FC = () => {
   const { isOpen, companyId } = useSelector(stateManageCompany);
   const dispatch = useDispatch();
   const [form] = Form.useForm();
+  const { mutateAsync, isPending } = useCreateCompany();
   
-  const isEdit = Number.isFinite(companyId);
+  const isEdit = !!companyId;
   const title = !isEdit ? "Kampaniya yaratish" : "Kampaniyani yangilash";
 
   const closeManageModalHandle = () => {
@@ -24,8 +26,12 @@ const ManageCompanyModal: FC = () => {
     form.submit();
   }
 
-  const onSubmitHandle: FormProps<IManageFields>['onFinish'] = (values) => {
-    console.log(values);
+  const onSubmitHandle: FormProps<IManageCompanyFields>['onFinish'] = (values) => {
+    mutateAsync(values,{
+      onSuccess: () => {
+        closeManageModalHandle();
+      }
+    });
   }
 
   return (
@@ -43,6 +49,7 @@ const ManageCompanyModal: FC = () => {
       cancelText="Yopish"
       onOk={onOkHandle}
       onCancel={closeManageModalHandle}
+      confirmLoading={isPending}
     >
       <Form 
         form={form}
@@ -52,11 +59,11 @@ const ManageCompanyModal: FC = () => {
           help: styles['manage-company__form-help']
         }}
       >
-        <Form.Item<IManageFields>
+        <Form.Item<IManageCompanyFields>
           className={styles['manage-company__form-item']}
           layout="vertical" 
           label="Kompaniya nomi" 
-          name="company" 
+          name="name" 
           rules={[{ 
             required: true,
             message: 'Kompaniya nomini kiriting'
@@ -64,7 +71,7 @@ const ManageCompanyModal: FC = () => {
         >
           <Input className={styles['manage-company__form-input']} />
         </Form.Item>
-        <Form.Item<IManageFields>
+        <Form.Item<IManageCompanyFields>
           className={styles['manage-company__form-item']}
           layout="vertical" 
           label="Kompaniya manzili" 
@@ -76,11 +83,11 @@ const ManageCompanyModal: FC = () => {
         >
           <Input />
         </Form.Item>
-        <Form.Item<IManageFields>
+        <Form.Item<IManageCompanyFields>
           className={styles['manage-company__form-item']}
           layout="vertical" 
           label="Obyektlar soni" 
-          name="numberOfObjects" 
+          name="objectLimit" 
           rules={[{ 
             required: true,
             message: 'Obyektlar sonini kiriting'
@@ -88,11 +95,11 @@ const ManageCompanyModal: FC = () => {
         >
           <InputNumber min={0} />
         </Form.Item>
-        <Form.Item<IManageFields>
+        <Form.Item<IManageCompanyFields>
           className={styles['manage-company__form-item']}
           layout="vertical" 
           label="Xodimlar soni" 
-          name="numberOfEmployees" 
+          name="employeeLimit" 
           rules={[{ 
             required: true,
             message: 'Xodimlar sonini kiriting'
@@ -101,7 +108,7 @@ const ManageCompanyModal: FC = () => {
           <InputNumber min={0} />
         </Form.Item>
       </Form>
-      {isEdit && <Form.Item<IManageFields>
+      {isEdit && <Form.Item<IManageCompanyFields>
         name="isActive"
         label="Holat"
         valuePropName="checked"

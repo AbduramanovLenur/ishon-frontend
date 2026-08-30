@@ -3,62 +3,40 @@ import { Table, type TableProps } from "antd";
 import { useDispatch } from "react-redux";
 
 import { useDeleteCompany } from "@/features/delete-company-modal";
-import { ManageCompanyModal } from "@features/manage-company-modal";
+import { ManageCompanyModal, useCompanyList, type ICompany } from "@features/manage-company-modal";
 import { open } from "@features/manage-company-modal/model/manageCompanySlice";
-// import { useQueryParams } from "@shared/lib";
-// import { queries } from "@shared/config";
+import { useQueryParams } from "@shared/lib";
+import { queries } from "@shared/config";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
 import { getFirstChar } from "@shared/utils";
 
 import styles from "./CompaniesTable.module.scss";
 
-interface DataType {
-  id: number;
-  company: string;
-  address: string;
-  objects: number;
-  employees: number;
-}
-
-const dataSource: DataType[] = [
-  {
-    id: 1,
-    company: 'Acme Corp',
-    address: '123 Innovation Dr, Tech City',
-    objects: 32,
-    employees: 40,
-  },
-  {
-    id: 2,
-    company: 'Acme Corp',
-    address: '123 Innovation Dr, Tech City',
-    objects: 32,
-    employees: 2,
-  },
-];
-
 const CompaniesTable: FC = () => {
-  // const { get } = useQueryParams();
-  // const search = get(queries.SEARCH);
-  // const currentPage = get(queries.PAGE);
+  const { get } = useQueryParams();
+  const search = get(queries.SEARCH) || '';
+  const currentPage = Number(get(queries.PAGE) || 1);
+  const { data, isLoading } = useCompanyList(search, currentPage);
   const dispatch = useDispatch();
   const { confirmDelete, contextHolder } = useDeleteCompany();
 
-  const openManageModalHandle = (id: number) => {
+  const dataSource = data?.content || [];
+
+  const openManageModalHandle = (id: number | string) => {
     dispatch(open(id));
   }
 
-  const columns: TableProps<DataType>['columns'] = [
+  const columns: TableProps<ICompany>['columns'] = [
     {
       title: 'KOMPANIYS NOMI',
       width: 350,
       render: (_, record) => (
         <span className={styles['companies-table__badge-cell']}>
           <span>
-            { getFirstChar(record.company) }
+            { getFirstChar(record.name) }
           </span>
           <span>
-            { record.company }
+            { record.name }
           </span>
         </span>
       ),
@@ -70,11 +48,11 @@ const CompaniesTable: FC = () => {
     },
     {
       title: 'Obyektlar',
-      render: (_, record) => record.objects,
+      render: (_, record) => record.objectLimit,
     },
     {
       title: 'Xodimlar',
-      render: (_, record) => record.employees,
+      render: (_, record) => record.employeeLimit,
     },
     {
       title: 'Harakatlar',
@@ -98,7 +76,7 @@ const CompaniesTable: FC = () => {
         <SearchInput placeholder="Kompaniyalarni qidirish..." />
       </div>
       <div className={styles['companies-table__middle']}>
-        <Table<DataType>
+        <Table<ICompany>
           classNames={{
             header: {
               cell: styles['companies-table__title-cell']
@@ -108,7 +86,7 @@ const CompaniesTable: FC = () => {
           dataSource={dataSource}
           columns={columns}
           pagination={false}
-          loading={false}
+          loading={isLoading}
           scroll={{ x: 'max-content' }}
         />
       </div>

@@ -1,5 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { lazy } from 'react';
 
 import RequireGuest from './guards/RequireGuest';
 import RequireAuth from './guards/RequireAuth';
@@ -7,9 +6,7 @@ import RequireRole from './guards/RequireRole';
 import IndexRedirect from './guards/IndexRedirect';
 import { RootLayout } from '../layouts/root-layout';
 
-const AuthPage = lazy(() => import('@pages/auth'));
-const CompaniesPage = lazy(() => import('@pages/companies'));
-const DirectorsPage = lazy(() => import('@pages/directors'));
+import { AuthPage, CompaniesPage, DirectorsPage } from './pages';
 
 import { roles } from '@shared/config';
 import { routes } from '@shared/config';
