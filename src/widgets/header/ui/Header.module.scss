@@ -186,5 +186,18 @@
     &-logout {
       margin-top: auto;
     }
+    &-skeletons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    &-skeleton {
+      width: 100% !important;
+      height: 20px;
+      div {
+        width: inherit !important;
+        height: inherit !important;
+      }
+    }
   }
 }

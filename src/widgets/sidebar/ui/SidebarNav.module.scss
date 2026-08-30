@@ -77,4 +77,17 @@
   &__logout {
     margin-top: auto;
   }
+  &__skeletons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  &__skeleton {
+    width: 100% !important;
+    height: 30px;
+    div {
+      width: inherit !important;
+      height: inherit !important;
+    }
+  }
 }

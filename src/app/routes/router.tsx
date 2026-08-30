@@ -1,18 +1,20 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { lazy } from 'react';
 
 import RequireGuest from './guards/RequireGuest';
 import RequireAuth from './guards/RequireAuth';
 import RequireRole from './guards/RequireRole';
+import IndexRedirect from './guards/IndexRedirect';
 import { RootLayout } from '../layouts/root-layout';
 
-import { AuthPage } from '@pages/auth';
-import { CompaniesPage } from '@pages/companies';
-import { DirectorsPage } from '@pages/directors';
+const AuthPage = lazy(() => import('@pages/auth'));
+const CompaniesPage = lazy(() => import('@pages/companies'));
+const DirectorsPage = lazy(() => import('@pages/directors'));
 
 import { roles } from '@shared/config';
 import { routes } from '@shared/config';
 
-export const router = createBrowserRouter([
+const router = createBrowserRouter([
   { 
     element: <RequireGuest />,
     children: [
@@ -28,6 +30,7 @@ export const router = createBrowserRouter([
       {
         element: <RootLayout />,
         children: [
+          { index: true, element: <IndexRedirect /> },
           {
             element: <RequireRole roles={roles.ADMIN} />,
             children: [
@@ -50,3 +53,5 @@ export const router = createBrowserRouter([
     ]
   }
 ]);
+
+export default router;

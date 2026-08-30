@@ -4,11 +4,11 @@ import { Button, Form, Input, type FormProps } from "antd";
 import type { IAuthFields } from "../model/types";
 import { useLogin } from "../model/mutations";
 
-import styles from "./LoginForm.module.scss";
+import styles from "./AuthForm.module.scss";
 
-const LoginForm: FC = () => {
+const AuthForm: FC = () => {
   const [form] = Form.useForm<IAuthFields>();
-  const { mutateAsync, isPending, contextHolder } = useLogin();
+  const { mutateAsync, isPending } = useLogin();
 
   const onSubmitHandle: FormProps<IAuthFields>['onFinish'] = (values) => {
     mutateAsync(values);
@@ -17,13 +17,13 @@ const LoginForm: FC = () => {
   return (
     <>
       <Form
-        className={styles['login-form__form']}
+        className={styles['auth-form__form']}
         form={form}
         layout="vertical"
         onFinish={onSubmitHandle}
       >
         <Form.Item<IAuthFields>
-          className={styles['login-form__item']}
+          className={styles['auth-form__item']}
           label="Login"
           name="username"
           rules={[
@@ -34,13 +34,13 @@ const LoginForm: FC = () => {
           ]}
         >
           <Input 
-            className={styles['login-form__login']}
+            className={styles['auth-form__login']}
             placeholder="Loginni kiriting" 
           />
         </Form.Item>
 
         <Form.Item<IAuthFields>
-          className={styles['login-form__item']}
+          className={styles['auth-form__item']}
           label="Parol"
           name="password"
           rules={[
@@ -51,13 +51,13 @@ const LoginForm: FC = () => {
           ]}
         >
           <Input.Password 
-            className={styles['login-form__password']}
+            className={styles['auth-form__password']}
             placeholder="Parolni kiriting" 
           />
         </Form.Item>
 
         <Form.Item
-          className={styles['login-form__item']}
+          className={styles['auth-form__item']}
         >
           <Button
             type="primary"
@@ -69,9 +69,8 @@ const LoginForm: FC = () => {
           </Button>
         </Form.Item>
       </Form>
-      {contextHolder}
     </>
   );
 }
 
-export default LoginForm;
+export default AuthForm;

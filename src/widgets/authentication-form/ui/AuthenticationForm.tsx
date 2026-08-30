@@ -1,10 +1,10 @@
 import { type FC } from "react";
 
-import { LoginForm } from "@/features/login-form";
+import { AuthForm } from "@/features/auth-form";
 
-import styles from "./AuthForm.module.scss";
+import styles from "./AuthenticationForm.module.scss";
 
-const AuthForm : FC = () => {
+const AuthenticationForm : FC = () => {
   return (
     <section className={styles["auth"]}>
       <div className={styles["auth__inner"]}>
@@ -12,11 +12,11 @@ const AuthForm : FC = () => {
           <div className={styles["auth__logo"]}>
             Ishon
           </div>
-          <LoginForm />
+          <AuthForm />
         </div>
       </div>
     </section>
   );
 }
 
-export default AuthForm;
+export default AuthenticationForm;

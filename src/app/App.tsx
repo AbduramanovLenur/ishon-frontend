@@ -3,7 +3,7 @@ import { RouterProvider } from "react-router-dom";
 import { Spin } from "antd";
 
 import { AppProviders } from "./providers";
-import { router } from "./routes";
+import router from "./routes";
 
 const App : FC = () => {
   useEffect(() => {

@@ -1,9 +1,9 @@
 import { type FC } from "react";
 
-import { AuthForm } from "@/widgets/auth-form";
+import { AuthenticationForm } from "@/widgets/authentication-form";
 
 export const AuthPage: FC = () => {
-  return <AuthForm />;
+  return <AuthenticationForm />;
 }
 
 export default AuthPage;

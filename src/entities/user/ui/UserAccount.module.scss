@@ -56,4 +56,12 @@
       font-size: 11px;
     }
   }
+  &__skeleton {
+    width: 226px !important;
+    height: 40px !important;
+    div {
+      height: inherit !important;
+      width: inherit !important;
+    }
+  }
 }

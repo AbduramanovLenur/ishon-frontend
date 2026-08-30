@@ -3,19 +3,27 @@ import { Navigate, Outlet } from "react-router-dom";
 
 import { roleHomeRoutes } from "@shared/config";
 import type { TRoles } from "@shared/types";
+import { useUser } from "@entities/user";
+import { useLogout } from "@features/auth-form";
 
 interface IRequireRoleProps {
-    roles: TRoles
-};
+  roles: TRoles | TRoles[]
+}
 
 const RequireRole: FC<IRequireRoleProps> = ({ roles }) => {
-    const currentUser: { role: TRoles } = { role: 'ADMIN' };
-    
-    if (!roles.includes(currentUser.role)) {
-        return <Navigate to={roleHomeRoutes[currentUser.role]} replace />
-    }
+  const { logout } = useLogout();
+  const { data: user, error } = useUser();
+  const allowedRoles = Array.isArray(roles) ? roles : [roles];
 
-    return <Outlet />
+  if (error) {
+    logout();
+  }
+
+  if (user && !allowedRoles.includes(user?.type)) {
+    return <Navigate to={roleHomeRoutes[user.type as TRoles]} replace />;
+  }
+
+  return <Outlet />;
 }
 
 export default RequireRole;
