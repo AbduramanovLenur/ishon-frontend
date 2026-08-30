@@ -1,0 +1,53 @@
+.manage-company {
+  &__form {
+    &-container {
+      @media (max-width: 480px) {
+        --ant-modal-content-padding: 15px;
+      }
+    }
+    &-header {
+      --ant-modal-header-margin-bottom: 25px;
+      @media (max-width: 480px) {
+        --ant-modal-header-margin-bottom: 15px;
+      }
+    }
+    &-title {
+      --ant-modal-title-font-size: 20px;
+      @media (max-width: 480px) {
+        --ant-modal-title-font-size: 18px;
+      }
+    }
+    &-body {
+      margin-bottom: 25px;
+    }
+    &-item {
+      width: 100%;
+      @media (max-width: 480px) {
+        --ant-form-item-margin-bottom: 15px !important;
+      }
+      & > div {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        @media (max-width: 480px) {
+          gap: 6px;
+        }
+      }
+    }
+    &-label {
+      font-weight: 500;
+      margin-bottom: 10px;
+      @media (max-width: 480px) {
+        --ant-form-label-font-size: 14px;
+      }
+    }
+    &-input {
+      height: 28px;
+    }
+    &-help {
+      @media (max-width: 480px) {
+        margin-bottom: 15px;
+      }
+    }
+  }
+}

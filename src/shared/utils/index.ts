@@ -1,0 +1,1 @@
+export { getFirstChar } from "./getFirstChar";

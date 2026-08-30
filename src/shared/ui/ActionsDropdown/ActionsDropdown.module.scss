@@ -1,0 +1,12 @@
+.actions-dropdown {
+  &__edit {
+    --ant-color-text: #035b03;
+  }
+  &__delete {
+    --ant-color-text: #ff0000;
+  }
+  &__trigger {
+    display: flex;
+    margin: 0 auto;
+  }
+}

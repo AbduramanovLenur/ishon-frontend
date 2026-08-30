@@ -1,0 +1,29 @@
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+
+import type { ManageCompanyState } from "./manageCompanyTypes";
+
+const initialState: ManageCompanyState = {
+  isOpen: false,
+  companyId: null,
+};
+
+const manageCompanySlice = createSlice({
+  name: "company",
+  initialState,
+  reducers: {
+    open: (state, action: PayloadAction<number | null>) => {
+      state.isOpen = true;
+      state.companyId = action.payload;
+    },
+
+    close: (state) => {
+      state.isOpen = false;
+      state.companyId = null;
+    },
+  },
+});
+
+export const { open, close } = manageCompanySlice.actions;
+export const companyReducer = manageCompanySlice.reducer;
+
+export const stateManageCompany = (state: { company: ManageCompanyState }) => state.company;
