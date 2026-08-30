@@ -7,13 +7,13 @@ export const navigations = [
     label: 'Kompaniyalar',
     path: routes.COMPANIES,
     icon: 'companies',
-    role: roles.SUPERADMIN
+    role: roles.ADMIN
   },
   {
     id: 2,
     label: 'Direktorlar',
     path: routes.DIRECTORS,
     icon: 'directors',
-    role: roles.SUPERADMIN
+    role: roles.ADMIN
   }
 ]

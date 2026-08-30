@@ -11,7 +11,8 @@ export function getRefreshToken(): string | null {
 
 export function setTokens(tokensValues: AuthTokens): void {
   localStorage.setItem(tokens.ACCESS_TOKEN_KEY, tokensValues.accessToken);
-  localStorage.setItem(tokens.REFRESH_TOKEN_KEY, tokensValues.refreshToken);
+
+  if (tokensValues.refreshToken) localStorage.setItem(tokens.REFRESH_TOKEN_KEY, tokensValues.refreshToken);
 }
 
 export function clearTokens(): void {

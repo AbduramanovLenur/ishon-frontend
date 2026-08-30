@@ -29,7 +29,7 @@ export const router = createBrowserRouter([
         element: <RootLayout />,
         children: [
           {
-            element: <RequireRole roles={roles.SUPERADMIN} />,
+            element: <RequireRole roles={roles.ADMIN} />,
             children: [
               {
                 path: routes.COMPANIES,
@@ -42,7 +42,7 @@ export const router = createBrowserRouter([
             ]
           },
           {
-            element: <RequireRole roles={roles.ADMIN} />,
+            element: <RequireRole roles={roles.COMPANY_OWNER} />,
             children: []
           }
         ]
