@@ -2,9 +2,9 @@ import type { FC } from "react";
 import { Table, type TableProps } from "antd";
 import { useDispatch } from "react-redux";
 
-import { useDeleteCompany } from "@/features/delete-company-modal";
+import { useDeleteCompany } from "@features/delete-company-modal";
 import { ManageCompanyModal, useCompanyList, type ICompany } from "@features/manage-company-modal";
-import { open } from "@features/manage-company-modal/model/manageCompanySlice";
+import { open } from "@features/manage-company-modal";
 import { useQueryParams } from "@shared/lib";
 import { queries } from "@shared/config";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";

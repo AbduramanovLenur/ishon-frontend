@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import CompaniesTable from "./CompaniesTable";
 
-import { open } from "@features/manage-company-modal/model/manageCompanySlice";
+import { open } from "@features/manage-company-modal";
 import { PrimaryButton, TopContent } from "@shared/ui";
 
 import styles from "./Companies.module.scss";

@@ -42,7 +42,7 @@ const router = createBrowserRouter([
             ]
           },
           {
-            element: <RequireRole roles={roles.COMPANY_OWNER} />,
+            element: <RequireRole roles={[roles.COMPANY_OWNER, roles.COMPANY_ADMIN]} />,
             children: []
           }
         ]

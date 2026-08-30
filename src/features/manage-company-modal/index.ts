@@ -5,3 +5,5 @@ export { default as ManageCompanyModal } from "./ui/ManageCompanyModal";
 export { useCompanyList } from "./model/queries";
 
 export type { ICompany } from "./model/types"
+
+export { open, close } from "./model/manageCompanySlice";
