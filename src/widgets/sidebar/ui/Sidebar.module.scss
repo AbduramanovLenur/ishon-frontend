@@ -2,12 +2,11 @@
   display: flex;
   flex-direction: column;
   background-color: var(--White);
-  flex: 1;
-  max-width: 256px;
-  width: 100%;
+  flex-shrink: 0;
+  width: 256px;
   padding: 25px 15px;
   @media (max-width: 960px) {
-    max-width: 220px;
+    width: 220px;
   }
   @media (max-width: 768px) {
     display: none;

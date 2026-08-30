@@ -70,12 +70,10 @@ const CompaniesTable: FC = () => {
     },
     {
       title: 'Obyektlar',
-      // width: '15%',
       render: (_, record) => record.objects,
     },
     {
       title: 'Xodimlar',
-      // width: '15%',
       render: (_, record) => record.employees,
     },
     {
