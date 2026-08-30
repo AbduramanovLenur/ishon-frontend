@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 import { useDeleteCompany } from "@/features/delete-company-modal";
 import { ManageCompanyModal } from "@features/manage-company-modal";
 import { open } from "@features/manage-company-modal/model/manageCompanySlice";
-import { useQueryParams } from "@shared/lib";
-import { queries } from "@shared/config";
+// import { useQueryParams } from "@shared/lib";
+// import { queries } from "@shared/config";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
 import { getFirstChar } from "@shared/utils";
 
@@ -38,9 +38,9 @@ const dataSource: DataType[] = [
 ];
 
 const CompaniesTable: FC = () => {
-  const { get } = useQueryParams();
-  const search = get(queries.SEARCH);
-  const currentPage = get(queries.PAGE);
+  // const { get } = useQueryParams();
+  // const search = get(queries.SEARCH);
+  // const currentPage = get(queries.PAGE);
   const dispatch = useDispatch();
   const { confirmDelete, contextHolder } = useDeleteCompany();
 

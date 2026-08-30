@@ -1,4 +1,4 @@
-import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios';
+import axios from 'axios';
 
 import { env } from '../config';
 import { getAccessToken } from './tokenStorage';
