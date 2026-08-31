@@ -10,5 +10,10 @@ export const api = {
     return axiosInstance
       .post<IApiResponse<ICompany>>(endpoints.CREATE, values)
       .then((response) => response.data);
-  }
+  },
+  update: (values: IManageCompanyFields) => {
+    return axiosInstance
+      .patch<IApiResponse<ICompany>>(endpoints.UPDATE, values)
+      .then((response) => response.data);
+  },
 }

@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { close, stateManageCompany } from "../model/slice";
 import type { IManageCompanyFields } from "../model/types";
-import { useCreateCompany } from "../model/mutations";
+import { useCreateCompany, useUpdateCompany } from "../model/mutations";
 
 import { useCompanyById } from "@entities/companies";
+// import { status } from "@shared/config";
 
 import styles from "./ManageCompanyModal.module.scss";
 
@@ -14,7 +15,8 @@ const ManageCompanyModal: FC = () => {
   const { isOpen, companyId } = useSelector(stateManageCompany);
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const { mutateAsync, isPending } = useCreateCompany();
+  const { mutateAsync: mutateAsyncCreate, isPending: isPendingCreate } = useCreateCompany();
+  const { mutateAsync: mutateAsyncUpdate, isPending: isPendingUpdate } = useUpdateCompany();
   const isEdit = !!companyId;
   const title = !isEdit ? "Kampaniya yaratish" : "Kampaniyani yangilash";
   const { data, isLoading } = useCompanyById(companyId, isEdit);
@@ -25,7 +27,8 @@ const ManageCompanyModal: FC = () => {
         name: data.name,
         address: data.address,
         objectLimit: data.objectLimit,
-        employeeLimit: data.employeeLimit
+        employeeLimit: data.employeeLimit,
+        // isActive: data.ownershipStatus === status.ACTIVE
       });
     }
   }, [data, isEdit, form]);
@@ -40,11 +43,17 @@ const ManageCompanyModal: FC = () => {
   }
 
   const onSubmitHandle: FormProps<IManageCompanyFields>['onFinish'] = (values) => {
+    console.log(values)
     if (isEdit) {
+      mutateAsyncUpdate(values, {
+        onSuccess: () => {
+          closeManageModalHandle();
+        }
+      })
       return;
     }
 
-    mutateAsync(values,{
+    mutateAsyncCreate(values, {
       onSuccess: () => {
         closeManageModalHandle();
       }
@@ -66,7 +75,7 @@ const ManageCompanyModal: FC = () => {
       cancelText="Yopish"
       onOk={onOkHandle}
       onCancel={closeManageModalHandle}
-      confirmLoading={isPending}
+      confirmLoading={isPendingCreate || isPendingUpdate}
     >
       <Form 
         form={form}

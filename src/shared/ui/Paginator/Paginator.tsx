@@ -15,7 +15,6 @@ const Paginator: FC<IPaginationProps> = ({ total,  defaultCurrent = 0, align = '
   const { set, get } = useQueryParams();
   const page = Number(get(queries.PAGE));
   const current = page >= 0 ? page + 1 : 1;
-  console.log(current)
   
   const onChangeHandle: PaginationProps['onChange'] = (page) => {
     set(queries.PAGE, page - 1);

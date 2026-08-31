@@ -3,7 +3,7 @@ export interface IManageCompanyFields {
   address: string,
   objectLimit: number,
   employeeLimit: number,
-  isActive: boolean
+  isActive?: boolean
 }
 
 export interface IManageCompanyState {

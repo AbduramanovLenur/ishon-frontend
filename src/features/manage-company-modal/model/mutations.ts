@@ -35,3 +35,32 @@ export function useCreateCompany() {
     }),
   };
 }
+
+export function useUpdateCompany() {
+  const { message } = App.useApp();
+  const queryClient = useQueryClient();
+
+  return {
+    ...useMutation<
+      IApiResponse<ICompany>, 
+      AxiosError<IApiResponse<ICompany>>, 
+      IManageCompanyFields
+    >({
+      mutationFn: api.update,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: companiesKeys.all
+        });
+        
+        message.success('Kompaniya yangilandi');
+      },
+      onError: (error) => {
+        const msg =
+          error.response?.data?.error?.message ??
+          "Kompaniya yangilashda xatolik yuz berdi";
+          
+        message.error(msg);
+      },
+    }),
+  };
+}
