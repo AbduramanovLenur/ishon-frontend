@@ -1,7 +1,9 @@
 import { axiosInstance } from "@shared/api";
 
-import type { IApiResponse, ICompany, IManageCompanyFields } from "../model/types";
+import type { IManageCompanyFields } from "../model/types";
 import { manageCompanyEndpoints } from "./manageCompanyEndpoints";
+
+import type { IApiResponse, ICompany } from "@entities/companies";
 
 export const manageCompanyApi = {
   create: (values: IManageCompanyFields) => {

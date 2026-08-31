@@ -6,6 +6,8 @@ import { close, stateManageCompany } from "../model/manageCompanySlice";
 import type { IManageCompanyFields } from "../model/types";
 import { useCreateCompany } from "../model/mutations";
 
+import { useCompanyById } from "@entities/companies";
+
 import styles from "./ManageCompanyModal.module.scss";
 
 const ManageCompanyModal: FC = () => {
@@ -13,9 +15,9 @@ const ManageCompanyModal: FC = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const { mutateAsync, isPending } = useCreateCompany();
-  
   const isEdit = !!companyId;
   const title = !isEdit ? "Kampaniya yaratish" : "Kampaniyani yangilash";
+  const { data, isLoading } = useCompanyById(companyId, isEdit);
 
   const closeManageModalHandle = () => {
     dispatch(close());
@@ -27,6 +29,10 @@ const ManageCompanyModal: FC = () => {
   }
 
   const onSubmitHandle: FormProps<IManageCompanyFields>['onFinish'] = (values) => {
+    if (isEdit) {
+      return;
+    }
+
     mutateAsync(values,{
       onSuccess: () => {
         closeManageModalHandle();
@@ -69,7 +75,10 @@ const ManageCompanyModal: FC = () => {
             message: 'Kompaniya nomini kiriting'
           }]}
         >
-          <Input className={styles['manage-company__form-input']} />
+          <Input 
+            className={styles['manage-company__form-input']} 
+            disabled={isEdit && isLoading} 
+          />
         </Form.Item>
         <Form.Item<IManageCompanyFields>
           className={styles['manage-company__form-item']}
@@ -81,7 +90,9 @@ const ManageCompanyModal: FC = () => {
             message: 'Kompaniya manzilini kiriting'
           }]}
         >
-          <Input />
+          <Input 
+            disabled={isEdit && isLoading} 
+          />
         </Form.Item>
         <Form.Item<IManageCompanyFields>
           className={styles['manage-company__form-item']}
@@ -93,7 +104,10 @@ const ManageCompanyModal: FC = () => {
             message: 'Obyektlar sonini kiriting'
           }]}
         >
-          <InputNumber min={0} />
+          <InputNumber 
+            min={0} 
+            disabled={isEdit && isLoading} 
+          />
         </Form.Item>
         <Form.Item<IManageCompanyFields>
           className={styles['manage-company__form-item']}
@@ -105,7 +119,10 @@ const ManageCompanyModal: FC = () => {
             message: 'Xodimlar sonini kiriting'
           }]}
         >
-          <InputNumber min={0} />
+          <InputNumber 
+            min={0} 
+            disabled={isEdit && isLoading} 
+          />
         </Form.Item>
       </Form>
       {isEdit && <Form.Item<IManageCompanyFields>

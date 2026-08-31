@@ -1,6 +1,6 @@
 import { axiosInstance } from "@shared/api";
 
-import type { ICompany, IPaginatedData } from "../model/types";
+import type { IApiResponse, ICompany, IPaginatedData } from "../model/types";
 import { manageCompanyEndpoints } from "./companiesEndpoints";
 
 export const companiesApi = {
@@ -11,5 +11,12 @@ export const companiesApi = {
         ...(page && { page }),
       }})
       .then((response) => response.data);
+  },
+  getById: (companyId: string | number | null) => {
+    return axiosInstance
+      .get<IApiResponse<ICompany>>(manageCompanyEndpoints.BY_ID, { params: {
+        ...(companyId && { companyId })
+      }})
+      .then((response) => response.data)
   }
 }

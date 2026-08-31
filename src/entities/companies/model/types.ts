@@ -30,3 +30,10 @@ export interface IPaginatedData<T> {
   first: boolean;
   last: boolean;
 }
+
+export interface IApiResponse<T> {
+  success: boolean;
+  data: T;
+  error: IApiError | null;
+  timestamp: string;
+}

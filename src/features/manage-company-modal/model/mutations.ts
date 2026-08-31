@@ -4,8 +4,8 @@ import { App } from "antd";
 
 import { manageCompanyApi } from "../api/manageCompanyApi";
 
-import type { ICompany, IApiResponse, IManageCompanyFields } from "./types";
-import { companiesKeys } from "@entities/companies";
+import type { IManageCompanyFields } from "./types";
+import { companiesKeys, type IApiResponse, type ICompany } from "@entities/companies";
 
 export function useCreateCompany() {
   const { message } = App.useApp();
@@ -28,7 +28,7 @@ export function useCreateCompany() {
       onError: (error) => {
         const msg =
           error.response?.data?.error?.message ??
-          "Kirishda xatolik yuz berdi. Qayta urinib ko'ring.";
+          "Kompaniya yaratishda xatolik yuz berdi";
           
         message.error(msg);
       },

@@ -7,6 +7,6 @@ export const userApi = {
   me: () => {
     return axiosInstance
       .get<IUserResponse>(userEndpoints.USER)
-      .then((response) => response.data.data);
+      .then((response) => response?.data?.data);
   }
 }
