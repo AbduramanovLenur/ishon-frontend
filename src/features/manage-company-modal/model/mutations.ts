@@ -3,7 +3,7 @@ import type { AxiosError } from "axios";
 import { App } from "antd";
 
 import type { IManageCompanyFields } from "./types";
-import { manageCompanyApi } from "../api/manageCompanyApi";
+import { api } from "../api/api";
 
 import { companiesKeys, type IApiResponse, type ICompany } from "@entities/companies";
 
@@ -17,7 +17,7 @@ export function useCreateCompany() {
       AxiosError<IApiResponse<ICompany>>, 
       IManageCompanyFields
     >({
-      mutationFn: manageCompanyApi.create,
+      mutationFn: api.create,
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: companiesKeys.all

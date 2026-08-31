@@ -1,1 +1,1 @@
-export { useDeleteCompany } from "./model/useDeleteCompany";
+export { useDeleteCompany } from "./model/mutations";

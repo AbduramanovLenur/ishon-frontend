@@ -1,8 +1,8 @@
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
 import { Form, Input, InputNumber, Modal, Switch, type FormProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 
-import { close, stateManageCompany } from "../model/manageCompanySlice";
+import { close, stateManageCompany } from "../model/slice";
 import type { IManageCompanyFields } from "../model/types";
 import { useCreateCompany } from "../model/mutations";
 
@@ -18,6 +18,17 @@ const ManageCompanyModal: FC = () => {
   const isEdit = !!companyId;
   const title = !isEdit ? "Kampaniya yaratish" : "Kampaniyani yangilash";
   const { data, isLoading } = useCompanyById(companyId, isEdit);
+
+  useEffect(() => {
+    if (isEdit && data) {
+      form.setFieldsValue({
+        name: data.name,
+        address: data.address,
+        objectLimit: data.objectLimit,
+        employeeLimit: data.employeeLimit
+      });
+    }
+  }, [data, isEdit, form]);
 
   const closeManageModalHandle = () => {
     dispatch(close());

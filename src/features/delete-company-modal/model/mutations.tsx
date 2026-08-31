@@ -5,7 +5,6 @@ export const useDeleteCompany = () => {
   const [modal, contextHolder] = Modal.useModal();
 
   const confirmDelete = (id: number | string) => {
-    console.log(modal)
     modal.confirm({
       title: "Kompaniyani o‘chirish kerakmi?",
       icon: <DeleteOutlined style={{ color: "#ff0000" }} />,
@@ -13,6 +12,7 @@ export const useDeleteCompany = () => {
       cancelText: "Bekor qilish",
       onOk: async () => {
         console.log("Удаляем компанию:", id);
+        
       },
     });
   };

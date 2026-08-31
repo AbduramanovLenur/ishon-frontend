@@ -1,12 +1,12 @@
 import { axiosInstance } from "@shared/api";
 
-import { userEndpoints } from "./userEndpoints";
+import { endpoints } from "./endpoints";
 import type { IUserResponse } from "../model/types";
 
-export const userApi = {
+export const api = {
   me: () => {
     return axiosInstance
-      .get<IUserResponse>(userEndpoints.USER)
+      .get<IUserResponse>(endpoints.USER)
       .then((response) => response?.data?.data);
   }
 }

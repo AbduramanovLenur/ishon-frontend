@@ -2,9 +2,9 @@ import type { FC } from "react";
 import { NavLink } from "react-router-dom";
 import { Skeleton } from "antd";
 
-import { navigations } from "@shared/config/navigations";
-import { useUser } from "@entities/user";
 import { useLogout } from "@features/auth-form";
+import { useUser } from "@entities/user";
+import { navigations } from "@shared/config/navigations";
 
 import styles from "./Header.module.scss";
 

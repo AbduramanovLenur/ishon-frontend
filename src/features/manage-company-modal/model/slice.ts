@@ -24,6 +24,6 @@ const manageCompanySlice = createSlice({
 });
 
 export const { open, close } = manageCompanySlice.actions;
-export const companyReducer = manageCompanySlice.reducer;
+export const reducer = manageCompanySlice.reducer;
 
 export const stateManageCompany = (state: { company: IManageCompanyState }) => state.company;

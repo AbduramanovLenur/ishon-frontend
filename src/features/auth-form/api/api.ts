@@ -1,12 +1,12 @@
 import { axiosInstance } from "@shared/api";
 
 import type { IAuthResponse, IAuthFields } from "../model/types";
-import { authEndpoints } from "./authEndpoints";
+import { endpoints } from "./endpoints";
 
-export const authApi = {
+export const api = {
   login: (values: IAuthFields) => {
     return axiosInstance
-      .post<IAuthResponse>(authEndpoints.LOGIN, values)
+      .post<IAuthResponse>(endpoints.LOGIN, values)
       .then((response) => response.data.data);
   }
 }

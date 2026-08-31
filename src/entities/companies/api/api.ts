@@ -1,12 +1,12 @@
 import { axiosInstance } from "@shared/api";
 
 import type { IApiResponse, ICompany, IPaginatedData } from "../model/types";
-import { manageCompanyEndpoints } from "./companiesEndpoints";
+import { endpoints } from "./endpoints";
 
-export const companiesApi = {
+export const api = {
   list: (search: string, page: number) => {
     return axiosInstance
-      .get<IPaginatedData<ICompany>>(manageCompanyEndpoints.LIST, { params: {
+      .get<IPaginatedData<ICompany>>(endpoints.LIST, { params: {
         ...(search && { search }),
         ...(page && { page }),
       }})
@@ -14,9 +14,9 @@ export const companiesApi = {
   },
   getById: (companyId: string | number | null) => {
     return axiosInstance
-      .get<IApiResponse<ICompany>>(manageCompanyEndpoints.BY_ID, { params: {
+      .get<IApiResponse<ICompany>>(endpoints.BY_ID, { params: {
         ...(companyId && { companyId })
       }})
-      .then((response) => response.data)
+      .then((response) => response.data.data)
   }
 }

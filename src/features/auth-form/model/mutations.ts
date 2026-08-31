@@ -3,7 +3,7 @@ import type { AxiosError } from "axios";
 import { App } from "antd";
 import { useNavigate } from "react-router-dom";
 
-import { authApi } from "../api/authApi";
+import { api } from "../api/api";
 import type { IAuthData, IAuthFields, IAuthResponse } from "./types";
 
 import { userKeys } from "@entities/user";
@@ -17,7 +17,7 @@ export function useLogin() {
 
   return {
     ...useMutation<IAuthData, AxiosError<IAuthResponse>, IAuthFields>({
-      mutationFn: authApi.login,
+      mutationFn: api.login,
       onSuccess: (data) => {
         queryClient.invalidateQueries({
           queryKey: userKeys.user,
