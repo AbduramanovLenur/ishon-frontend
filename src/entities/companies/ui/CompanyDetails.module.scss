@@ -1,0 +1,41 @@
+.company-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  &__skeleton {
+    width: 100% !important;
+    height: 30px !important;
+    &:nth-child(1) {
+      grid-column: span 2;
+    }
+    &:nth-child(2) {
+      grid-column: span 2;
+    }
+    div {
+      width: inherit !important;
+      height: inherit !important;
+    }
+  }
+  &__value {
+    &:nth-child(1) {
+      grid-column: span 2;
+    }
+    &:nth-child(2) {
+      grid-column: span 2;
+    }
+    &-label {
+      font-size: 18px;
+      font-weight: 600;
+      @media (max-width: 480px) {
+        font-size: 16px;
+      }
+    }
+    &-text {
+      font-size: 16px;
+      font-weight: 500;
+      @media (max-width: 480px) {
+        font-size: 14px;
+      }
+    }
+  }
+}

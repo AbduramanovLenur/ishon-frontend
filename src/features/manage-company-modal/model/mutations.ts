@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { App } from "antd";
 
-import type { IManageCompanyFields } from "./types";
+import type { IManageCompanyFields, IUpdateCompanyFields } from "./types";
 import { api } from "../api/api";
 
 import { companiesKeys, type IApiResponse, type ICompany } from "@entities/companies";
@@ -44,10 +44,13 @@ export function useUpdateCompany() {
     ...useMutation<
       IApiResponse<ICompany>, 
       AxiosError<IApiResponse<ICompany>>, 
-      IManageCompanyFields
+      IUpdateCompanyFields
     >({
       mutationFn: api.update,
-      onSuccess: () => {
+      onSuccess: (_, variables) => {
+        queryClient.invalidateQueries({
+          queryKey: companiesKeys.byId(variables.companyId)
+        });
         queryClient.invalidateQueries({
           queryKey: companiesKeys.all
         });

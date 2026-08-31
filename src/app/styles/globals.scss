@@ -190,9 +190,10 @@ main {
     }
   }
   &__title {
-    --ant-modal-title-font-size: 20px;
+    --ant-modal-title-font-size: 22px;
+    text-transform: uppercase;
     @media (max-width: 480px) {
-      --ant-modal-title-font-size: 18px;
+      --ant-modal-title-font-size: 20px;
     }
   }
   &__body {

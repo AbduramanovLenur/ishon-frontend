@@ -1,6 +1,6 @@
 import { axiosInstance } from "@shared/api";
 
-import type { IManageCompanyFields } from "../model/types";
+import type { IManageCompanyFields, IUpdateCompanyFields } from "../model/types";
 import { endpoints } from "./endpoints";
 
 import type { IApiResponse, ICompany } from "@entities/companies";
@@ -11,7 +11,7 @@ export const api = {
       .post<IApiResponse<ICompany>>(endpoints.CREATE, values)
       .then((response) => response.data);
   },
-  update: (values: IManageCompanyFields) => {
+  update: (values: IUpdateCompanyFields) => {
     return axiosInstance
       .patch<IApiResponse<ICompany>>(endpoints.UPDATE, values)
       .then((response) => response.data);
