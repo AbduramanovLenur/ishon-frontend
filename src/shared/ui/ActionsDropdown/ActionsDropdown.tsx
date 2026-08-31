@@ -53,7 +53,12 @@ const ActionsDropdown: FC<IActionsDropdownProps> = ({
       }}
       trigger={['click', 'hover']}
     >
-      <Button type="text" icon={<MoreOutlined />} className={styles['actions-dropdown__trigger']} />
+      <Button
+        type="text"
+        icon={<MoreOutlined />}
+        className={styles['actions-dropdown__trigger']}
+        onClick={(e) => e.stopPropagation()}
+      />
     </Dropdown>
   );
 };

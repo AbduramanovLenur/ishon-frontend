@@ -7,15 +7,18 @@ import { queries } from "../../config";
 interface IPaginationProps {
   total: number;
   defaultCurrent?: number;
-  align?: 'start' | 'center' | 'end'
+  align?: 'start' | 'center' | 'end',
+  pageSize?: number,
 };
 
-const Paginator: FC<IPaginationProps> = ({ total,  defaultCurrent = 0, align = 'center' }) => {
+const Paginator: FC<IPaginationProps> = ({ total,  defaultCurrent = 0, align = 'center', pageSize = 10 }) => {
   const { set, get } = useQueryParams();
-  const current = Number(get(queries.PAGE) ?? 1);
+  const page = Number(get(queries.PAGE));
+  const current = page >= 0 ? page + 1 : 1;
+  console.log(current)
   
   const onChangeHandle: PaginationProps['onChange'] = (page) => {
-    set(queries.PAGE, page);
+    set(queries.PAGE, page - 1);
   };
 
   return (
@@ -25,6 +28,7 @@ const Paginator: FC<IPaginationProps> = ({ total,  defaultCurrent = 0, align = '
       total={total}
       current={current}
       onChange={onChangeHandle}
+      pageSize={pageSize}
     />
   );
 }

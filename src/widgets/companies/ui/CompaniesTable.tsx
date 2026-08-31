@@ -10,19 +10,20 @@ import { useCompanyList, type ICompany } from "@entities/companies";
 import { useQueryParams } from "@shared/lib";
 import { queries } from "@shared/config";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
-import { getFirstChar } from "@shared/utils";
+import { getFirstChar, validationPage } from "@shared/utils";
 
 import styles from "./CompaniesTable.module.scss";
 
 const CompaniesTable: FC = () => {
+  const dispatch = useDispatch();
   const { get } = useQueryParams();
   const search = get(queries.SEARCH) || '';
-  const currentPage = Number(get(queries.PAGE) || 0);
+  const currentPage = validationPage(Number(get(queries.PAGE)));
   const { data, isLoading } = useCompanyList(search, currentPage);
-  const dispatch = useDispatch();
   const { confirmDelete } = useDeleteCompany();
 
   const dataSource = data?.content || [];
+  const totalElems = data?.totalElements || 0;
 
   const openManageModalHandle = (id: number | string) => {
     dispatch(openManageModal(id));
@@ -99,10 +100,11 @@ const CompaniesTable: FC = () => {
           pagination={false}
           loading={isLoading}
           scroll={{ x: 'max-content' }}
+          style={{ cursor: 'pointer' }}
         />
       </div>
       <div className={styles['companies-table__bottom']}>
-        <Paginator total={dataSource.length} />
+        <Paginator total={totalElems} />
       </div>
       <ManageCompanyModal />
       <ViewCompanyModal />
