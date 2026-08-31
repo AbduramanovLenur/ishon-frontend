@@ -4,7 +4,11 @@
   background-color: var(--White);
   flex-shrink: 0;
   width: 256px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
   padding: 25px 15px;
+  overflow: hidden;
   @media (max-width: 960px) {
     width: 220px;
   }
