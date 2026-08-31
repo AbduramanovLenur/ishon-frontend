@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import { RootLayout } from '../layouts/root-layout';
 import RequireGuest from './guards/RequireGuest';
 import RequireAuth from './guards/RequireAuth';
 import RequireRole from './guards/RequireRole';
 import IndexRedirect from './guards/IndexRedirect';
-import { RootLayout } from '../layouts/root-layout';
 
 import { AuthPage, CompaniesPage, DirectorsPage } from './pages';
 

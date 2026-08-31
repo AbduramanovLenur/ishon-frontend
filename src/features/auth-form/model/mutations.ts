@@ -4,13 +4,11 @@ import { App } from "antd";
 import { useNavigate } from "react-router-dom";
 
 import { authApi } from "../api/authApi";
-
-import { clearTokens, setTokens } from "@shared/api";
-
 import type { IAuthData, IAuthFields, IAuthResponse } from "./types";
 
-import { routes } from "@shared/config";
 import { userKeys } from "@entities/user";
+import { clearTokens, setTokens } from "@shared/api";
+import { routes } from "@shared/config";
 
 export function useLogin() {
   const { message } = App.useApp();

@@ -2,9 +2,10 @@ import type { FC } from "react";
 
 import { useUser } from "../model/queries";
 
+import { getFirstChar } from "@shared/utils";
+
 import styles from "./UserAccount.module.scss";
 
-import { getFirstChar } from "@shared/utils";
 
 const UserAccountAva: FC = () => {
   const { data: user } = useUser();

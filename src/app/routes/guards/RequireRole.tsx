@@ -1,10 +1,10 @@
 import type { FC } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
+import { useLogout } from "@features/auth-form";
+import { useUser } from "@entities/user";
 import { roleHomeRoutes } from "@shared/config";
 import type { TRoles } from "@shared/types";
-import { useUser } from "@entities/user";
-import { useLogout } from "@features/auth-form";
 
 interface IRequireRoleProps {
   roles: TRoles | TRoles[]

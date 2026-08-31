@@ -1,6 +1,5 @@
 import type { FC } from "react";
 
-
 import HeaderMobileNav from "./HeaderMobileNav";
 
 import styles from "./Header.module.scss";
