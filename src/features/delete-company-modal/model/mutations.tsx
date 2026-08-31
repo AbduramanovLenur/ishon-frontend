@@ -1,24 +1,51 @@
 import { DeleteOutlined } from "@ant-design/icons";
-import { Modal } from "antd";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { App } from "antd";
+import type { AxiosError } from "axios";
+
+import { api } from "../api/api";
+import { companiesKeys, type IApiResponse } from "@entities/companies";
 
 export const useDeleteCompany = () => {
-  const [modal, contextHolder] = Modal.useModal();
+  const { modal, message } = App.useApp();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation<
+    IApiResponse<null>,
+    AxiosError<IApiResponse<null>>,
+    number | string
+  >({
+    mutationFn: api.delete,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: companiesKeys.all,
+      });
+
+      message.success("Kompaniya o'chirildi");
+    },
+    onError: (error) => {
+      const msg =
+        error.response?.data?.error?.message ??
+        "Kompaniyani o'chirishda xatolik yuz berdi";
+
+      message.error(msg);
+    },
+  });
 
   const confirmDelete = (id: number | string) => {
     modal.confirm({
-      title: "Kompaniyani o‘chirish kerakmi?",
+      title: "Kompaniyani o'chirish kerakmi?",
       icon: <DeleteOutlined style={{ color: "#ff0000" }} />,
       okText: "O'chirish",
       cancelText: "Bekor qilish",
-      onOk: async () => {
-        console.log("Удаляем компанию:", id);
-        
+      okButtonProps: {
+        loading: mutation.isPending
       },
+      onOk: () => mutation.mutateAsync(id),
     });
   };
 
   return {
     confirmDelete,
-    contextHolder,
   };
 };

@@ -19,7 +19,7 @@ const CompaniesTable: FC = () => {
   const currentPage = Number(get(queries.PAGE) || 1);
   const { data, isLoading } = useCompanyList(search, currentPage);
   const dispatch = useDispatch();
-  const { confirmDelete, contextHolder } = useDeleteCompany();
+  const { confirmDelete } = useDeleteCompany();
 
   const dataSource = data?.content || [];
 
@@ -94,7 +94,6 @@ const CompaniesTable: FC = () => {
       <div className={styles['companies-table__bottom']}>
         <Paginator total={dataSource.length} />
       </div>
-      {contextHolder}
       <ManageCompanyModal />
     </div>
   );
