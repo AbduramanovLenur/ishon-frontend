@@ -24,5 +24,7 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401) {
       clearTokens();
     }
+
+    return Promise.reject(error);
   },
 );
