@@ -5,7 +5,7 @@ import { App } from "antd";
 import { manageCompanyApi } from "../api/manageCompanyApi";
 
 import type { ICompany, IApiResponse, IManageCompanyFields } from "./types";
-import { manageCompanyKeys } from "./keys";
+import { companiesKeys } from "@entities/companies";
 
 export function useCreateCompany() {
   const { message } = App.useApp();
@@ -20,7 +20,7 @@ export function useCreateCompany() {
       mutationFn: manageCompanyApi.create,
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: manageCompanyKeys.all
+          queryKey: companiesKeys.all
         });
         
         message.success('Kompaniya yaratildi');

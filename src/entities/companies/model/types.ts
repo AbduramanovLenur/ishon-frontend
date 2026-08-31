@@ -1,16 +1,3 @@
-export interface IManageCompanyFields {
-  name: string,
-  address: string,
-  objectLimit: number,
-  employeeLimit: number,
-  isActive: boolean
-}
-
-export interface IManageCompanyState {
-  isOpen: boolean;
-  companyId: number | string | null;
-}
-
 export type OwnershipStatus = "OWNED" | "NOT_OWNED";
 
 export interface ICompany {
@@ -34,9 +21,12 @@ export interface IApiError {
   details: Record<string, string>;
 }
 
-export interface IApiResponse<T> {
-  success: boolean;
-  data: T;
-  error: IApiError | null;
-  timestamp: string;
+export interface IPaginatedData<T> {
+  content: T[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  first: boolean;
+  last: boolean;
 }

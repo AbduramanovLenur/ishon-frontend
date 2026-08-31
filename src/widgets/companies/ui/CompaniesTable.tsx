@@ -3,8 +3,9 @@ import { Table, type TableProps } from "antd";
 import { useDispatch } from "react-redux";
 
 import { useDeleteCompany } from "@features/delete-company-modal";
-import { ManageCompanyModal, useCompanyList, type ICompany } from "@features/manage-company-modal";
+import { ManageCompanyModal, type ICompany } from "@features/manage-company-modal";
 import { open } from "@features/manage-company-modal";
+import { useCompanyList } from "@entities/companies";
 import { useQueryParams } from "@shared/lib";
 import { queries } from "@shared/config";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
