@@ -55,10 +55,10 @@ const ManageCompanyModal: FC = () => {
     <Modal 
       classNames={{
         close: 'centered',
-        container: styles['manage-company__form-container'],
-        header: styles['manage-company__form-header'],
-        title: styles['manage-company__form-title'],
-        body: styles['manage-company__form-body']
+        container: 'modal__container',
+        header: 'modal__header',
+        title: 'modal__title',
+        body: 'modal__body'
       }}
       title={title}
       open={isOpen}

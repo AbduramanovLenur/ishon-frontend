@@ -4,7 +4,8 @@ import { useDispatch } from "react-redux";
 
 import { useDeleteCompany } from "@features/delete-company-modal";
 import { ManageCompanyModal } from "@features/manage-company-modal";
-import { open } from "@features/manage-company-modal";
+import { open as openManageModal } from "@features/manage-company-modal";
+import { open as openViewModal, ViewCompanyModal } from "@features/view-company-modal";
 import { useCompanyList, type ICompany } from "@entities/companies";
 import { useQueryParams } from "@shared/lib";
 import { queries } from "@shared/config";
@@ -16,7 +17,7 @@ import styles from "./CompaniesTable.module.scss";
 const CompaniesTable: FC = () => {
   const { get } = useQueryParams();
   const search = get(queries.SEARCH) || '';
-  const currentPage = Number(get(queries.PAGE) || 1);
+  const currentPage = Number(get(queries.PAGE) || 0);
   const { data, isLoading } = useCompanyList(search, currentPage);
   const dispatch = useDispatch();
   const { confirmDelete } = useDeleteCompany();
@@ -24,7 +25,11 @@ const CompaniesTable: FC = () => {
   const dataSource = data?.content || [];
 
   const openManageModalHandle = (id: number | string) => {
-    dispatch(open(id));
+    dispatch(openManageModal(id));
+  }
+
+  const openViewModalHandle = (id: number | string) => {
+    dispatch(openViewModal(id));
   }
 
   const columns: TableProps<ICompany>['columns'] = [
@@ -84,6 +89,11 @@ const CompaniesTable: FC = () => {
             }
           }}
           rowKey="id"
+          onRow={(record) => ({
+            onClick: () => {
+              openViewModalHandle(record.id);
+            }
+          })}
           dataSource={dataSource}
           columns={columns}
           pagination={false}
@@ -95,6 +105,7 @@ const CompaniesTable: FC = () => {
         <Paginator total={dataSource.length} />
       </div>
       <ManageCompanyModal />
+      <ViewCompanyModal />
     </div>
   );
 }

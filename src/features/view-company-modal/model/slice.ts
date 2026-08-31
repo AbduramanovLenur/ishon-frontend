@@ -1,14 +1,14 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-import type { IManageCompanyState } from "./types";
+import type { IViewCompanyState } from "./types";
 
-const initialState: IManageCompanyState = {
+const initialState: IViewCompanyState = {
   isOpen: false,
   companyId: null,
 };
 
 const slice = createSlice({
-  name: "manageCompany",
+  name: "viewCompany",
   initialState,
   reducers: {
     open: (state, action: PayloadAction<number | string | null>) => {
@@ -26,4 +26,4 @@ const slice = createSlice({
 export const { open, close } = slice.actions;
 export const reducer = slice.reducer;
 
-export const stateManageCompany = (state: { manageCompany: IManageCompanyState }) => state.manageCompany;
+export const stateViewCompany = (state: { viewCompany: IViewCompanyState }) => state.viewCompany;

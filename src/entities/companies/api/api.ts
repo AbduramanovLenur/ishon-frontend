@@ -6,11 +6,11 @@ import { endpoints } from "./endpoints";
 export const api = {
   list: (search: string, page: number) => {
     return axiosInstance
-      .get<IPaginatedData<ICompany>>(endpoints.LIST, { params: {
+      .get<IApiResponse<IPaginatedData<ICompany>>>(endpoints.LIST, { params: {
         ...(search && { search }),
         ...(page && { page }),
       }})
-      .then((response) => response.data);
+      .then((response) => response.data.data);
   },
   getById: (companyId: string | number | null) => {
     return axiosInstance

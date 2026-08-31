@@ -31,7 +31,9 @@ const ActionsDropdown: FC<IActionsDropdownProps> = ({
     },
   ].filter(Boolean) as MenuProps["items"];
 
-  const handleAction: MenuProps["onClick"] = ({ key }) => {
+  const handleAction: MenuProps["onClick"] = ({ key, domEvent }) => {
+    domEvent.stopPropagation();
+    
     switch (key) {
       case "edit":
         edit?.onClick?.();

@@ -10,7 +10,7 @@ interface IPaginationProps {
   align?: 'start' | 'center' | 'end'
 };
 
-const Paginator: FC<IPaginationProps> = ({ total,  defaultCurrent = 1, align = 'center' }) => {
+const Paginator: FC<IPaginationProps> = ({ total,  defaultCurrent = 0, align = 'center' }) => {
   const { set, get } = useQueryParams();
   const current = Number(get(queries.PAGE) ?? 1);
   
