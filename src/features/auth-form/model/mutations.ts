@@ -21,7 +21,6 @@ export function useLogin() {
     ...useMutation<IAuthData, AxiosError<IAuthResponse>, IAuthFields>({
       mutationFn: authApi.login,
       onSuccess: (data) => {
-        console.log(data)
         queryClient.invalidateQueries({
           queryKey: userKeys.user,
         });

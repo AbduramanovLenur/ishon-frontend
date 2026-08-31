@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import { env } from '../config';
-import { getAccessToken } from './tokenStorage';
+import { clearTokens, getAccessToken } from './tokenStorage';
 
 export const axiosInstance = axios.create({
   baseURL: env.API_BASE_URL,
@@ -17,3 +17,12 @@ axiosInstance.interceptors.request.use((config) => {
 
   return config;
 });
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error: AxiosError) => {
+    if (error.response?.status === 401) {
+      clearTokens();
+    }
+  },
+);
