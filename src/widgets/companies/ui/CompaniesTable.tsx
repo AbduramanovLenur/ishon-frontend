@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Table, type TableProps } from "antd";
+import { Table, Tag, type TableProps } from "antd";
 import { useDispatch } from "react-redux";
 
 import { useDeleteCompany } from "@features/delete-company-modal";
@@ -35,7 +35,7 @@ const CompaniesTable: FC = () => {
 
   const columns: TableProps<ICompany>['columns'] = [
     {
-      title: 'KOMPANIYS NOMI',
+      title: 'Kompaniya nomi',
       width: 350,
       render: (_, record) => (
         <span className={styles['companies-table__badge-cell']}>
@@ -50,7 +50,7 @@ const CompaniesTable: FC = () => {
     },
     {
       title: 'Manzil',
-      width: 350,
+      width: 250,
       render: (_, record) => record.address,
     },
     {
@@ -60,6 +60,15 @@ const CompaniesTable: FC = () => {
     {
       title: 'Xodimlar',
       render: (_, record) => record.employeeLimit,
+    },
+    {
+      title: 'Holat',
+      render: () => (
+        <>
+          <Tag color={'#D9DFF5'} style={{ color: '#4F46E5' }}>Faol</Tag>
+          <Tag color={'#DCE2F3'} style={{ color: '#464555' }}>Faol emas</Tag>
+        </>
+      )
     },
     {
       title: 'Harakatlar',
@@ -93,6 +102,9 @@ const CompaniesTable: FC = () => {
           onRow={(record) => ({
             onClick: () => {
               openViewModalHandle(record.id);
+            },
+            style: {
+              cursor: 'pointer'
             }
           })}
           dataSource={dataSource}
@@ -100,7 +112,6 @@ const CompaniesTable: FC = () => {
           pagination={false}
           loading={isLoading}
           scroll={{ x: 'max-content' }}
-          style={{ cursor: 'pointer' }}
         />
       </div>
       <div className={styles['companies-table__bottom']}>

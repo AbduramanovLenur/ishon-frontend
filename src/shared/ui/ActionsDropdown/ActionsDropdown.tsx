@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { DeleteOutlined, EditOutlined, MoreOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, MoreOutlined, RedoOutlined } from "@ant-design/icons";
 import { Button, Dropdown, type MenuProps } from "antd";
 
 import type { IAction } from "../../types";
@@ -9,26 +9,35 @@ import styles from "./ActionsDropdown.module.scss";
 interface IActionsDropdownProps {
   edit?: IAction;
   delete?: IAction;
+  reset?: IAction;
 }
 
 const ActionsDropdown: FC<IActionsDropdownProps> = ({
-  edit,
-  delete: deleteAction,
+  edit = { visible: true },
+  delete: deleteAction = { visible: true },
+  reset = { visible: false },
 }) => {
   const items: MenuProps["items"] = [
     edit?.visible !== false && {
       key: "edit",
-      label: "Tahrirlash",
+      label: edit?.text || "Tahrirlash",
       icon: <EditOutlined />,
       className: styles['actions-dropdown__edit']
     },
 
     deleteAction?.visible !== false && {
       key: "delete",
-      label: "O‘chirish",
+      label: deleteAction?.text || "O‘chirish",
       icon: <DeleteOutlined />,
       className: styles['actions-dropdown__delete']
     },
+
+    reset?.visible !== false && {
+      key: "reset",
+      label: reset?.text || "Qayta o‘rnatish",
+      icon: <RedoOutlined />,
+      className: styles['actions-dropdown__reset']
+    }
   ].filter(Boolean) as MenuProps["items"];
 
   const handleAction: MenuProps["onClick"] = ({ key, domEvent }) => {
@@ -41,6 +50,9 @@ const ActionsDropdown: FC<IActionsDropdownProps> = ({
 
       case "delete":
         deleteAction?.onClick?.();
+        break;
+      case "reset":
+        reset?.onClick?.();
         break;
     }
   };

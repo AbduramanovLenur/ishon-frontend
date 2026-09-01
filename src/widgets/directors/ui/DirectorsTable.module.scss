@@ -35,6 +35,9 @@
       }
     }
   }
+  &__tag {
+    white-space: normal;
+  }
   &__bottom {
     padding: 16px;
     background-color: var(--White);

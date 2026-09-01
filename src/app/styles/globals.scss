@@ -199,6 +199,35 @@ main {
   &__body {
     margin-bottom: 25px;
   }
+  &__label {
+    font-weight: 500;
+    margin-bottom: 10px;
+    @media (max-width: 480px) {
+      --ant-form-label-font-size: 14px;
+    }
+  }
+  &__help {
+    @media (max-width: 480px) {
+      margin-bottom: 15px;
+    }
+  }
+  &__input {
+    height: 28px;
+  }
+  &__item {
+    width: 100%;
+    @media (max-width: 480px) {
+      --ant-form-item-margin-bottom: 15px !important;
+    }
+    & > div {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      @media (max-width: 480px) {
+        gap: 6px;
+      }
+    }
+  }
 }
 
 .css-var-root.ant-dropdown-css-var {

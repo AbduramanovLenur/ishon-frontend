@@ -13,7 +13,7 @@ export type TCreateCompanyFields = IBaseFields;
 
 export interface IUpdateCompanyFields extends IBaseFields {
   companyId: string | number;
-  isActive?: boolean;
+  isActive: boolean;
 }
 
 export interface IManageCompanyState {

@@ -1,0 +1,1 @@
+export { useDeleteCompanyOwner } from "./model/mutations";

@@ -12,9 +12,9 @@ import { useCompanyById } from "@entities/companies";
 import styles from "./ManageCompanyModal.module.scss";
 
 const ManageCompanyModal: FC = () => {
-  const { isOpen, companyId } = useSelector(stateManageCompany);
   const dispatch = useDispatch();
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<IManageCompanyFields>();
+  const { isOpen, companyId } = useSelector(stateManageCompany);
   const { mutateAsync: mutateAsyncCreate, isPending: isPendingCreate } = useCreateCompany();
   const { mutateAsync: mutateAsyncUpdate, isPending: isPendingUpdate } = useUpdateCompany();
   const isEdit = !!companyId;
@@ -28,7 +28,7 @@ const ManageCompanyModal: FC = () => {
         address: data.address,
         objectLimit: data.objectLimit,
         employeeLimit: data.employeeLimit,
-        // isActive: data.ownershipStatus === status.ACTIVE
+        isActive: true
       });
     }
   }, [data, isEdit, form]);
@@ -45,11 +45,12 @@ const ManageCompanyModal: FC = () => {
   const onSubmitHandle: FormProps<IManageCompanyFields>['onFinish'] = (values) => {
     if (isEdit) {
       mutateAsyncUpdate({
-        companyId: companyId,
+        companyId,
         name: values.name,
         address: values.address,
         objectLimit: values.objectLimit,
-        employeeLimit: values.employeeLimit
+        employeeLimit: values.employeeLimit,
+        isActive: true
       }, {
         onSuccess: () => {
           closeManageModalHandle();
@@ -87,27 +88,27 @@ const ManageCompanyModal: FC = () => {
         form={form}
         onFinish={onSubmitHandle}
         classNames={{
-          label: styles['manage-company__form-label'],
-          help: styles['manage-company__form-help']
+          label: styles['modal__label'],
+          help: styles['modal__help']
         }}
       >
         <Form.Item<IManageCompanyFields>
-          className={styles['manage-company__form-item']}
-          layout="vertical" 
+          className={styles['modal__item']}
+          layout="vertical"
           label="Kompaniya nomi" 
-          name="name" 
+          name="name"
           rules={[{ 
             required: true,
             message: 'Kompaniya nomini kiriting'
           }]}
         >
           <Input 
-            className={styles['manage-company__form-input']} 
+            className={styles['modal__input']} 
             disabled={isEdit && isLoading} 
           />
         </Form.Item>
         <Form.Item<IManageCompanyFields>
-          className={styles['manage-company__form-item']}
+          className={styles['modal__item']}
           layout="vertical" 
           label="Kompaniya manzili" 
           name="address" 
@@ -121,7 +122,7 @@ const ManageCompanyModal: FC = () => {
           />
         </Form.Item>
         <Form.Item<IManageCompanyFields>
-          className={styles['manage-company__form-item']}
+          className={styles['modal__item']}
           layout="vertical" 
           label="Obyektlar soni" 
           name="objectLimit" 
@@ -136,7 +137,7 @@ const ManageCompanyModal: FC = () => {
           />
         </Form.Item>
         <Form.Item<IManageCompanyFields>
-          className={styles['manage-company__form-item']}
+          className={styles['modal__item']}
           layout="vertical" 
           label="Xodimlar soni" 
           name="employeeLimit" 

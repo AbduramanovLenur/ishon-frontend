@@ -1,17 +1,18 @@
 import type { FC } from "react";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { DirectorsTable } from "./DirectorsTable";
 
+import { open } from "@features/manage-director-modal";
 import { PrimaryButton, TopContent } from "@shared/ui";
 
 import styles from "./Directors.module.scss";
 
 const Directors: FC = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const openManageModalHandle = () => {
-    // dispatch();
+    dispatch(open(null));
   }
 
   return (

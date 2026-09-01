@@ -23,6 +23,7 @@ export function useLogin() {
         queryClient.invalidateQueries({
           queryKey: userKeys.user,
         });
+        console.log(data)
         setTokens({ accessToken: data.accessToken });
         message.success(`Xush kelibsiz ${data.user.fullName}!`);
 
