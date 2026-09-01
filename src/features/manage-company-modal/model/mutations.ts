@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { App } from "antd";
 
-import type { IManageCompanyFields, IUpdateCompanyFields } from "./types";
+import type { IUpdateCompanyFields, TCreateCompanyFields } from "./types";
 import { api } from "../api/api";
 
 import { companiesKeys, type IApiResponse, type ICompany } from "@entities/companies";
@@ -15,7 +15,7 @@ export function useCreateCompany() {
     ...useMutation<
       IApiResponse<ICompany>, 
       AxiosError<IApiResponse<ICompany>>, 
-      IManageCompanyFields
+      TCreateCompanyFields
     >({
       mutationFn: api.create,
       onSuccess: () => {
