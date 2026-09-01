@@ -40,6 +40,7 @@ export function useLogin() {
 }
 
 export function useLogout() {
+  const { message } = App.useApp();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -47,6 +48,7 @@ export function useLogout() {
     clearTokens();
     queryClient.removeQueries({ queryKey: userKeys.user });
     navigate(routes.AUTH, { replace: true });
+    message.success("Siz akkauntdan chiqdingiz");
   };
 
   return { logout };
