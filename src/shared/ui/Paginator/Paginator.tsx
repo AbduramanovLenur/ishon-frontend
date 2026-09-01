@@ -7,8 +7,8 @@ import { queries } from "../../config";
 interface IPaginationProps {
   total: number;
   defaultCurrent?: number;
-  align?: 'start' | 'center' | 'end',
-  pageSize?: number,
+  align?: 'start' | 'center' | 'end';
+  pageSize?: number;
 };
 
 const Paginator: FC<IPaginationProps> = ({ total,  defaultCurrent = 0, align = 'center', pageSize = 10 }) => {

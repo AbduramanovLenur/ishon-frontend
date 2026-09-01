@@ -6,8 +6,8 @@ import styles from "./Header.module.scss";
 
 
 interface IHeaderMobileProps {
-  isOpen: boolean,
-  onClick: () => void
+  isOpen: boolean;
+  onClick: () => void;
 };
 
 export const HeaderMobile: FC<IHeaderMobileProps> = ({ isOpen, onClick }) => {

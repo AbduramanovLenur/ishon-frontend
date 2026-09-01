@@ -7,7 +7,7 @@ import { roleHomeRoutes } from "@shared/config";
 import type { TRoles } from "@shared/types";
 
 interface IRequireRoleProps {
-  roles: TRoles | TRoles[]
+  roles: TRoles | TRoles[];
 }
 
 const RequireRole: FC<IRequireRoleProps> = ({ roles }) => {

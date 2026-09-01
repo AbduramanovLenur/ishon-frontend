@@ -3,7 +3,8 @@ import { axiosInstance } from "@shared/api";
 import type { IUpdateCompanyFields, TCreateCompanyFields } from "../model/types";
 import { endpoints } from "./endpoints";
 
-import type { IApiResponse, ICompany } from "@entities/companies";
+import type { ICompany } from "@entities/companies";
+import type { IApiResponse } from "@shared/types";
 
 export const api = {
   create: (values: TCreateCompanyFields) => {

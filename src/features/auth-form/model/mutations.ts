@@ -4,11 +4,12 @@ import { App } from "antd";
 import { useNavigate } from "react-router-dom";
 
 import { api } from "../api/api";
-import type { IAuthData, IAuthFields, IAuthResponse } from "./types";
+import type { IAuthData, IAuthFields } from "./types";
 
 import { userKeys } from "@entities/user";
 import { clearTokens, setTokens } from "@shared/api";
 import { routes } from "@shared/config";
+import type { IApiResponse } from "@shared/types";
 
 export function useLogin() {
   const { message } = App.useApp();
@@ -16,7 +17,7 @@ export function useLogin() {
   const queryClient = useQueryClient();
 
   return {
-    ...useMutation<IAuthData, AxiosError<IAuthResponse>, IAuthFields>({
+    ...useMutation<IAuthData, AxiosError<IApiResponse<IAuthData>>, IAuthFields>({
       mutationFn: api.login,
       onSuccess: (data) => {
         queryClient.invalidateQueries({

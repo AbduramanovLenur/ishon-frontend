@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { store } from "../store";
 
 interface IProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 const StoreProvider: FC<IProps> = ({ children }) => {

@@ -5,7 +5,8 @@ import { App } from "antd";
 import type { IUpdateCompanyFields, TCreateCompanyFields } from "./types";
 import { api } from "../api/api";
 
-import { companiesKeys, type IApiResponse, type ICompany } from "@entities/companies";
+import { companiesKeys, type ICompany } from "@entities/companies";
+import type { IApiResponse } from "@shared/types";
 
 export function useCreateCompany() {
   const { message } = App.useApp();

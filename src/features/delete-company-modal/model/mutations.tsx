@@ -4,7 +4,9 @@ import { App } from "antd";
 import type { AxiosError } from "axios";
 
 import { api } from "../api/api";
-import { companiesKeys, type IApiResponse } from "@entities/companies";
+import { companiesKeys } from "@entities/companies";
+
+import type { IApiResponse } from "@shared/types";
 
 export const useDeleteCompany = () => {
   const { modal, message } = App.useApp();

@@ -5,7 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { queryClient } from '@shared/api';
 
 interface IProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 const QueryProvider: FC<IProps> = ({ children }) => {

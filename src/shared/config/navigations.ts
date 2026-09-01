@@ -16,4 +16,4 @@ export const navigations = [
     icon: 'directors',
     role: roles.ADMIN
   }
-]
+] as const;

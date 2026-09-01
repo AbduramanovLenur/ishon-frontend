@@ -20,7 +20,7 @@ const Companies: FC = () => {
       <div className={styles["companies__inner"]}>
         <TopContent 
           title={"Kompaniyalar"} 
-          text={"Korporativ mijoz tashkilotlarni boshqaring va kuzatib boring."} 
+          text={"Korporativ mijoz tashkilotlarni boshqaring va kuzatib boring."}
         >
           <PrimaryButton onClick={openManageModalHandle}>
             Kompaniya yaratish

@@ -5,7 +5,7 @@ import QueryProvider from "./QueryProvider";
 import StoreProvider from "./StoreProvider";
 
 interface IProps {
-  children: ReactNode
+  children: ReactNode;
 };
 
 const AppProviders : FC<IProps> = ({ children }) => {

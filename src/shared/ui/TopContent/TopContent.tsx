@@ -3,9 +3,9 @@ import { type FC, type ReactNode } from "react";
 import styles from "./TopContent.module.scss";
 
 interface ITopContentProps {
-  title: string,
-  text: string,
-  children?: ReactNode
+  title: string;
+  text: string;
+  children?: ReactNode;
 };
 
 const TopContent: FC<ITopContentProps> = ({ title, text, children }) => {

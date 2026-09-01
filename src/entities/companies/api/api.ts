@@ -1,7 +1,9 @@
 import { axiosInstance } from "@shared/api";
 
-import type { IApiResponse, ICompany, IPaginatedData } from "../model/types";
+import type { ICompany } from "../model/types";
 import { endpoints } from "./endpoints";
+
+import type { IApiResponse, IPaginatedData } from "@shared/types";
 
 export const api = {
   list: (search: string, page: number) => {

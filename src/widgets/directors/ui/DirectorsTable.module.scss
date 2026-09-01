@@ -1,0 +1,43 @@
+.directors-table {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  &__top {
+    padding: 16px;
+    background-color: #F0F3FF;
+    border-bottom: 1px solid var(--border-color);
+  }
+  &__title-cell {
+    font-size: 14px;
+    font-weight: 400 !important;
+    color: var(--Brown) !important;
+    text-transform: uppercase;
+    --ant-table-header-bg: var(--White);
+  }
+  &__badge-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    span {
+      &:first-child {
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+        line-height: 1.5;
+        font-weight: 600;
+        width: 32px;
+        height: 32px;
+        border-radius: 4px;
+        background-color: #E7EEFE;
+        color: var(--Blue);
+      }
+    }
+  }
+  &__bottom {
+    padding: 16px;
+    background-color: var(--White);
+    border-top: 1px solid var(--border-color);
+  }
+}
