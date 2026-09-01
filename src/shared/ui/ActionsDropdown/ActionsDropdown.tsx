@@ -52,6 +52,7 @@ const ActionsDropdown: FC<IActionsDropdownProps> = ({
         onClick: handleAction,
       }}
       trigger={['click', 'hover']}
+      className={styles['actions-dropdown']}
     >
       <Button
         type="text"

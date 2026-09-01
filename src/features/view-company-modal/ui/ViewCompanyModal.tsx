@@ -39,6 +39,7 @@ const ViewCompanyModal: FC = () => {
       cancelText="Yopish"
       okButtonProps={{ style: { display: "none" } }}
       onCancel={closeViewModalHandle}
+      style={{ zIndex: 1000 }}
     >
       <CompanyDetails companyId={companyId} />
     </Modal>

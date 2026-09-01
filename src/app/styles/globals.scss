@@ -193,10 +193,14 @@ main {
     --ant-modal-title-font-size: 22px;
     text-transform: uppercase;
     @media (max-width: 480px) {
-      --ant-modal-title-font-size: 20px;
+      --ant-modal-title-font-size: 18px;
     }
   }
   &__body {
     margin-bottom: 25px;
   }
+}
+
+.css-var-root.ant-dropdown-css-var {
+  --ant-dropdown-z-index-popup: 50;
 }
