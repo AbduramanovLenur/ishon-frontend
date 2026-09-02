@@ -134,6 +134,7 @@ const ManageDirectorModal: FC = () => {
         >
           <Input 
             className={styles['modal__input']}
+            disabled={isEdit && isLoading}
           />
         </Form.Item>
         {!isEdit && (
@@ -177,13 +178,14 @@ const ManageDirectorModal: FC = () => {
             message: 'Kompaniyani tanlang'
           }]}
         >
-          <Select options={companyList} loading={isLoadingManualCompanyList} />
+          <Select options={companyList} loading={isLoadingManualCompanyList || (isLoading && isEdit)} />
         </Form.Item>
         <Form.Item<IManageCompanyOwnerFields>
           className={styles['modal__item']}
           layout="vertical"
           label="Telefon raqami"
           name="phone"
+          validateTrigger="onBlur"
           rules={[
             {
               required: true,
