@@ -1,8 +1,16 @@
+export interface IPhoneNumber {
+  countryCode: number;
+  areaCode: string;
+  phoneNumber: string;
+  isoCode: string;
+  valid: (strict?: boolean) => boolean;
+}
+
 interface IBaseFields {
   fullName: string;
   position: string;
   companyId: string | number;
-  phone: string | number;
+  phone: IPhoneNumber;
 }
 
 export interface IManageCompanyOwnerFields extends IBaseFields {

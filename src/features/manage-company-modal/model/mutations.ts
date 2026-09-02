@@ -23,6 +23,9 @@ export function useCreateCompany() {
         queryClient.invalidateQueries({
           queryKey: companiesKeys.all
         });
+        queryClient.invalidateQueries({
+          queryKey: companiesKeys.manualList()
+        });
         
         message.success('Kompaniya yaratildi');
       },
@@ -54,6 +57,9 @@ export function useUpdateCompany() {
         });
         queryClient.invalidateQueries({
           queryKey: companiesKeys.all
+        });
+        queryClient.invalidateQueries({
+          queryKey: companiesKeys.manualList()
         });
         
         message.success('Kompaniya yangilandi');

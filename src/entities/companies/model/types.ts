@@ -1,4 +1,4 @@
-export type OwnershipStatus = "OWNED" | "NOT_OWNED";
+import type { TStatus } from "@shared/types";
 
 export interface ICompany {
   id: string;
@@ -8,7 +8,7 @@ export interface ICompany {
   usedObjectCount: number;
   employeeLimit: number;
   usedEmployeeCount: number;
-  ownershipStatus: OwnershipStatus;
+  status: TStatus;
   createdAt: string;
   updatedAt: string;
 }

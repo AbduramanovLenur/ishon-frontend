@@ -8,7 +8,7 @@ import { open as openManageModal } from "@features/manage-company-modal";
 import { open as openViewModal, ViewCompanyModal } from "@features/view-company-modal";
 import { useCompanyList, type ICompany } from "@entities/companies";
 import { useQueryParams } from "@shared/lib";
-import { queries } from "@shared/config";
+import { queries, status } from "@shared/config";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
 import { getFirstChar, validationPage } from "@shared/utils";
 
@@ -63,11 +63,13 @@ const CompaniesTable: FC = () => {
     },
     {
       title: 'Holat',
-      render: () => (
-        <>
+      render: (_, record) => (
+        
+        record.status === status.ACTIVE ? (
           <Tag color={'#D9DFF5'} style={{ color: '#4F46E5' }}>Faol</Tag>
+        ) : (
           <Tag color={'#DCE2F3'} style={{ color: '#464555' }}>Faol emas</Tag>
-        </>
+        )
       )
     },
     {

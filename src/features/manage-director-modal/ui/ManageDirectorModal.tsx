@@ -3,12 +3,15 @@ import { useEffect, type FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { close, stateManageCompanyOwner } from "../model/slice";
-import type { IManageCompanyOwnerFields } from "../model/types";
+import type { IManageCompanyOwnerFields, IPhoneNumber } from "../model/types";
 import { useCreateCompanyOwner, useUpdateCompanyOwner } from "../model/mutations";
 
 import { useCompanyOwnerById } from "@entities/directors";
+import { useManualCompanyList } from "@entities/companies";
 
 import styles from "./ManageDirectorModal.module.scss";
+import PhoneInput from "antd-phone-input";
+import parsePhoneNumber from 'libphonenumber-js'
 
 const ManageDirectorModal: FC = () => {
   const dispatch = useDispatch();
@@ -19,14 +22,32 @@ const ManageDirectorModal: FC = () => {
   const isEdit = !!companyOwnerId;
   const title = !isEdit ? "Direktor yaratish" : "Direktorni yangilash";
   const { data, isLoading } = useCompanyOwnerById(companyOwnerId, isEdit);
+  const { data: manualCompanyList, isLoading: isLoadingManualCompanyList } = useManualCompanyList(isOpen);
+
+  const companyList = manualCompanyList?.map((company) => ({
+    label: company.name,
+    value: company.id
+  })) ?? [];
 
   useEffect(() => {
     if (isEdit && data) {
+      const phone = data.phone
+      ? parsePhoneNumber(data.phone)
+      : undefined;
+
       form.setFieldsValue({
         fullName: data.fullName,
         position: data.position,
         companyId: data.companyId,
-        phone: data.phone
+        phone: phone
+        ? {
+            countryCode: Number(phone.countryCallingCode),
+            areaCode: phone.nationalNumber.slice(0, 2),
+            phoneNumber: phone.nationalNumber.slice(2),
+            isoCode: phone.country?.toLowerCase(),
+            valid: phone.isValid,
+          }
+        : undefined,
       });
     }
   }, [data, isEdit, form]);
@@ -43,11 +64,8 @@ const ManageDirectorModal: FC = () => {
   const onSubmitHandle: FormProps<IManageCompanyOwnerFields>['onFinish'] = (values) => {
     if (isEdit) {
       mutateAsyncUpdate({
-        companyOwnerId,
-        fullName: values.fullName,
-        position: values.position,
-        companyId: values.companyId,
-        phone: values.phone
+        ...values,
+        companyOwnerId
       }, {
         onSuccess: () => {
           closeManageModalHandle();
@@ -104,22 +122,20 @@ const ManageDirectorModal: FC = () => {
             disabled={isEdit && isLoading}
           />
         </Form.Item>
-        {!isEdit && (
-          <Form.Item<IManageCompanyOwnerFields>
-            className={styles['modal__item']}
-            layout="vertical"
-            label="Login"
-            name="username"
-            rules={[{ 
-              required: true,
-              message: 'Loginni kiriting'
-            }]}
-          >
-            <Input 
-              className={styles['modal__input']}
-            />
-          </Form.Item>
-        )}
+        <Form.Item<IManageCompanyOwnerFields>
+          className={styles['modal__item']}
+          layout="vertical"
+          label="Login"
+          name="username"
+          rules={[{ 
+            required: true,
+            message: 'Loginni kiriting'
+          }]}
+        >
+          <Input 
+            className={styles['modal__input']}
+          />
+        </Form.Item>
         {!isEdit && (
           <Form.Item<IManageCompanyOwnerFields>
             className={styles['modal__item']}
@@ -154,14 +170,51 @@ const ManageDirectorModal: FC = () => {
         <Form.Item<IManageCompanyOwnerFields>
           className={styles['modal__item']}
           layout="vertical"
-          label="Kampaniya"
+          label="Kompaniya"
           name="companyId"
           rules={[{ 
             required: true,
             message: 'Kompaniyani tanlang'
           }]}
         >
-          <Select options={[]} />
+          <Select options={companyList} loading={isLoadingManualCompanyList} />
+        </Form.Item>
+        <Form.Item<IManageCompanyOwnerFields>
+          className={styles['modal__item']}
+          layout="vertical"
+          label="Telefon raqami"
+          name="phone"
+          rules={[
+            {
+              required: true,
+              validator: (_, value: string) => {
+                if (!value) {
+                  return Promise.reject(
+                    new Error("Telefon raqamni kiriting")
+                  );
+                }
+        
+                const phone = parsePhoneNumber(value);
+        
+                if (!phone?.isValid()) {
+                  return Promise.reject(
+                    new Error("Telefon raqami noto‘g‘ri")
+                  );
+                }
+        
+                return Promise.resolve();
+              },
+            },
+          ]}
+          getValueFromEvent={(value: IPhoneNumber) => {
+            if (!value) {
+              return undefined;
+            }
+        
+            return `+${value.countryCode}${value.areaCode}${value.phoneNumber}`;
+          }}
+        >
+          <PhoneInput className={styles['modal__input']} country="uz" onlyCountries={["uz"]} />
         </Form.Item>
       </Form>
     </Modal>

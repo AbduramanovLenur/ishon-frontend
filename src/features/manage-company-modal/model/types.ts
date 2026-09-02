@@ -1,3 +1,5 @@
+import type { TStatus } from "@shared/types";
+
 interface IBaseFields {
   name: string;
   address: string;
@@ -6,14 +8,14 @@ interface IBaseFields {
 }
 
 export interface IManageCompanyFields extends IBaseFields {
-  isActive: boolean;
+  status: boolean;
 }
 
 export type TCreateCompanyFields = IBaseFields;
 
 export interface IUpdateCompanyFields extends IBaseFields {
   companyId: string | number;
-  isActive: boolean;
+  status: TStatus;
 }
 
 export interface IManageCompanyState {

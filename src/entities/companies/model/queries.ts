@@ -17,3 +17,11 @@ export function useCompanyById(companyId: string | number | null, enabled: boole
     enabled
   })
 }
+
+export function useManualCompanyList(enabled: boolean) {
+  return useQuery({
+    queryKey: companiesKeys.manualList(),
+    queryFn: () => api.manualList(),
+    enabled
+  })
+}

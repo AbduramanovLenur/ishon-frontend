@@ -20,5 +20,10 @@ export const api = {
         ...(companyId && { companyId })
       }})
       .then((response) => response.data.data)
+  },
+  manualList: () => {
+    return axiosInstance
+      .get<IApiResponse<ICompany[]>>(endpoints.MANUAL_LIST)
+      .then((response) => response.data.data)
   }
 }

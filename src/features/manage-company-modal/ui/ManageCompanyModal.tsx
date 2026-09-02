@@ -7,7 +7,7 @@ import type { IManageCompanyFields } from "../model/types";
 import { useCreateCompany, useUpdateCompany } from "../model/mutations";
 
 import { useCompanyById } from "@entities/companies";
-// import { status } from "@shared/config";
+import { status } from "@shared/config";
 
 import styles from "./ManageCompanyModal.module.scss";
 
@@ -18,7 +18,7 @@ const ManageCompanyModal: FC = () => {
   const { mutateAsync: mutateAsyncCreate, isPending: isPendingCreate } = useCreateCompany();
   const { mutateAsync: mutateAsyncUpdate, isPending: isPendingUpdate } = useUpdateCompany();
   const isEdit = !!companyId;
-  const title = !isEdit ? "Kampaniya yaratish" : "Kampaniyani yangilash";
+  const title = !isEdit ? "Kompaniya yaratish" : "Kompaniyani yangilash";
   const { data, isLoading } = useCompanyById(companyId, isEdit);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const ManageCompanyModal: FC = () => {
         address: data.address,
         objectLimit: data.objectLimit,
         employeeLimit: data.employeeLimit,
-        isActive: true
+        status: data.status === status.ACTIVE ? true : false
       });
     }
   }, [data, isEdit, form]);
@@ -50,7 +50,7 @@ const ManageCompanyModal: FC = () => {
         address: values.address,
         objectLimit: values.objectLimit,
         employeeLimit: values.employeeLimit,
-        isActive: true
+        status: values.status ? status.ACTIVE : status.INACTIVE
       }, {
         onSuccess: () => {
           closeManageModalHandle();
@@ -151,14 +151,14 @@ const ManageCompanyModal: FC = () => {
             disabled={isEdit && isLoading} 
           />
         </Form.Item>
+        {isEdit && <Form.Item<IManageCompanyFields>
+          name="status"
+          label="Holat"
+          valuePropName="checked"
+        >
+          <Switch />
+        </Form.Item>}
       </Form>
-      {isEdit && <Form.Item<IManageCompanyFields>
-        name="isActive"
-        label="Holat"
-        valuePropName="checked"
-      >
-        <Switch />
-      </Form.Item>}
     </Modal>
   );
 }

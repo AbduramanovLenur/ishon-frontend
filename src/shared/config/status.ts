@@ -1,4 +1,4 @@
 export const status = {
-  ACTIVE: "OWNED",
-  NOT_ACTIVE: "NOT_OWNED"
+  ACTIVE: "ACTIVE",
+  INACTIVE: "INACTIVE"
 } as const;
