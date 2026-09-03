@@ -19,7 +19,11 @@ const RequireRole: FC<IRequireRoleProps> = ({ roles }) => {
     logout();
   }
 
-  if (user && !allowedRoles.includes(user?.type)) {
+  if (!user) {
+    return null;
+  }
+
+  if (!allowedRoles.includes(user.type)) {
     return <Navigate to={roleHomeRoutes[user.type as TRoles]} replace />;
   }
 
