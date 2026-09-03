@@ -1,6 +1,8 @@
 import { Form, Input, Modal, Select, type FormProps } from "antd";
 import { useEffect, type FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import PhoneInput from "antd-phone-input";
+import parsePhoneNumber from 'libphonenumber-js';
 
 import { close, stateManageCompanyOwner } from "../model/slice";
 import type { IManageCompanyOwnerFields, IPhoneNumber } from "../model/types";
@@ -10,8 +12,6 @@ import { useCompanyOwnerById } from "@entities/directors";
 import { useManualCompanyList } from "@entities/companies";
 
 import styles from "./ManageDirectorModal.module.scss";
-import PhoneInput from "antd-phone-input";
-import parsePhoneNumber from 'libphonenumber-js'
 
 const ManageDirectorModal: FC = () => {
   const dispatch = useDispatch();
