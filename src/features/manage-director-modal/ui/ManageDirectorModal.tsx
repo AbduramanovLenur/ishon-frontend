@@ -191,6 +191,7 @@ const ManageDirectorModal: FC = () => {
             international
             defaultCountry="UZ"
             onChange={() => {}}
+            disabled={isEdit && isLoading}
           />
         </Form.Item>
       </Form>
