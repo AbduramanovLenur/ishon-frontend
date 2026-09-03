@@ -12,59 +12,6 @@ import { defaultValues, queries } from "@shared/config";
 
 import styles from "./DirectorsTable.module.scss";
 
-const dataElems: ICompanyOwner[] = [
-  {
-    companyOwnerId: "1",
-    companyId: "OOO International Technology Solutions Group",
-    username: "akmal.rahimov",
-    fullName: "Акмал Рахимов",
-    phone: "+998901234567",
-    position: "Директор",
-    active: true,
-    createdAt: "2026-08-15T10:30:00Z",
-  },
-  {
-    companyOwnerId: "2",
-    companyId: "Uzbekistan Trade and Logistics Development Company",
-    username: "dilshod.karimov",
-    fullName: "Дилшод Каримов",
-    phone: "+998911234567",
-    position: "Генеральный директор",
-    active: true,
-    createdAt: "2026-08-18T08:15:00Z",
-  },
-  {
-    companyOwnerId: "3",
-    companyId: "Navoi Industrial Construction and Development Group",
-    username: "sardor.tursunov",
-    fullName: "Сардор Турсунов",
-    phone: "+998931234567",
-    position: "Управляющий директор",
-    active: false,
-    createdAt: "2026-08-20T14:45:00Z",
-  },
-  {
-    companyOwnerId: "4",
-    companyId: "Central Asia Digital Solutions and Technologies",
-    username: "bekzod.aliyev",
-    fullName: "Бекзод Алиев",
-    phone: "+998941234567",
-    position: "Исполнительный директор",
-    active: true,
-    createdAt: "2026-08-22T11:20:00Z",
-  },
-  {
-    companyOwnerId: "5",
-    companyId: "Smart Business Management and Consulting Services",
-    username: "jasur.nazarov",
-    fullName: "Жасур Назаров",
-    phone: "+998951234567",
-    position: "Финансовый директор",
-    active: true,
-    createdAt: "2026-08-25T09:00:00Z",
-  },
-];
-
 export const DirectorsTable: FC = () => {
   const dispatch = useDispatch();
   const { get } = useQueryParams();
@@ -126,7 +73,7 @@ export const DirectorsTable: FC = () => {
           variant="solid"
           style={{ color: "#5C6274" }}
         >
-          {record.companyId}
+          {record.companyName}
         </Tag>
       ),
     },
@@ -166,7 +113,7 @@ export const DirectorsTable: FC = () => {
               cell: styles['directors-table__title-cell']
             }
           }}
-          rowKey="id"
+          rowKey="companyOwnerId"
           onRow={(record) => ({
             onClick: () => {
               openViewModalHandle(record.companyOwnerId);
@@ -175,7 +122,7 @@ export const DirectorsTable: FC = () => {
               cursor: 'pointer' 
             }
           })}
-          dataSource={dataSource.length ? dataSource : dataElems}
+          dataSource={dataSource}
           columns={columns}
           pagination={false}
           loading={isLoading}
