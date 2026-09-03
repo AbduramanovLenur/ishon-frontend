@@ -157,6 +157,10 @@ main {
   justify-content: center;
 }
 
+.centered .ant-modal {
+  top: 0;
+}
+
 .ant-form-item-label {
   padding: 0 !important;
 }

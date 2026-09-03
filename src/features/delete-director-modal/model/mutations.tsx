@@ -36,6 +36,9 @@ export const useDeleteCompanyOwner = () => {
 
   const confirmDelete = (id: number | string) => {
     modal.confirm({
+      classNames: {
+        wrapper: 'centered'
+      },
       title: "Direktorni o‘chirish kerakmi?",
       icon: <DeleteOutlined style={{ color: "#ff0000" }} />,
       okText: "O'chirish",
