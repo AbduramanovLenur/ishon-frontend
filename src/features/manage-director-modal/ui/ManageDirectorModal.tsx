@@ -81,6 +81,32 @@ const ManageDirectorModal: FC = () => {
     });
   }
 
+  const phoneValidatorHandle = (_: unknown, value: string) => {
+    if (!value) {
+      return Promise.reject(
+        new Error("Telefon raqamni kiriting")
+      );
+    }
+  
+    const phone = parsePhoneNumber(value);
+  
+    if (!phone?.isValid()) {
+      return Promise.reject(
+        new Error("Telefon raqami noto‘g‘ri")
+      );
+    }
+  
+    return Promise.resolve();
+  };
+
+  const phoneGetValueFromEventHandle = (value: IPhoneNumber) => {
+    if (!value) {
+      return undefined;
+    }
+  
+    return `+${value.countryCode}${value.areaCode}${value.phoneNumber}`;
+  };
+
   return (
     <Modal
       classNames={{
@@ -189,32 +215,11 @@ const ManageDirectorModal: FC = () => {
           rules={[
             {
               required: true,
-              validator: (_, value: string) => {
-                if (!value) {
-                  return Promise.reject(
-                    new Error("Telefon raqamni kiriting")
-                  );
-                }
-        
-                const phone = parsePhoneNumber(value);
-        
-                if (!phone?.isValid()) {
-                  return Promise.reject(
-                    new Error("Telefon raqami noto‘g‘ri")
-                  );
-                }
-        
-                return Promise.resolve();
-              },
+              message: 'Telefon raqamini kiriting',
+              validator: phoneValidatorHandle
             },
           ]}
-          getValueFromEvent={(value: IPhoneNumber) => {
-            if (!value) {
-              return undefined;
-            }
-        
-            return `+${value.countryCode}${value.areaCode}${value.phoneNumber}`;
-          }}
+          getValueFromEvent={phoneGetValueFromEventHandle}
         >
           <PhoneInput className={styles['modal__input']} country="uz" onlyCountries={["uz"]} />
         </Form.Item>
