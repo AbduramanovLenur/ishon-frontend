@@ -1,4 +1,4 @@
 export const endpoints = {
-  CREATE: '',
-  UPDATE: ''
+  CREATE: '/api/admin/company-owner',
+  UPDATE: '/api/admin/company-owner'
 } as const;
