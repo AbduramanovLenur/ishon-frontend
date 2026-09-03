@@ -9,8 +9,6 @@ import { useCreateCompany, useUpdateCompany } from "../model/mutations";
 import { useCompanyById } from "@entities/companies";
 import { status } from "@shared/config";
 
-import styles from "./ManageCompanyModal.module.scss";
-
 const ManageCompanyModal: FC = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm<IManageCompanyFields>();
@@ -68,6 +66,7 @@ const ManageCompanyModal: FC = () => {
 
   return (
     <Modal 
+      centered
       classNames={{
         close: 'centered',
         container: 'modal__container',
@@ -88,12 +87,12 @@ const ManageCompanyModal: FC = () => {
         form={form}
         onFinish={onSubmitHandle}
         classNames={{
-          label: styles['modal__label'],
-          help: styles['modal__help']
+          label: "modal__label",
+          help: "modal__help"
         }}
       >
         <Form.Item<IManageCompanyFields>
-          className={styles['modal__item']}
+          className="modal__item"
           layout="vertical"
           label="Kompaniya nomi" 
           name="name"
@@ -103,12 +102,12 @@ const ManageCompanyModal: FC = () => {
           }]}
         >
           <Input 
-            className={styles['modal__input']} 
+            className="modal__input"
             disabled={isEdit && isLoading} 
           />
         </Form.Item>
         <Form.Item<IManageCompanyFields>
-          className={styles['modal__item']}
+          className="modal__item"
           layout="vertical" 
           label="Kompaniya manzili" 
           name="address" 
@@ -122,7 +121,7 @@ const ManageCompanyModal: FC = () => {
           />
         </Form.Item>
         <Form.Item<IManageCompanyFields>
-          className={styles['modal__item']}
+          className="modal__item"
           layout="vertical" 
           label="Obyektlar soni" 
           name="objectLimit" 
@@ -137,7 +136,7 @@ const ManageCompanyModal: FC = () => {
           />
         </Form.Item>
         <Form.Item<IManageCompanyFields>
-          className={styles['modal__item']}
+          className="modal__item"
           layout="vertical" 
           label="Xodimlar soni" 
           name="employeeLimit" 

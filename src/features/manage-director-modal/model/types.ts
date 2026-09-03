@@ -10,7 +10,7 @@ interface IBaseFields {
   fullName: string;
   position: string;
   companyId: string | number;
-  phone: IPhoneNumber;
+  phone: string;
 }
 
 export interface IManageCompanyOwnerFields extends IBaseFields {

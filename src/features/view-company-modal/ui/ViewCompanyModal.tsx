@@ -27,6 +27,7 @@ const ViewCompanyModal: FC = () => {
 
   return (
     <Modal 
+      centered
       classNames={{
         close: 'centered',
         container:'modal__container',
