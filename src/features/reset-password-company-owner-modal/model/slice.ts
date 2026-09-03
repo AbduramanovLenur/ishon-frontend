@@ -1,8 +1,8 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-import type { IResetPasswordCompanyOwnerState } from "./types";
+import type { IState } from "./types";
 
-const initialState: IResetPasswordCompanyOwnerState = {
+const initialState: IState = {
   isOpen: false,
   companyOwnerId: null,
 };
@@ -26,4 +26,4 @@ const slice = createSlice({
 export const { open, close } = slice.actions;
 export const reducer = slice.reducer;
 
-export const stateResetPasswordCompanyOwner = (state: { resetPasswordCompanyOwner: IResetPasswordCompanyOwnerState }) => state.resetPasswordCompanyOwner;
+export const stateResetPasswordCompanyOwner = (state: { resetPasswordCompanyOwner: IState }) => state.resetPasswordCompanyOwner;

@@ -18,7 +18,7 @@ export interface IUpdateCompanyFields extends IBaseFields {
   status: TStatus;
 }
 
-export interface IManageCompanyState {
+export interface IState {
   isOpen: boolean;
   companyId: number | string | null;
 }

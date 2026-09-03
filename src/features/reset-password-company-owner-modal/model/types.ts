@@ -7,7 +7,7 @@ export interface IUpdatePasswordCompanyOwnerPayload extends IResetPasswordFields
   companyOwnerId: string | number;
 }
 
-export interface IResetPasswordCompanyOwnerState {
+export interface IState {
   isOpen: boolean;
   companyOwnerId: number | string | null;
 }

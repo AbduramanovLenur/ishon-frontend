@@ -28,7 +28,7 @@ export interface IUpdateCompanyOwnerFields extends IBaseFields {
   companyOwnerId: string | number;
 }
 
-export interface IManageCompanyOwnerState {
+export interface IState {
   isOpen: boolean;
   companyOwnerId: number | string | null;
 }
