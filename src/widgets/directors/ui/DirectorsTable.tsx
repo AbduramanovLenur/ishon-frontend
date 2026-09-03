@@ -2,8 +2,10 @@ import type { FC } from "react";
 import { Table, type TableProps, Tag } from "antd";
 import { useDispatch } from "react-redux";
 
+import { ResetPasswordCompanyOwnerModal } from "@features/reset-password-company-owner-modal";
 import { useDeleteCompanyOwner } from "@features/delete-director-modal";
 import { ManageDirectorModal, open as openManageModal  } from "@features/manage-director-modal";
+import { open as openResetPasswordModal } from "@features/reset-password-company-owner-modal";
 import { useCompanyOwnerList, type ICompanyOwner } from "@entities/directors";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
 import { getFirstChar, validationPage } from "@shared/utils";
@@ -25,6 +27,10 @@ export const DirectorsTable: FC = () => {
 
   const openManageModalHandle = (id: number | string) => {
     dispatch(openManageModal(id));
+  }
+
+  const openResetPasswordModalHandle = (id: number | string) => {
+    dispatch(openResetPasswordModal(id));
   }
 
   const openViewModalHandle = (id: number | string) => {
@@ -94,7 +100,7 @@ export const DirectorsTable: FC = () => {
           }}
           reset={{
             visible: true,
-            onClick: () => {}
+            onClick: () => openResetPasswordModalHandle(record.companyOwnerId)
           }}
         />
       )
@@ -133,6 +139,7 @@ export const DirectorsTable: FC = () => {
         <Paginator total={totalElems} />
       </div>}
       <ManageDirectorModal />
+      <ResetPasswordCompanyOwnerModal />
     </div>
   );
 }

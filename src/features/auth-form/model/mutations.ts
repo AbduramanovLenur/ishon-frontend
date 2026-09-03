@@ -17,14 +17,19 @@ export function useLogin() {
   const queryClient = useQueryClient();
 
   return {
-    ...useMutation<IAuthData, AxiosError<IApiResponse<IAuthData>>, IAuthFields>({
+    ...useMutation<
+      IAuthData, 
+      AxiosError<IApiResponse<IAuthData>>, 
+      IAuthFields
+    >({
       mutationFn: api.login,
       onSuccess: (data) => {
         queryClient.invalidateQueries({
           queryKey: userKeys.user,
         });
-        console.log(data)
+
         setTokens({ accessToken: data.accessToken });
+        
         message.success(`Xush kelibsiz ${data.user.fullName}!`);
 
         navigate(routes.HOME);
