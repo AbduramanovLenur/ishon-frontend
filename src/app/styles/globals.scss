@@ -189,6 +189,7 @@ main {
   }
   &__header {
     --ant-modal-header-margin-bottom: 25px;
+    margin-right: 45px;
     @media (max-width: 480px) {
       --ant-modal-header-margin-bottom: 15px;
     }

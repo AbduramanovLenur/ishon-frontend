@@ -1,9 +1,9 @@
 import type { FC } from "react";
+import { Skeleton } from "antd";
 
 import { useCompanyById } from "../model/queries";
 
 import styles from "./CompanyDetails.module.scss";
-import { Skeleton } from "antd";
 
 interface ICompanyDetailsProps {
   companyId: string | number;

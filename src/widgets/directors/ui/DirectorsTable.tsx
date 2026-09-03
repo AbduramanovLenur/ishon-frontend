@@ -40,7 +40,7 @@ export const DirectorsTable: FC = () => {
 
   const columns: TableProps<ICompanyOwner>['columns'] = [
     {
-      title: 'Kompaniya nomi',
+      title: 'Ism-familiya',
       width: 300,
       render: (_, record) => (
         <span className={styles['directors-table__badge-cell']}>
