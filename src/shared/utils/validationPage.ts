@@ -1,1 +1,1 @@
-export const validationPage = (value: number) => value >= 0 ? value : 0;
+export const validationPage = (value: number, defaultValue: number) => value >= defaultValue ? value : defaultValue;

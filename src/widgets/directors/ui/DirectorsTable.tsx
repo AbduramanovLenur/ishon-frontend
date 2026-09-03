@@ -8,7 +8,7 @@ import { useCompanyOwnerList, type ICompanyOwner } from "@entities/directors";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
 import { getFirstChar, validationPage } from "@shared/utils";
 import { useQueryParams } from "@shared/lib";
-import { queries } from "@shared/config";
+import { defaultValues, queries } from "@shared/config";
 
 import styles from "./DirectorsTable.module.scss";
 
@@ -68,8 +68,8 @@ const dataElems: ICompanyOwner[] = [
 export const DirectorsTable: FC = () => {
   const dispatch = useDispatch();
   const { get } = useQueryParams();
-  const search = get(queries.SEARCH) || '';
-  const currentPage = validationPage(Number(get(queries.PAGE)));
+  const search = get(queries.SEARCH) || defaultValues.search;
+  const currentPage = validationPage(Number(get(queries.PAGE)), defaultValues.page);
   const { data, isLoading } = useCompanyOwnerList(search, currentPage);
   const { confirmDelete } = useDeleteCompanyOwner();
 
@@ -182,9 +182,9 @@ export const DirectorsTable: FC = () => {
           scroll={{ x: 'max-content' }}
         />
       </div>
-      <div className={styles['directors-table__bottom']}>
+      {defaultValues.pageSize < totalElems && <div className={styles['directors-table__bottom']}>
         <Paginator total={totalElems} />
-      </div>
+      </div>}
       <ManageDirectorModal />
     </div>
   );

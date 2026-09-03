@@ -8,7 +8,7 @@ import { open as openManageModal } from "@features/manage-company-modal";
 import { open as openViewModal, ViewCompanyModal } from "@features/view-company-modal";
 import { useCompanyList, type ICompany } from "@entities/companies";
 import { useQueryParams } from "@shared/lib";
-import { queries, status } from "@shared/config";
+import { defaultValues, queries, status } from "@shared/config";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
 import { getFirstChar, validationPage } from "@shared/utils";
 
@@ -17,8 +17,8 @@ import styles from "./CompaniesTable.module.scss";
 const CompaniesTable: FC = () => {
   const dispatch = useDispatch();
   const { get } = useQueryParams();
-  const search = get(queries.SEARCH) || '';
-  const currentPage = validationPage(Number(get(queries.PAGE)));
+  const search = get(queries.SEARCH) || defaultValues.search;
+  const currentPage = validationPage(Number(get(queries.PAGE)), defaultValues.page);
   const { data, isLoading } = useCompanyList(search, currentPage);
   const { confirmDelete } = useDeleteCompany();
 
@@ -116,9 +116,9 @@ const CompaniesTable: FC = () => {
           scroll={{ x: 'max-content' }}
         />
       </div>
-      <div className={styles['companies-table__bottom']}>
+      {defaultValues.pageSize < totalElems && <div className={styles['companies-table__bottom']}>
         <Paginator total={totalElems} />
-      </div>
+      </div>}
       <ManageCompanyModal />
       <ViewCompanyModal />
     </div>

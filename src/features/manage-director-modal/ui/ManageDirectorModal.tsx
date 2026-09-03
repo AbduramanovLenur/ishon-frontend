@@ -204,7 +204,11 @@ const ManageDirectorModal: FC = () => {
             message: 'Kompaniyani tanlang'
           }]}
         >
-          <Select options={companyList} loading={isLoadingManualCompanyList || (isLoading && isEdit)} />
+          <Select 
+            options={companyList} 
+            loading={isLoadingManualCompanyList || (isLoading && isEdit)} 
+            disabled={isLoadingManualCompanyList || (isLoading && isEdit)}
+          />
         </Form.Item>
         <Form.Item<IManageCompanyOwnerFields>
           className={styles['modal__item']}
@@ -221,7 +225,12 @@ const ManageDirectorModal: FC = () => {
           ]}
           getValueFromEvent={phoneGetValueFromEventHandle}
         >
-          <PhoneInput className={styles['modal__input']} country="uz" onlyCountries={["uz"]} />
+          <PhoneInput 
+            className={styles['modal__input']} 
+            country="uz" 
+            onlyCountries={["uz"]} 
+            disabled={isEdit && isLoading}
+          />
         </Form.Item>
       </Form>
     </Modal>
