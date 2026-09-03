@@ -132,10 +132,16 @@ const ManageDirectorModal: FC = () => {
             layout="vertical"
             label="Parol"
             name="password"
-            rules={[{ 
-              required: true,
-              message: 'Parolni kiriting'
-            }]}
+            rules={[
+              { 
+                required: true,
+                message: 'Parolni kiriting'
+              },
+              {
+                min: 8,
+                message: "Parol kamida 8 ta belgidan iborat bo‘lishi kerak",
+              }
+            ]}
           >
             <Input.Password 
               className="modal__input"

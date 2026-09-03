@@ -66,10 +66,16 @@ const ResetPasswordCompanyOwnerModal: FC = () => {
           layout="vertical"
           label="Yangi parol"
           name="newPassword"
-          rules={[{ 
-            required: true,
-            message: 'Yangi parolni kiriting'
-          }]}
+          rules={[
+            { 
+              required: true,
+              message: 'Yangi parolni kiriting'
+            },
+            {
+              min: 8,
+              message: "Parol kamida 8 ta belgidan iborat bo‘lishi kerak",
+            }
+          ]}
         >
           <Input.Password 
             className="modal__input"
@@ -80,10 +86,16 @@ const ResetPasswordCompanyOwnerModal: FC = () => {
           layout="vertical"
           label="Yangi parolni tasdiqlash"
           name="confirmNewPassword"
-          rules={[{ 
-            required: true,
-            message: 'Yangi parolni tasdiqlang'
-          }]}
+          rules={[
+            { 
+              required: true,
+              message: 'Yangi parolni tasdiqlang'
+            },
+            {
+              min: 8,
+              message: "Parol kamida 8 ta belgidan iborat bo‘lishi kerak",
+            }
+          ]}
         >
           <Input.Password 
             className="modal__input"
