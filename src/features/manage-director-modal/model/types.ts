@@ -24,6 +24,7 @@ export interface ICreateCompanyOwnerFields extends IBaseFields {
 }
 
 export interface IUpdateCompanyOwnerFields extends IBaseFields {
+  username: string;
   companyOwnerId: string | number;
 }
 

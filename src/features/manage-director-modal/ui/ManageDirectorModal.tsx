@@ -37,6 +37,7 @@ const ManageDirectorModal: FC = () => {
 
       form.setFieldsValue({
         fullName: data.fullName,
+        username: data.username,
         position: data.position,
         companyId: data.companyId,
         phone: phone
