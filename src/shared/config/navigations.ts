@@ -15,5 +15,12 @@ export const navigations = [
     path: routes.DIRECTORS,
     icon: 'directors',
     role: roles.ADMIN
+  },
+  {
+    id: 3,
+    label: 'Dashboard',
+    path: routes.DASHBOARD,
+    icon: 'dashboard',
+    role: roles.COMPANY_OWNER
   }
 ] as const;

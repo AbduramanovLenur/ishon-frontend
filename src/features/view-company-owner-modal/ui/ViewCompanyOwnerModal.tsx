@@ -2,13 +2,13 @@ import type { FC } from "react";
 import { App, Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 
-import { close, stateViewCompany } from "../model/slice";
+import { close, stateViewCompanyOwner } from "../model/slice";
 
-import { CompanyDetails } from "@entities/companies";
+import { DirectorDetails } from "@entities/directors";
 
-const ViewCompanyModal: FC = () => {
+const ViewCompanyOwnerModal: FC = () => {
   const { message } = App.useApp();
-  const { isOpen, companyId } = useSelector(stateViewCompany);
+  const { isOpen, companyOwnerId } = useSelector(stateViewCompanyOwner);
   const dispatch = useDispatch();
 
   const closeViewModalHandle = () => {
@@ -19,7 +19,7 @@ const ViewCompanyModal: FC = () => {
     return null;
   }
   
-  if (!companyId) {
+  if (!companyOwnerId) {
     message.error('Kompaniya ma’lumotlari topilmadi');
     closeViewModalHandle();
     return;
@@ -36,15 +36,15 @@ const ViewCompanyModal: FC = () => {
         body: 'modal__body'
       }}
       open={isOpen}
-      title="Kompaniya tafsilotlari"
+      title="Direktor haqida ma’lumot"
       cancelText="Yopish"
       okButtonProps={{ style: { display: "none" } }}
       onCancel={closeViewModalHandle}
       style={{ zIndex: 1000 }}
     >
-      <CompanyDetails companyId={companyId} />
+      <DirectorDetails companyOwnerId={companyOwnerId} />
     </Modal>
   );
 }
 
-export default ViewCompanyModal;
+export default ViewCompanyOwnerModal;

@@ -6,6 +6,7 @@ import { ResetPasswordCompanyOwnerModal } from "@features/reset-password-company
 import { useDeleteCompanyOwner } from "@features/delete-director-modal";
 import { ManageDirectorModal, open as openManageModal  } from "@features/manage-director-modal";
 import { open as openResetPasswordModal } from "@features/reset-password-company-owner-modal";
+import { open as openViewModal, ViewCompanyOwnerModal } from "@features/view-company-owner-modal";
 import { useCompanyOwnerList, type ICompanyOwner } from "@entities/directors";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
 import { getFirstChar, validationPage } from "@shared/utils";
@@ -34,7 +35,7 @@ export const DirectorsTable: FC = () => {
   }
 
   const openViewModalHandle = (id: number | string) => {
-    console.log(id)
+    dispatch(openViewModal(id));
   }
 
   const columns: TableProps<ICompanyOwner>['columns'] = [
@@ -140,6 +141,7 @@ export const DirectorsTable: FC = () => {
       </div>}
       <ManageDirectorModal />
       <ResetPasswordCompanyOwnerModal />
+      <ViewCompanyOwnerModal />
     </div>
   );
 }

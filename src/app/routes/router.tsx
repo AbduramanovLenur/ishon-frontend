@@ -6,7 +6,7 @@ import RequireAuth from './guards/RequireAuth';
 import RequireRole from './guards/RequireRole';
 import IndexRedirect from './guards/IndexRedirect';
 
-import { AuthPage, CompaniesPage, DirectorsPage } from './pages';
+import { AuthPage, CompaniesPage, DirectorsPage, DashboardPage } from './pages';
 
 import { roles } from '@shared/config';
 import { routes } from '@shared/config';
@@ -43,7 +43,12 @@ const router = createBrowserRouter([
           },
           {
             element: <RequireRole roles={[roles.COMPANY_OWNER, roles.COMPANY_ADMIN]} />,
-            children: []
+            children: [
+              {
+                path: routes.DASHBOARD,
+                element: <DashboardPage />
+              }
+            ]
           }
         ]
       }
