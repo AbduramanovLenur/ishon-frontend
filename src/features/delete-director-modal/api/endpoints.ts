@@ -1,3 +1,3 @@
 export const endpoints = {
-  DELETE: '/api/admin/company'
+  DELETE: '/api/admin/company-owner'
 } as const;

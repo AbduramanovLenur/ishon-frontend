@@ -4,8 +4,8 @@ import { App } from "antd";
 import type { AxiosError } from "axios";
 
 import { api } from "../api/api";
-import { companiesKeys } from "@entities/companies";
 
+import { companiesOwnerKeys } from "@entities/directors";
 import type { IApiResponse } from "@shared/types";
 
 export const useDeleteCompanyOwner = () => {
@@ -20,7 +20,7 @@ export const useDeleteCompanyOwner = () => {
     mutationFn: api.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: companiesKeys.all,
+        queryKey: companiesOwnerKeys.all,
       });
 
       message.success("Direktor o'chirildi");
