@@ -23,7 +23,7 @@ const SearchInput: FC<ISearchProps> = ({
   paramKey = queries.SEARCH,
   delay = 500,
 }) => {
-  const { get, set, remove } = useQueryParams();
+  const { get, setMany } = useQueryParams();
 
   const urlValue = get(paramKey) ?? "";
 
@@ -37,11 +37,10 @@ const SearchInput: FC<ISearchProps> = ({
     timeoutRef.current = setTimeout(() => {
       const next = value.trim();
 
-      if (next) {
-        set(paramKey, next);
-      } else {
-        remove(paramKey);
-      }
+      setMany({
+        [queries.PAGE]: null,
+        [paramKey]: next || null,
+      });
     }, delay);
   };
 
