@@ -19,8 +19,8 @@ const Directors: FC = () => {
     <section className={styles['directors']}>
       <div className={styles['directors__inner']}>
         <TopContent
-          title={"Direktorlar"} 
-          text={"Direktorlarni boshqarish va nazorat qilish."}
+          title="Direktorlar" 
+          text="Direktorlarni boshqarish va nazorat qilish."
         >
           <PrimaryButton onClick={openManageModalHandle}>
             Direktor yaratish

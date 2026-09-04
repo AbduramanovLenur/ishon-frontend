@@ -19,8 +19,8 @@ const Companies: FC = () => {
     <section className={styles['companies']}>
       <div className={styles["companies__inner"]}>
         <TopContent 
-          title={"Kompaniyalar"} 
-          text={"Korporativ mijoz tashkilotlarni boshqaring va kuzatib boring."}
+          title="Kompaniyalar"
+          text="Korporativ mijoz tashkilotlarni boshqaring va kuzatib boring."
         >
           <PrimaryButton onClick={openManageModalHandle}>
             Kompaniya yaratish
