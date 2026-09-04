@@ -43,11 +43,8 @@ const ManageCompanyModal: FC = () => {
   const onSubmitHandle: FormProps<IManageCompanyFields>['onFinish'] = (values) => {
     if (isEdit) {
       mutateAsyncUpdate({
+        ...values,
         companyId,
-        name: values.name,
-        address: values.address,
-        objectLimit: values.objectLimit,
-        employeeLimit: values.employeeLimit,
         status: values.status ? status.ACTIVE : status.INACTIVE
       }, {
         onSuccess: () => {

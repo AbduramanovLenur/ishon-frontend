@@ -1,8 +1,9 @@
 import type { FC } from "react";
 import { Table, Tag, type TableProps } from "antd";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { useDeleteObject } from "@features/delete-object-modal";
+import { ManageObjectModal, open as openManageModal } from "@features/manage-object-modal";
 import { useObjectList, type IObject } from "@entities/objects";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
 import { defaultValues, queries, status } from "@shared/config";
@@ -95,7 +96,7 @@ const objectsMock: IObject[] = [
 ];
 
 export const ObjectsTable: FC = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { get } = useQueryParams();
   const search = get(queries.SEARCH) || defaultValues.search;
   const currentPage = validationPage(Number(get(queries.PAGE)), defaultValues.page);
@@ -106,8 +107,7 @@ export const ObjectsTable: FC = () => {
   const totalElems = data?.totalElements || 0;
 
   const openManageModalHandle = (id: number | string) => {
-    console.log(id);
-    // dispatch(openManageModal(id));
+    dispatch(openManageModal(id));
   }
 
   const openViewModalHandle = (id: number | string) => {
@@ -198,6 +198,7 @@ export const ObjectsTable: FC = () => {
       {defaultValues.pageSize < totalElems && <div className={styles['objects-table__bottom']}>
         <Paginator total={totalElems} />
       </div>}
+      <ManageObjectModal />
     </div>
   );
 }

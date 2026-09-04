@@ -3,33 +3,33 @@ import { App } from "antd";
 import type { AxiosError } from "axios";
 
 import { api } from "../api/api";
-import type { ICreateCompanyOwnerFields, IUpdateCompanyOwnerFields } from "./types";
+import type { IUpdateObjectFields, TCreateObjectFields } from "./types";
 
-import { companiesOwnerKeys, type ICompanyOwner } from "@entities/directors";
+import { objectsKeys, type IObject } from "@entities/objects";
 import type { IApiResponse } from "@shared/types";
 
-export function useCreateCompanyOwner () {
+export function useCreateObject () {
   const { message } = App.useApp();
   const queryClient = useQueryClient();
 
   return {
     ...useMutation<
-      IApiResponse<ICompanyOwner>, 
-      AxiosError<IApiResponse<ICompanyOwner>>, 
-      ICreateCompanyOwnerFields
+      IApiResponse<IObject>, 
+      AxiosError<IApiResponse<IObject>>, 
+      TCreateObjectFields
     >({
       mutationFn: api.create,
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: companiesOwnerKeys.all
+          queryKey: objectsKeys.all
         });
         
-        message.success('Direktor yaratildi');
+        message.success('Obyekt yaratildi');
       },
       onError: (error) => {
         const msg =
           error.response?.data?.error?.message ??
-          "Direktorni yaratishda xatolik yuz berdi";
+          "Obyektni yaratishda xatolik yuz berdi";
           
         message.error(msg);
       },
@@ -37,31 +37,31 @@ export function useCreateCompanyOwner () {
   };
 }
 
-export function useUpdateCompanyOwner() {
+export function useUpdateObject() {
   const { message } = App.useApp();
   const queryClient = useQueryClient();
 
   return {
     ...useMutation<
-      IApiResponse<ICompanyOwner>, 
-      AxiosError<IApiResponse<ICompanyOwner>>, 
-      IUpdateCompanyOwnerFields
+      IApiResponse<IObject>, 
+      AxiosError<IApiResponse<IObject>>, 
+      IUpdateObjectFields
     >({
       mutationFn: api.update,
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
-          queryKey: companiesOwnerKeys.byId(variables.companyOwnerId)
+          queryKey: objectsKeys.byId(variables.objectId)
         });
         queryClient.invalidateQueries({
-          queryKey: companiesOwnerKeys.all
+          queryKey: objectsKeys.all
         });
         
-        message.success('Direktor yangilandi');
+        message.success('Obyekt yangilandi');
       },
       onError: (error) => {
         const msg =
           error.response?.data?.error?.message ??
-          "Direktorni yangilashda xatolik yuz berdi";
+          "Obyektni yangilashda xatolik yuz berdi";
           
         message.error(msg);
       },

@@ -1,11 +1,3 @@
-export interface IPhoneNumber {
-  countryCode: number;
-  areaCode: string;
-  phoneNumber: string;
-  isoCode: string;
-  valid: (strict?: boolean) => boolean;
-}
-
 interface IBaseFields {
   fullName: string;
   position: string;
