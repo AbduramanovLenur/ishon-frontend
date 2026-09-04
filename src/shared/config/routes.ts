@@ -3,5 +3,6 @@ export const routes = {
   AUTH: '/auth',
   COMPANIES: '/companies',
   DIRECTORS: '/directors',
-  DASHBOARD: '/dashboard'
+  DASHBOARD: '/dashboard',
+  OBJECTS: '/objects'
 } as const;

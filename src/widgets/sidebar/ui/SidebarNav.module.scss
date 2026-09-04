@@ -1,11 +1,15 @@
 .sidebar-nav {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   overflow-y: auto;
   min-height: 0;
+  margin-bottom: 25px;
   &__list {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    flex: 1;
     @media (max-width: 1440px) {
       gap: 5px;
     }
