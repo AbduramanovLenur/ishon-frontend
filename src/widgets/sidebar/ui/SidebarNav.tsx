@@ -11,7 +11,9 @@ import { navigations } from "@shared/config/navigations";
 const SidebarNav: FC = () => {
   const { data: user, isLoading } = useUser();
   const { logout } = useLogout();
-  const items = navigations.filter((nav) => user?.type === nav.role);
+  const items = navigations.filter(
+    (nav) => user?.type && nav.roles.includes(user.type)
+  );
 
   return (
     <nav className={styles["sidebar-nav"]}>

@@ -6,7 +6,16 @@ import RequireAuth from './guards/RequireAuth';
 import RequireRole from './guards/RequireRole';
 import IndexRedirect from './guards/IndexRedirect';
 
-import { AuthPage, CompaniesPage, DirectorsPage, DashboardPage } from './pages';
+import { 
+  AuthPage, 
+  CompaniesPage, 
+  DirectorsPage, 
+  DashboardPage, 
+  EmployeesPage,
+  LogsPage,
+  ObjectsPage,
+  TodaysPresencePage
+} from './pages';
 
 import { roles } from '@shared/config';
 import { routes } from '@shared/config';
@@ -47,6 +56,22 @@ const router = createBrowserRouter([
               {
                 path: routes.DASHBOARD,
                 element: <DashboardPage />
+              },
+              {
+                path: routes.OBJECTS,
+                element: <ObjectsPage />
+              },
+              {
+                path: routes.EMPLOYEES,
+                element: <EmployeesPage />
+              },
+              {
+                path: routes.LOGS,
+                element: <LogsPage />
+              },
+              {
+                path: routes.TODAYS_PRESENCE,
+                element: <TodaysPresencePage />
               }
             ]
           }
