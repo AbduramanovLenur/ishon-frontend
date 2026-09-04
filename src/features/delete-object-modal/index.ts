@@ -1,0 +1,1 @@
+export { useDeleteObject } from "./model/mutations";

@@ -1,3 +1,3 @@
 export const userKeys = {
-  user: ['user'] as const
-}
+  user: ['user']
+} as const;

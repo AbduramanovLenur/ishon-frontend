@@ -5,10 +5,10 @@ import type { AxiosError } from "axios";
 
 import { api } from "../api/api";
 
-import { companiesOwnerKeys } from "@entities/directors";
+import { objectsKeys } from "@/entities/objects";
 import type { IApiResponse } from "@shared/types";
 
-export const useDeleteCompanyOwner = () => {
+export const useDeleteObject = () => {
   const { modal, message } = App.useApp();
   const queryClient = useQueryClient();
 
@@ -20,15 +20,15 @@ export const useDeleteCompanyOwner = () => {
     mutationFn: api.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: companiesOwnerKeys.all,
+        queryKey: objectsKeys.all,
       });
 
-      message.success("Direktor o'chirildi");
+      message.success("Obyekt o'chirildi");
     },
     onError: (error) => {
       const msg =
         error.response?.data?.error?.message ??
-        "Direktorni o‘chirishda xatolik yuz berdi";
+        "Obyektni o‘chirishda xatolik yuz berdi";
 
       message.error(msg);
     },
@@ -39,7 +39,7 @@ export const useDeleteCompanyOwner = () => {
       classNames: {
         wrapper: 'centered'
       },
-      title: "Direktorni o‘chirish kerakmi?",
+      title: "Obyektni o‘chirish kerakmi?",
       icon: <DeleteOutlined style={{ color: "#ff0000" }} />,
       okText: "O'chirish",
       cancelText: "Bekor qilish",

@@ -1,5 +1,7 @@
 import type { FC } from "react";
 
+import { ObjectsTable } from "./ObjectsTable";
+
 import { PrimaryButton, TopContent } from "@shared/ui";
 
 import styles from "./Objects.module.scss";
@@ -16,6 +18,7 @@ const Objects: FC = () => {
             Obyekt yaratish
           </PrimaryButton>
         </TopContent>
+        <ObjectsTable />
       </div>
     </section>
   );
