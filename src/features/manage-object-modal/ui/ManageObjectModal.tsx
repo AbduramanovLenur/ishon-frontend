@@ -239,6 +239,7 @@ const ManageObjectModal: FC = () => {
             name="status"
             label="Holat"
             valuePropName="checked"
+            className="modal__switch not-margened-item"
           >
             <Switch />
           </Form.Item>}

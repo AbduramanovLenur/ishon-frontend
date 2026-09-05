@@ -209,6 +209,7 @@ main {
   &__label {
     font-weight: 500;
     margin-bottom: 10px;
+    height: initial;
     @media (max-width: 480px) {
       --ant-form-label-font-size: 14px;
     }
@@ -227,6 +228,13 @@ main {
   }
   &__select {
     height: 28px;
+  }
+  &__switch {
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
   &__phone {
     &.PhoneInput {
