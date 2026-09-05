@@ -3,6 +3,7 @@ import { Table, Tag, type TableProps } from "antd";
 import { useDispatch } from "react-redux";
 
 import { useDeleteObject } from "@features/delete-object-modal";
+import { ViewObjectModal, open as openViewModal } from "@features/view-object-modal";
 import { ManageObjectModal, open as openManageModal } from "@features/manage-object-modal";
 import { useObjectList, type IObject } from "@entities/objects";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
@@ -11,89 +12,6 @@ import { useQueryParams } from "@shared/lib";
 import { getFirstChar, validationPage } from "@shared/utils";
 
 import styles from "./ObjectsTable.module.scss";
-
-const objectsMock: IObject[] = [
-  {
-    objectId: "3fa85f64-5717-4562-b3fc-2c963f66afa1",
-    companyId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    name: "Главный офис",
-    status: "ACTIVE",
-    address: "г. Ташкент, ул. Амира Темура, 108",
-    latitude: "41.311151",
-    longitude: "69.279737",
-    geofenceRadiusMeters: 200,
-    shiftStartTime: "09:00",
-    shiftEndTime: "18:00",
-    lateEntryGraceMinutes: 15,
-    earlyLeaveGraceMinutes: 15,
-    createdAt: "2026-09-01T09:00:00.000Z",
-    updatedAt: "2026-09-01T09:00:00.000Z",
-  },
-  {
-    objectId: "3fa85f64-5717-4562-b3fc-2c963f66afa2",
-    companyId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    name: "Филиал №1",
-    status: "ACTIVE",
-    address: "г. Ташкент, ул. Шота Руставели, 45",
-    latitude: "41.285680",
-    longitude: "69.250320",
-    geofenceRadiusMeters: 150,
-    shiftStartTime: "08:30",
-    shiftEndTime: "17:30",
-    lateEntryGraceMinutes: 10,
-    earlyLeaveGraceMinutes: 10,
-    createdAt: "2026-09-02T10:30:00.000Z",
-    updatedAt: "2026-09-02T10:30:00.000Z",
-  },
-  {
-    objectId: "3fa85f64-5717-4562-b3fc-2c963f66afa3",
-    companyId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    name: "Склад",
-    status: "INACTIVE",
-    address: "г. Ташкент, ул. Бектемир, 12",
-    latitude: "41.232450",
-    longitude: "69.334120",
-    geofenceRadiusMeters: 300,
-    shiftStartTime: "08:00",
-    shiftEndTime: "17:00",
-    lateEntryGraceMinutes: 15,
-    earlyLeaveGraceMinutes: 15,
-    createdAt: "2026-09-03T08:15:00.000Z",
-    updatedAt: "2026-09-03T08:15:00.000Z",
-  },
-  {
-    objectId: "3fa85f64-5717-4562-b3fc-2c963f66afa4",
-    companyId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    name: "Производственный цех",
-    status: "ACTIVE",
-    address: "г. Ташкент, ул. Янги Сергели, 25",
-    latitude: "41.214780",
-    longitude: "69.212340",
-    geofenceRadiusMeters: 500,
-    shiftStartTime: "07:30",
-    shiftEndTime: "16:30",
-    lateEntryGraceMinutes: 20,
-    earlyLeaveGraceMinutes: 20,
-    createdAt: "2026-09-04T07:00:00.000Z",
-    updatedAt: "2026-09-04T07:00:00.000Z",
-  },
-  {
-    objectId: "3fa85f64-5717-4562-b3fc-2c963f66afa5",
-    companyId: "3fa85f64-5717-4562-b3fc-2c963f66afa7",
-    name: "Региональный офис",
-    status: "ACTIVE",
-    address: "г. Самарканд, ул. Регистан, 10",
-    latitude: "39.654200",
-    longitude: "66.959700",
-    geofenceRadiusMeters: 250,
-    shiftStartTime: "09:00",
-    shiftEndTime: "18:00",
-    lateEntryGraceMinutes: 15,
-    earlyLeaveGraceMinutes: 15,
-    createdAt: "2026-09-04T09:00:00.000Z",
-    updatedAt: "2026-09-04T09:00:00.000Z",
-  },
-];
 
 export const ObjectsTable: FC = () => {
   const dispatch = useDispatch();
@@ -111,8 +29,7 @@ export const ObjectsTable: FC = () => {
   }
 
   const openViewModalHandle = (id: number | string) => {
-    console.log(id);
-    // dispatch(openViewModal(id));
+    dispatch(openViewModal(id));
   }
 
   const columns: TableProps<IObject>['columns'] = [
@@ -188,7 +105,7 @@ export const ObjectsTable: FC = () => {
               cursor: 'pointer' 
             }
           })}
-          dataSource={dataSource.length ? dataSource : objectsMock}
+          dataSource={dataSource}
           columns={columns}
           pagination={false}
           loading={isLoading}
@@ -199,6 +116,7 @@ export const ObjectsTable: FC = () => {
         <Paginator total={totalElems} />
       </div>}
       <ManageObjectModal />
+      <ViewObjectModal />
     </div>
   );
 }

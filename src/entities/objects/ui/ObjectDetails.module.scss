@@ -1,0 +1,101 @@
+.object-details {
+  &__label {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    @media (max-width: 480px) {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+  }
+  &__margened {
+    margin-bottom: 20px;
+    @media (max-width: 480px) {
+      margin-bottom: 15px;
+    }
+  }
+  &__wrapper {
+    padding: 12px 16px;
+    border: 1px solid #C7C4D8;
+    background-color: #F0F3FF;
+    border-radius: 8px;
+    @media (max-width: 480px) {
+      padding: 8px 12px;
+    }
+  }
+  &__location {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    @media (max-width: 480px) {
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    &-icon {
+      svg {
+        fill: #3525CD;
+        height: 30px;
+        width: 20px;
+        @media (max-width: 480px) {
+          height: 28px;
+          width: 18px;
+        }
+      }
+    }
+    &-address {
+      font-size: 14px;
+      color: var(--Brown);
+    }
+  }
+  &__map {
+    margin-bottom: 20px;
+    @media (max-width: 480px) {
+      margin-bottom: 15px;
+    }
+  }
+  &__overlay {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  &__coordinates {
+    margin-bottom: 20px;
+    @media (max-width: 480px) {
+      margin-bottom: 15px;
+    }
+  }
+  &__small-title {
+    font-size: 17px;
+    color: var(--Brown);
+    @media (max-width: 480px) {
+      font-size: 16px;
+    }
+  }
+  &__value {
+    @media (max-width: 480px) {
+      font-size: 14px;
+    }
+  }
+  &__skeleton {
+    width: 100% !important;
+    height: 50px !important;
+    @media (max-width: 480px) {
+      height: 40px !important;
+    }
+    div {
+      width: inherit !important;
+      height: inherit !important;
+    }
+  }
+  &__big-skeleton {
+    height: 150px;
+    width: 100% !important;
+    @media (max-width: 480px) {
+      height: 120px !important;
+    }
+    div {
+      width: inherit !important;
+      height: inherit !important;
+    }
+  }
+}

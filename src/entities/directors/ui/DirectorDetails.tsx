@@ -79,7 +79,7 @@ const DirectorDetails: FC<IDirectorDetailsProps> = ({ companyOwnerId }) => {
           data?.phone && (
             <div className={styles['company-owner-details__info']}>
               <div className={styles['company-owner-details__info-label']}>
-              Telefon raqami
+                Telefon raqami
               </div>
               <div className={styles['company-owner-details__info-value']}>
                 { data.phone }

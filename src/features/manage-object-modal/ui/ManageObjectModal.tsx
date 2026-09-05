@@ -1,4 +1,4 @@
-import { ConfigProvider, Flex, Form, Input, InputNumber, Modal, TimePicker, type FormProps } from "antd";
+import { ConfigProvider, Flex, Form, Input, InputNumber, Modal, Switch, TimePicker, type FormProps } from "antd";
 import { useEffect, type FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import uzUZ from "antd/locale/uz_UZ";
@@ -199,7 +199,7 @@ const ManageObjectModal: FC = () => {
               />
             </Form.Item>
           </Flex>
-          <Flex className={`${styles['object-manage-modal__flex']} not-margened-bottom`}>
+          <Flex className={styles['object-manage-modal__flex']}>
             <Form.Item<IManageObjectFields>
               className="modal__item"
               layout="vertical"
@@ -235,6 +235,13 @@ const ManageObjectModal: FC = () => {
               />
             </Form.Item>
           </Flex>
+          {isEdit && <Form.Item<IManageObjectFields>
+            name="status"
+            label="Holat"
+            valuePropName="checked"
+          >
+            <Switch />
+          </Form.Item>}
         </Form>
       </Modal>
     </ConfigProvider>
