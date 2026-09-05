@@ -1,4 +1,5 @@
 import type { TStatus } from "@shared/types";
+import type { Dayjs } from "dayjs";
 
 interface IBaseFields {
   name: string;
@@ -6,19 +7,24 @@ interface IBaseFields {
   latitude: string;
   longitude: string;
   geofenceRadiusMeters: number;
-  shiftStartTime: string;
-  shiftEndTime: string;
   lateEntryGraceMinutes: number;
   earlyLeaveGraceMinutes: number;
 }
 
 export interface IManageObjectFields extends IBaseFields {
   status: boolean;
+  shiftStartTime: Dayjs;
+  shiftEndTime: Dayjs;
 }
 
-export type TCreateObjectFields = IBaseFields;
+export interface ICreateObjectFields extends IBaseFields {
+  shiftStartTime: string;
+  shiftEndTime: string;
+};
 
 export interface IUpdateObjectFields extends IBaseFields {
+  shiftStartTime: string;
+  shiftEndTime: string;
   objectId: string | number;
   status: TStatus;
 }

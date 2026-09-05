@@ -179,7 +179,7 @@ export const ObjectsTable: FC = () => {
               cell: styles['objects-table__title-cell']
             }
           }}
-          rowKey="companyOwnerId"
+          rowKey="objectId"
           onRow={(record) => ({
             onClick: () => {
               openViewModalHandle(record.objectId);

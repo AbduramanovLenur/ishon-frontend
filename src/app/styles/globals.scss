@@ -168,7 +168,9 @@ main {
 .ant-input-number {
   width: 100%;
 }
-
+.not-margened-bottom {
+  margin-bottom: 0;
+}
 .not-margened-item {
   --ant-form-item-margin-bottom: 0 !important;
 }
@@ -212,11 +214,15 @@ main {
     }
   }
   &__help {
+    font-size: 12px !important;
     @media (max-width: 480px) {
       margin-bottom: 15px;
     }
   }
   &__input {
+    height: 28px;
+  }
+  &__timepicker {
     height: 28px;
   }
   &__select {

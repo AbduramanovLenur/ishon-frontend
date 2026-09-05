@@ -1,6 +1,8 @@
-import { Form, Input, Modal, type FormProps } from "antd";
+import { ConfigProvider, Flex, Form, Input, InputNumber, Modal, TimePicker, type FormProps } from "antd";
 import { useEffect, type FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import uzUZ from "antd/locale/uz_UZ";
+import dayjs from "dayjs";
 
 import { useCreateObject, useUpdateObject } from "../model/mutations";
 import { close, stateManageObject } from "../model/slice";
@@ -8,6 +10,8 @@ import type { IManageObjectFields } from "../model/types";
 
 import { useObjectById } from "@entities/objects";
 import { status } from "@shared/config";
+
+import styles from "./ManageObjectModal.module.scss";
 
 const ManageObjectModal: FC = () => {
   const dispatch = useDispatch();
@@ -23,6 +27,15 @@ const ManageObjectModal: FC = () => {
     if (isEdit && data) {
       form.setFieldsValue({
         name: data.name,
+        address: data.address,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        geofenceRadiusMeters: data.geofenceRadiusMeters,
+        shiftStartTime: dayjs(data.shiftStartTime, "HH:mm:ss"),
+        shiftEndTime: dayjs(data.shiftEndTime, "HH:mm:ss"),
+        lateEntryGraceMinutes: data.lateEntryGraceMinutes,
+        earlyLeaveGraceMinutes: data.earlyLeaveGraceMinutes,
+        status: data.status === status.ACTIVE,
       });
     }
   }, [data, isEdit, form]);
@@ -37,10 +50,13 @@ const ManageObjectModal: FC = () => {
   }
 
   const onSubmitHandle: FormProps<IManageObjectFields>['onFinish'] = (values) => {
+    console.log(values.shiftStartTime.format("HH:mm"))
     if (isEdit) {
       mutateAsyncUpdate({
         ...values,
         objectId,
+        shiftStartTime: values.shiftStartTime.format("HH:mm"),
+        shiftEndTime: values.shiftEndTime.format("HH:mm"),
         status: values.status ? status.ACTIVE : status.INACTIVE
       }, {
         onSuccess: () => {
@@ -50,7 +66,11 @@ const ManageObjectModal: FC = () => {
       return;
     }
 
-    mutateAsyncCreate(values, {
+    mutateAsyncCreate({
+      ...values,
+      shiftStartTime: values.shiftStartTime.format("HH:mm"),
+      shiftEndTime: values.shiftEndTime.format("HH:mm")
+    }, {
       onSuccess: () => {
         closeManageModalHandle();
       }
@@ -58,153 +78,153 @@ const ManageObjectModal: FC = () => {
   }
 
   return (
-    <Modal
-      centered
-      classNames={{
-        close: 'centered',
-        container: 'modal__container',
-        header: 'modal__header',
-        title: 'modal__title',
-        body: 'modal__body'
-      }}
-      title={title}
-      open={isOpen}
-      okText="Saqlash"
-      cancelText="Yopish"
-      onOk={onOkHandle}
-      onCancel={closeManageModalHandle}
-      confirmLoading={isPendingCreate || isPendingUpdate}
-      style={{ zIndex: 1000 }}
-    >
-      <Form 
-        form={form}
-        onFinish={onSubmitHandle}
+    <ConfigProvider locale={uzUZ}>
+      <Modal
+        centered
         classNames={{
-          label: "modal__label",
-          help: "modal__help"
+          close: 'centered',
+          container: 'modal__container',
+          header: 'modal__header',
+          title: 'modal__title',
+          body: 'modal__body'
         }}
+        title={title}
+        open={isOpen}
+        okText="Saqlash"
+        cancelText="Yopish"
+        onOk={onOkHandle}
+        onCancel={closeManageModalHandle}
+        confirmLoading={isPendingCreate || isPendingUpdate}
+        style={{ zIndex: 1000 }}
       >
-        <Form.Item<IManageObjectFields>
-          className="modal__item"
-          layout="vertical"
-          label="Obyekt nomi"
-          name="name"
-          rules={[{ 
-            required: true,
-            message: 'Obyekt nomini kiriting'
-          }]}
+        <Form 
+          form={form}
+          onFinish={onSubmitHandle}
+          classNames={{
+            label: "modal__label",
+            help: "modal__help"
+          }}
         >
-          <Input 
-            className="modal__input"
-            disabled={isEdit && isLoading}
-          />
-        </Form.Item>
-        {/* <Form.Item<IManageCompanyOwnerFields>
-          className="modal__item"
-          layout="vertical"
-          label="To‘liq ism-familiya"
-          name="fullName"
-          rules={[{ 
-            required: true,
-            message: 'To‘liq ism-familiyangizni kiriting'
-          }]}
-        >
-          <Input 
-            className="modal__input"
-            disabled={isEdit && isLoading}
-          />
-        </Form.Item>
-        <Form.Item<IManageCompanyOwnerFields>
-          className="modal__item"
-          layout="vertical"
-          label="Login"
-          name="username"
-          rules={[{ 
-            required: true,
-            message: 'Loginni kiriting'
-          }]}
-        >
-          <Input 
-            className="modal__input"
-            disabled={isEdit && isLoading}
-          />
-        </Form.Item>
-        {!isEdit && (
-          <Form.Item<IManageCompanyOwnerFields>
+          <Form.Item<IManageObjectFields>
             className="modal__item"
             layout="vertical"
-            label="Parol"
-            name="password"
-            rules={[
-              { 
-                required: true,
-                message: 'Parolni kiriting'
-              },
-              {
-                min: 8,
-                message: "Parol kamida 8 ta belgidan iborat bo‘lishi kerak",
-              }
-            ]}
+            label="Obyekt nomi"
+            name="name"
+            rules={[{ 
+              required: true,
+              message: 'Obyekt nomini kiriting'
+            }]}
           >
-            <Input.Password 
+            <Input 
               className="modal__input"
+              disabled={isEdit && isLoading}
             />
           </Form.Item>
-        )}
-        <Form.Item<IManageCompanyOwnerFields>
-          className="modal__item"
-          layout="vertical"
-          label="Lavozim"
-          name="position"
-          rules={[{ 
-            required: true,
-            message: 'Lavozimni kiriting'
-          }]}
-        >
-          <Input 
-            className="modal__input"
-            disabled={isEdit && isLoading}
-          />
-        </Form.Item>
-        <Form.Item<IManageCompanyOwnerFields>
-          className="modal__item"
-          layout="vertical"
-          label="Kompaniya"
-          name="companyId"
-          rules={[{ 
-            required: true,
-            message: 'Kompaniyani tanlang'
-          }]}
-        >
-          <Select 
-            className="modal__select"
-            options={companyList} 
-            loading={isLoadingManualCompanyList || (isLoading && isEdit)} 
-            disabled={isLoadingManualCompanyList || (isLoading && isEdit)}
-          />
-        </Form.Item>
-        <Form.Item<IManageCompanyOwnerFields>
-          className="modal__item"
-          layout="vertical"
-          label="Telefon raqami"
-          name="phone"
-          rules={[
-            {
+          <Form.Item<IManageObjectFields>
+            className="modal__item"
+            layout="vertical"
+            label="Manzil"
+            name="address"
+            rules={[{ 
               required: true,
-              message: 'Telefon raqamini kiriting'
-            },
-          ]}
-        >
-          <PhoneInput
-            className="modal__phone"
-            international
-            defaultCountry="UZ"
-            onChange={() => {}}
-            disabled={isEdit && isLoading}
-          />
-        </Form.Item> */}
-      </Form>
-    </Modal>
+              message: 'Manzilni kiriting'
+            }]}
+          >
+            <Input 
+              className="modal__input"
+              disabled={isEdit && isLoading}
+            />
+          </Form.Item>
+          <Form.Item<IManageObjectFields>
+            className="modal__item"
+            layout="vertical"
+            label="Geofence radiusi"
+            name="geofenceRadiusMeters"
+            rules={[{ 
+              required: true,
+              message: 'Geofence radiusini kiriting'
+            }]}
+          >
+            <InputNumber
+              className="modal__input"
+              disabled={isEdit && isLoading}
+              min={0}
+              suffix="m"
+            />
+          </Form.Item>
+          <Flex className={styles['object-manage-modal__flex']}>
+            <Form.Item<IManageObjectFields>
+              className="modal__item"
+              layout="vertical"
+              label="Ish kuni boshlanish vaqti"
+              name="shiftStartTime"
+              rules={[{ 
+                required: true,
+                message: 'Ish kuni boshlanish vaqtini kiriting'
+              }]}
+            >
+              <TimePicker
+                format="HH:mm"
+                style={{ width: "100%" }}
+                className="modal__timepicker"
+              />
+            </Form.Item>
+            <Form.Item<IManageObjectFields>
+              className="modal__item"
+              layout="vertical"
+              label="Ish kuni tugash vaqti"
+              name="shiftEndTime"
+              rules={[{ 
+                required: true,
+                message: 'Ish kuni tugash vaqtini kiriting'
+              }]}
+            >
+              <TimePicker
+                format="HH:mm"
+                style={{ width: "100%" }}
+                className="modal__timepicker"
+              />
+            </Form.Item>
+          </Flex>
+          <Flex className={`${styles['object-manage-modal__flex']} not-margened-bottom`}>
+            <Form.Item<IManageObjectFields>
+              className="modal__item"
+              layout="vertical"
+              label="Erta ketishga ruxsat etilgan vaqt (daq.)"
+              name="earlyLeaveGraceMinutes"
+              rules={[{ 
+                required: true,
+                message: 'Erta ketishga ruxsat etilgan vaqtni kiriting'
+              }]}
+            >
+              <InputNumber
+                className="modal__input"
+                disabled={isEdit && isLoading}
+                min={0}
+                suffix="daq"
+              />
+            </Form.Item>
+            <Form.Item<IManageObjectFields>
+              className="modal__item"
+              layout="vertical"
+              label="Kechikishga ruxsat etilgan vaqt (daq.)"
+              name="lateEntryGraceMinutes"
+              rules={[{ 
+                required: true,
+                message: 'Kechikishga ruxsat etilgan vaqtni kiriting'
+              }]}
+            >
+              <InputNumber
+                className="modal__input"
+                disabled={isEdit && isLoading}
+                min={0}
+                suffix="daq"
+              />
+            </Form.Item>
+          </Flex>
+        </Form>
+      </Modal>
+    </ConfigProvider>
   );
 }
 

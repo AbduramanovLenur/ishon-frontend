@@ -26,7 +26,7 @@ const ManageCompanyModal: FC = () => {
         address: data.address,
         objectLimit: data.objectLimit,
         employeeLimit: data.employeeLimit,
-        status: data.status === status.ACTIVE ? true : false
+        status: data.status === status.ACTIVE
       });
     }
   }, [data, isEdit, form]);

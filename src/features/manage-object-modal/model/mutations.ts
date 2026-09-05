@@ -3,7 +3,7 @@ import { App } from "antd";
 import type { AxiosError } from "axios";
 
 import { api } from "../api/api";
-import type { IUpdateObjectFields, TCreateObjectFields } from "./types";
+import type { IUpdateObjectFields, ICreateObjectFields } from "./types";
 
 import { objectsKeys, type IObject } from "@entities/objects";
 import type { IApiResponse } from "@shared/types";
@@ -16,7 +16,7 @@ export function useCreateObject () {
     ...useMutation<
       IApiResponse<IObject>, 
       AxiosError<IApiResponse<IObject>>, 
-      TCreateObjectFields
+      ICreateObjectFields
     >({
       mutationFn: api.create,
       onSuccess: () => {
