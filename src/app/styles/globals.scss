@@ -209,7 +209,7 @@ main {
   &__label {
     font-weight: 500;
     margin-bottom: 10px;
-    height: initial;
+    height: initial !important;
     @media (max-width: 480px) {
       --ant-form-label-font-size: 14px;
     }
