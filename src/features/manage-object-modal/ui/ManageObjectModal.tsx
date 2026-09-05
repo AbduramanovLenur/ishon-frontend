@@ -12,6 +12,7 @@ import { useObjectById } from "@entities/objects";
 import { status } from "@shared/config";
 
 import styles from "./ManageObjectModal.module.scss";
+import { useCurrentLocation } from "@/shared/lib";
 
 const ManageObjectModal: FC = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,9 @@ const ManageObjectModal: FC = () => {
   const isEdit = !!objectId;
   const title = !isEdit ? "Obyekt yaratish" : "Obyektni yangilash";
   const { data, isLoading } = useObjectById(objectId, isEdit);
+  const { latitude, longitude } = useCurrentLocation();
+
+  console.log(latitude, longitude);
 
   useEffect(() => {
     if (isEdit && data) {
