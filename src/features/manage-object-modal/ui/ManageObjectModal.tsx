@@ -9,10 +9,10 @@ import { close, stateManageObject } from "../model/slice";
 import type { IManageObjectFields } from "../model/types";
 
 import { useObjectById } from "@entities/objects";
-import { status } from "@shared/config";
+import { defaultValues, status } from "@shared/config";
 
 import styles from "./ManageObjectModal.module.scss";
-import { useCurrentLocation } from "@/shared/lib";
+import ObjectLocationField from "./ObjectLocationField";
 
 const ManageObjectModal: FC = () => {
   const dispatch = useDispatch();
@@ -23,9 +23,6 @@ const ManageObjectModal: FC = () => {
   const isEdit = !!objectId;
   const title = !isEdit ? "Obyekt yaratish" : "Obyektni yangilash";
   const { data, isLoading } = useObjectById(objectId, isEdit);
-  const { latitude, longitude } = useCurrentLocation();
-
-  console.log(latitude, longitude);
 
   useEffect(() => {
     if (isEdit && data) {
@@ -54,7 +51,6 @@ const ManageObjectModal: FC = () => {
   }
 
   const onSubmitHandle: FormProps<IManageObjectFields>['onFinish'] = (values) => {
-    console.log(values.shiftStartTime.format("HH:mm"))
     if (isEdit) {
       mutateAsyncUpdate({
         ...values,
@@ -91,6 +87,13 @@ const ManageObjectModal: FC = () => {
           header: 'modal__header',
           title: 'modal__title',
           body: 'modal__body'
+        }}
+        styles={{
+          body: {
+            maxHeight: "70vh",
+            overflowY: "auto",
+            paddingRight: 8,
+          },
         }}
         title={title}
         open={isOpen}
@@ -139,6 +142,11 @@ const ManageObjectModal: FC = () => {
               disabled={isEdit && isLoading}
             />
           </Form.Item>
+          <ObjectLocationField
+            form={form}
+            isOpen={isOpen}
+            isEdit={isEdit}
+          />
           <Form.Item<IManageObjectFields>
             className="modal__item"
             layout="vertical"
@@ -148,6 +156,7 @@ const ManageObjectModal: FC = () => {
               required: true,
               message: 'Geofence radiusini kiriting'
             }]}
+            initialValue={defaultValues.radius}
           >
             <InputNumber
               className="modal__input"
