@@ -11,20 +11,27 @@ interface ISelectListProps {
   isLoading?: boolean;
 };
 
-const SelectList: FC<ISelectListProps> = ({ options, isLoading = false }) => {
-  const { set, get } = useQueryParams();
+const SelectList: FC<ISelectListProps> = ({ options = [], isLoading = false }) => {
+  const { set, get, remove } = useQueryParams();
 
   const objectId = get(queries.OBJECT) || defaultValues.object;
 
   const onChangeHandle = (value: string) => {
+    if (!value) {
+      remove(queries.OBJECT);
+      return;
+    }
+
     set(queries.OBJECT, value);
-  }
+  };
+
+  const allOptions = [{ label: 'Barchasi', value: '' }, ...options];
 
   return (
     <Select 
       className={styles['select-list']}
       value={objectId}
-      options={options} 
+      options={allOptions} 
       onChange={onChangeHandle}
       disabled={isLoading}
     />

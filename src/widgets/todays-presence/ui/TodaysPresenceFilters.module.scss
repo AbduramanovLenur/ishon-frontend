@@ -8,4 +8,9 @@
   background-color: var(--White);
   border: 1px solid #C7C4D8;
   margin-bottom: 16px;
+  @media (max-width: 768px) {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 15px;
+  }
 }
