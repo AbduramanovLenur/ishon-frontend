@@ -1,8 +1,8 @@
 import type { FC } from "react";
 import { Segmented, type SegmentedProps } from "antd";
 
-import { useQueryParams } from "@shared/lib";
-import { defaultValues, queries } from "@shared/config";
+import { useQueryParams } from "../../lib";
+import { defaultValues, queries } from "../../config";
 
 import styles from "./Tabs.module.scss";
 

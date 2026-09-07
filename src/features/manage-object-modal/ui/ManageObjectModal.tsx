@@ -1,5 +1,5 @@
-import { ConfigProvider, Flex, Form, Input, InputNumber, Modal, Switch, TimePicker, type FormProps } from "antd";
 import { useEffect, type FC } from "react";
+import { ConfigProvider, Flex, Form, Input, InputNumber, Modal, Switch, TimePicker, type FormProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import uzUZ from "antd/locale/uz_UZ";
 import dayjs from "dayjs";

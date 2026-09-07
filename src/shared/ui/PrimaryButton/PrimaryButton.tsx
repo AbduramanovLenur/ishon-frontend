@@ -1,5 +1,5 @@
-import { Button } from "antd";
 import type { FC, ReactNode } from "react";
+import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
 interface IPrimaryButtonProps {

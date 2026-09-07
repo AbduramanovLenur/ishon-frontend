@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { Skeleton } from "antd";
 import { EnvironmentOutlined } from "@ant-design/icons";
 
 import { useObjectById } from "../model/queries";
@@ -6,7 +7,6 @@ import { useObjectById } from "../model/queries";
 import { GeofenceMap } from "@shared/ui";
 
 import styles from "./ObjectDetails.module.scss";
-import { Skeleton } from "antd";
 
 interface IObjectDetailsProps {
   objectId: string | number;

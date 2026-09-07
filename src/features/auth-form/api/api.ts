@@ -1,9 +1,8 @@
-import { axiosInstance } from "@shared/api";
-
 import type { IAuthFields, IAuthData } from "../model/types";
 import { endpoints } from "./endpoints";
 
 import type { IApiResponse } from "@shared/types";
+import { axiosInstance } from "@shared/api";
 
 export const api = {
   login: (values: IAuthFields) => {

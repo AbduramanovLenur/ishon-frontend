@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { Select, type SelectProps } from "antd";
 
-import { useQueryParams } from "@shared/lib";
+import { useQueryParams } from "../../lib";
 
 import styles from "./SelectList.module.scss";
 

@@ -1,4 +1,3 @@
-
 import { endpoints } from "./endpoints";
 import type { IUpdatePasswordCompanyOwnerPayload } from "../model/types";
 

@@ -1,8 +1,7 @@
-import { axiosInstance } from "@shared/api";
-
 import { endpoints } from "./endpoints";
 import type { IUser } from "../model/types";
 
+import { axiosInstance } from "@shared/api";
 import type { IApiResponse } from "@shared/types";
 
 export const api = {

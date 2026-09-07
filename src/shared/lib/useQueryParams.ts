@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router-dom";
+
 import type { QueryValue, QueryValues, SetParams } from "../types/queries";
 
 export const useQueryParams = () => {

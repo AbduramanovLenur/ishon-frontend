@@ -9,8 +9,8 @@ import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import MapController from "./MapController";
 import MapClickHandler from "./MapClickHandler";
 
-import type { IGeofenceMapProps } from "@shared/types";
-import { defaultValues } from "@shared/config";
+import type { IGeofenceMapProps } from "../../types";
+import { defaultValues } from "../../config";
 
 import "leaflet/dist/leaflet.css";
 

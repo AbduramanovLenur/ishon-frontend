@@ -1,5 +1,5 @@
-import { Form, Input, Modal, type FormProps } from "antd";
 import type { FC } from "react";
+import { Form, Input, Modal, type FormProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 
 import { stateResetPasswordCompanyOwner, close } from "../model/slice";

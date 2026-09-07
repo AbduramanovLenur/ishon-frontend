@@ -1,5 +1,6 @@
-import { axiosInstance } from "@shared/api";
 import { endpoints } from "./endpoints";
+
+import { axiosInstance } from "@shared/api";
 
 export const api = {
   delete: (objectId: string | number) => {
