@@ -2,6 +2,7 @@ import type { FC } from "react";
 
 import { useManualObjectList } from "@entities/objects";
 import { SelectList } from "@shared/ui";
+import { defaultValues, queries } from "@shared/config";
 
 const TodaysPresenceObjectFilter: FC = () => {
   const { data, isLoading } = useManualObjectList(true);
@@ -12,7 +13,12 @@ const TodaysPresenceObjectFilter: FC = () => {
   })) ?? [];
 
   return (
-    <SelectList options={objectList} isLoading={isLoading} />
+    <SelectList
+      options={objectList}
+      queryKey={queries.OBJECT}
+      defaultValue={defaultValues.object}
+      isLoading={isLoading}
+    />
   );
 }
 
