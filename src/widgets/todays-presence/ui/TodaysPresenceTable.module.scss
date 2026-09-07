@@ -1,4 +1,4 @@
-.system-logs-table {
+.todays-presence-table {
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   overflow: hidden;
@@ -26,17 +26,5 @@
     border: none;
     border-radius: 4px;
     overflow: hidden;
-  }
-  &__info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  &__date {
-    font-weight: 500;
-  }
-  &__time {
-    font-size: 14px;
-    color: var(--Brown);
   }
 }

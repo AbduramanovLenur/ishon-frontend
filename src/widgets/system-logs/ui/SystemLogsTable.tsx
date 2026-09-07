@@ -111,7 +111,7 @@ export const SystemLogsTable: FC = () => {
   return (
     <div className={styles['system-logs-table']}>
       <div className={styles['system-logs-table__top']}>
-        <SearchInput placeholder="Kirish jurnallarini qidirish..." />
+        <SearchInput placeholder="Xodimlarni qidirish..." />
       </div>
       <div className={styles['system-logs-table__middle']}>
         <Table<IEmployeeEvent>

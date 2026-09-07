@@ -1,7 +1,9 @@
 import type { FC } from 'react';
 
+import { TodaysPresence } from '@widgets/todays-presence';
+
 const TodaysPresencePage: FC = () => {
-  return ( <div>Today's Presence</div> );
+  return <TodaysPresence />;
 }
  
 export default TodaysPresencePage;

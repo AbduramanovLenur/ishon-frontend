@@ -3,5 +3,6 @@ export const defaultValues = {
   search: '',
   page: 0,
   zoom: 16,
-  radius: 150
+  radius: 150,
+  statusWork: ''
 } as const;

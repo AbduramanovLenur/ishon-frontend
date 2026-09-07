@@ -1,8 +1,7 @@
-import { axiosInstance } from "@shared/api";
-
 import type { ICompany } from "../model/types";
 import { endpoints } from "./endpoints";
 
+import { axiosInstance } from "@shared/api";
 import type { IApiResponse, IPaginatedData } from "@shared/types";
 
 export const api = {

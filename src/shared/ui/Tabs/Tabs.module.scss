@@ -1,0 +1,12 @@
+.tabs {
+  background-color: #F0F3FF;
+  &__item {
+    &:global(.ant-segmented-item-selected) {
+      color: #3525CD;
+    }
+  }
+  &__label {
+    font-size: 13px;
+    font-weight: 500;
+  }
+}

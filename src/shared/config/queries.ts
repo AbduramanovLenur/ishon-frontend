@@ -1,4 +1,5 @@
 export const queries = {
   PAGE: 'page',
-  SEARCH: 'search'
+  SEARCH: 'search',
+  STATUS_WORK: 'statusWork'
 } as const;
