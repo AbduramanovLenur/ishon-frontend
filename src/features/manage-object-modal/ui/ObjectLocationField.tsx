@@ -5,7 +5,7 @@ import type { FormInstance } from "antd/lib/form";
 import type { IManageObjectFields } from "../model/types";
 
 import { GeofenceMap } from "@shared/ui";
-import { useCurrentLocation } from "@/shared/lib";
+import { useCurrentLocation } from "@shared/lib";
 
 interface IObjectLocationFieldProps {
   form: FormInstance<IManageObjectFields>;

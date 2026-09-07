@@ -5,7 +5,7 @@ import type { AxiosError } from "axios";
 
 import { api } from "../api/api";
 
-import { objectsKeys } from "@/entities/objects";
+import { objectsKeys } from "@entities/objects";
 import type { IApiResponse } from "@shared/types";
 
 export const useDeleteObject = () => {
