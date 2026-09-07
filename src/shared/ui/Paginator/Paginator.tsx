@@ -28,6 +28,7 @@ const Paginator: FC<IPaginationProps> = ({ total,  defaultCurrent = 0, align = '
       current={current}
       onChange={onChangeHandle}
       pageSize={pageSize}
+      showSizeChanger={false}
     />
   );
 }

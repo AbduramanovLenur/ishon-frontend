@@ -1,7 +1,9 @@
 import type { FC } from 'react';
 
-const SystemLogs: FC = () => {
-  return ( <div>System Logs</div> );
+import { SystemLogs } from '@widgets/system-logs';
+
+const SystemLogsPage: FC = () => {
+  return <SystemLogs />;
 }
  
-export default SystemLogs;
+export default SystemLogsPage;
