@@ -4,5 +4,6 @@ export const defaultValues = {
   page: 0,
   zoom: 16,
   radius: 150,
-  statusWork: ''
+  statusWork: '',
+  object: ''
 } as const;

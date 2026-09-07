@@ -1,7 +1,7 @@
 import type { IObject } from "../model/types";
 import { endpoints } from "./endpoints";
 
-import type { IApiResponse, IPaginatedData } from "@shared/types";
+import type { IApiResponse, IManual, IPaginatedData } from "@shared/types";
 import { axiosInstance } from "@shared/api";
 
 export const api = {
@@ -18,6 +18,11 @@ export const api = {
       .get<IApiResponse<IObject>>(endpoints.BY_ID, { params: {
         ...(objectId && { objectId })
       }})
+      .then((response) => response.data.data)
+  },
+  manualList: () => {
+    return axiosInstance
+      .get<IApiResponse<IManual[]>>(endpoints.MANUAL_LIST)
       .then((response) => response.data.data)
   }
 }

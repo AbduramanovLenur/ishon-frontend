@@ -5,10 +5,10 @@ import { api } from "../api/api";
 
 import type { TWorkStatus } from "@shared/types";
 
-export function useTodaysPresenceList(search: string, page: number, statusWork: TWorkStatus) {
+export function useTodaysPresenceList(search: string, page: number, statusWork: TWorkStatus, objectId: number | string) {
   return useQuery({
-    queryKey: todaysPresenceKeys.list(search, page, statusWork),
-    queryFn: () => api.list(search, page, statusWork),
+    queryKey: todaysPresenceKeys.list(search, page, statusWork, objectId),
+    queryFn: () => api.list(search, page, statusWork, objectId),
   });
 }
 

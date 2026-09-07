@@ -2,7 +2,7 @@ import type { ICompany } from "../model/types";
 import { endpoints } from "./endpoints";
 
 import { axiosInstance } from "@shared/api";
-import type { IApiResponse, IPaginatedData } from "@shared/types";
+import type { IApiResponse, IManual, IPaginatedData } from "@shared/types";
 
 export const api = {
   list: (search: string, page: number) => {
@@ -22,7 +22,7 @@ export const api = {
   },
   manualList: () => {
     return axiosInstance
-      .get<IApiResponse<ICompany[]>>(endpoints.MANUAL_LIST)
+      .get<IApiResponse<IManual[]>>(endpoints.MANUAL_LIST)
       .then((response) => response.data.data)
   }
 }

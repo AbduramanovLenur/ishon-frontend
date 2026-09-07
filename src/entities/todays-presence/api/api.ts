@@ -5,12 +5,13 @@ import { axiosInstance } from "@shared/api";
 import type { IApiResponse, TWorkStatus } from "@shared/types";
 
 export const api = {
-  list: (search: string, page: number, status: TWorkStatus) => {
+  list: (search: string, page: number, status: TWorkStatus, objectId: number | string) => {
     return axiosInstance
       .get<IApiResponse<IEmployeesResponse>>(endpoints.LIST, { params: {
         ...(search && { search }),
         ...(page && { page }),
-        ...(status && { status })
+        ...(status && { status }),
+        ...(objectId && { objectId })
       }})
       .then((response) => response.data.data)
   },

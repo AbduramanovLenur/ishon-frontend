@@ -7,3 +7,4 @@ export type { TStatus } from "./status";
 export type { ICoordinates, IGeofenceMapProps } from "./geofence-map";
 export type { TEvent } from "./event-type";
 export type { TWorkStatus } from "./work-status";
+export type { IManual } from "./manual";

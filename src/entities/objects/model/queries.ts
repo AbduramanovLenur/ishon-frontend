@@ -17,3 +17,11 @@ export function useObjectById(objectId: string | number | null, enabled: boolean
     enabled
   })
 }
+
+export function useManualObjectList(enabled: boolean) {
+  return useQuery({
+    queryKey: objectsKeys.manualList(),
+    queryFn: () => api.manualList(),
+    enabled
+  })
+}
