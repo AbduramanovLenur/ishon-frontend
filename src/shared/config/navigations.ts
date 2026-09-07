@@ -54,4 +54,4 @@ export const navigations: INavigation[] = [
     icon: 'todays-presence',
     roles: [roles.COMPANY_OWNER, roles.COMPANY_ADMIN]
   }
-] as const;
+];
