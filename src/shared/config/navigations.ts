@@ -2,8 +2,6 @@ import type { INavigation } from "../types/navigations";
 import { roles } from "./roles";
 import { routes } from "./routes";
 
-
-
 export const navigations: INavigation[] = [
   {
     id: 1,
