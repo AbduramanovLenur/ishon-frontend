@@ -10,3 +10,4 @@ export type { TWorkStatus } from "./work-status";
 export type { IManual } from "./manual";
 export type { TPeriod } from "./period";
 export type { IDateValue } from "./chart";
+export type { TDays } from "./days";

@@ -8,5 +8,6 @@ export { status } from "./status";
 export { defaultValues } from "./defaultValues";
 export { months } from "./months";
 export { eventType } from "./event-type";
-export { workStatus } from "./work-status";
+export { workStatus } from "./workStatus";
 export { period } from "./period";
+export { workingDays } from "./workingDays";

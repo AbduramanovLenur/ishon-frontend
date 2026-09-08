@@ -1,0 +1,1 @@
+export { useDeleteEmployee } from "./model/mutations";

@@ -1,9 +1,4 @@
-import type { TEvent } from "@shared/types";
-
-export interface IEventObject {
-  id: string;
-  name: string;
-}
+import type { IManual, TEvent } from "@shared/types";
 
 export interface IEmployeeEvent {
   eventId: string;
@@ -15,6 +10,6 @@ export interface IEmployeeEvent {
   eventType: TEvent;
   latitude: string;
   longitude: string;
-  object: IEventObject;
+  object: IManual;
   similarity: number;
 }
