@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { DeleteOutlined, EditOutlined, MoreOutlined, RedoOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, KeyOutlined, MoreOutlined, RedoOutlined } from "@ant-design/icons";
 import { Button, Dropdown, type MenuProps } from "antd";
 
 import type { IAction } from "../../types";
@@ -10,12 +10,14 @@ interface IActionsDropdownProps {
   edit?: IAction;
   delete?: IAction;
   reset?: IAction;
+  access?: IAction;
 }
 
 const ActionsDropdown: FC<IActionsDropdownProps> = ({
   edit = { visible: true },
   delete: deleteAction = { visible: true },
   reset = { visible: false },
+  access = { visible: false }
 }) => {
   const items: MenuProps["items"] = [
     edit?.visible !== false && {
@@ -30,6 +32,13 @@ const ActionsDropdown: FC<IActionsDropdownProps> = ({
       label: deleteAction?.text || "O‘chirish",
       icon: <DeleteOutlined />,
       className: styles['actions-dropdown__delete']
+    },
+
+    access?.visible !== false && {
+      key: "access",
+      label: access?.text || "Ruxsat berish",
+      icon: <KeyOutlined />,
+      className: styles['actions-dropdown__access']
     },
 
     reset?.visible !== false && {

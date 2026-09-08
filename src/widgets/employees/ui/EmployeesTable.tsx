@@ -100,6 +100,12 @@ const EmployeesTable: FC = () => {
           edit={{
             onClick: () => openManageModalHandle(record.employeeId)
           }}
+          access={{
+            visible: true
+          }}
+          reset={{
+            visible: true
+          }}
         />
       )
     }

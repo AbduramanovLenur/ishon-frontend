@@ -10,6 +10,7 @@ const Employees: FC = () => {
 
   const openManageModalHandle = () => {
   }
+  
   return (
     <section className={styles['employees']}>
       <div className={styles['employees__inner']}>
