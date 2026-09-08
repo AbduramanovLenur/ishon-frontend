@@ -1,11 +1,9 @@
 import type { FC } from "react";
 
+import { Dashboard } from "@widgets/dashboard";
+
 const DashboardPage: FC = () => {
-  return (
-    <div>
-      Dashboard
-    </div>
-  );
+  return <Dashboard />;
 }
 
 export default DashboardPage;

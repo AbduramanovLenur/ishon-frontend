@@ -32,7 +32,7 @@
       font-size: 34px;
     }
     @media (max-width: 480px) {
-      font-size: 30px;
+      font-size: 28px;
     }
   }
   &__text {
@@ -40,6 +40,9 @@
     line-height: 1.5;
     @media (max-width: 960px) {
       font-size: 16px;
+    }
+    @media (max-width: 480px) {
+      font-size: 14px;
     }
   }
 }

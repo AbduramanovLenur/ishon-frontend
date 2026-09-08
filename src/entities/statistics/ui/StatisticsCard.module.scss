@@ -1,0 +1,54 @@
+.statistics-card {
+  background-color: var(--White);
+  border: 1px solid #C7C4D8;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 24px;
+  height: 100%;
+  @media (max-width: 960px) {
+    padding: 18px;
+  }
+  &__icon {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    @media (max-width: 960px) {
+      font-size: 18px;
+      width: 35px;
+      height: 35px;
+      margin-bottom: 10px;
+    }
+  }
+  &__title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--Brown);
+    margin-bottom: 4px;
+    @media (max-width: 960px) {
+      font-size: 16px;
+    }
+  }
+  &__skeleton {
+    height: 30px !important;
+    width: 100% !important;
+    @media (max-width: 960px) {
+      height: 20px !important;
+    }
+    div {
+      width: inherit !important;
+      height: inherit !important;
+    }
+  }
+  &__count {
+    font-size: 28px;
+    font-weight: 600;
+    @media (max-width: 960px) {
+      font-size: 24px;
+    }
+  }
+}

@@ -13,3 +13,7 @@ export const formatTime = (date: string | Date): string => {
     hour12: false,
   }).format(new Date(date));
 };
+
+export const formatNumber = (value: string | number): string => {
+  return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+};
