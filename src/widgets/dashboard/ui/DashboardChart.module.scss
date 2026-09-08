@@ -2,4 +2,8 @@
   background-color: var(--White);
   border-radius: 12px;
   border: 1px solid #C7C4D8;
+  padding: 15px;
+  &__tabs {
+    margin-bottom: 20px;
+  }
 }

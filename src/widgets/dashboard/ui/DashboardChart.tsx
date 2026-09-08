@@ -1,14 +1,15 @@
 import { useEffect, type FC } from "react";
 import { Line } from '@ant-design/plots';
+import { Spin, type SegmentedProps } from "antd";
 
 import { useStatisticsChart } from "@entities/statistics";
 import { defaultValues, period, queries } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
 import type { TPeriod } from "@shared/types";
 import { transformAttendanceDateData } from "@shared/utils";
+import { Tabs } from "@shared/ui";
 
 import styles from "./DashboardChart.module.scss";
-import { Spin } from "antd";
 
 const DashboardChart: FC = () => {
   const { get, set } = useQueryParams();
@@ -52,8 +53,19 @@ const DashboardChart: FC = () => {
     },
   };
 
+  const options: SegmentedProps<string>["options"] = [
+    { label: "Hafta", value: period.WEEK },
+    { label: "Oy", value: period.MONTH },
+  ];
+
   return (
     <div className={styles['dashboard-chart']}>
+      <Tabs 
+        className={styles['dashboard-chart__tabs']}
+        options={options} 
+        nameQuery={queries.PERIOD}
+        defaultValue={defaultValues.period}
+      />
       <Spin spinning={isLoading}>
         <Line {...config} />
       </Spin>

@@ -38,7 +38,12 @@ const TodaysPresenceStatusFilter: FC = () => {
     );
   }
 
-  return <Tabs options={segmentedOptions} isLoading={isLoading} />;
+  return <Tabs 
+    options={segmentedOptions} 
+    isLoading={isLoading} 
+    nameQuery={queries.STATUS_WORK}
+    defaultValue={defaultValues.statusWork}
+  />;
 }
 
 export default TodaysPresenceStatusFilter;
