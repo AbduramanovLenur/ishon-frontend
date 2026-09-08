@@ -27,7 +27,7 @@ export const HeaderMobile: FC<IHeaderMobileProps> = ({ isOpen, onClick }) => {
               <span></span>
             </button>
           </div>
-          <HeaderMobileNav />
+          <HeaderMobileNav onClose={onClick} />
         </div>
     </div>
   );

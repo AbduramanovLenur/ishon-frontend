@@ -8,7 +8,11 @@ import { navigations } from "@shared/config/navigations";
 
 import styles from "./Header.module.scss";
 
-const HeaderMobileNav: FC = () => {
+interface IHeaderMobileNavProps {
+  onClose: () => void;
+}
+
+const HeaderMobileNav: FC<IHeaderMobileNavProps> = ({ onClose }) => {
   const { data: user, isLoading } = useUser();
   const { logout } = useLogout();
 
@@ -25,6 +29,7 @@ const HeaderMobileNav: FC = () => {
               <li key={item.id} className={styles["header-mobile__nav-item"]}>
                 <NavLink
                   to={item.path}
+                  onClick={onClose}
                   className={({ isActive }) =>
                     isActive
                       ? `${styles["header-mobile__nav-link"]} ${styles["header-mobile__nav-link--active"]}`

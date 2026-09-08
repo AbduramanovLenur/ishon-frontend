@@ -5,6 +5,7 @@
   width: 100%;
   display: none;
   background-color: var(--White);
+  z-index: 2000;
   @media (max-width: 768px) {
     display: block;
   }
@@ -59,7 +60,7 @@
   height: 100%;
   visibility: hidden;
   opacity: 0;
-  z-index: 1000;
+  z-index: 2000;
   transition: 0.2s;
   &--active {
     opacity: 1;
