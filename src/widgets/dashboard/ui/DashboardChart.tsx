@@ -26,10 +26,10 @@ const DashboardChart: FC = () => {
 
   const config = {
     data: chartData,
-    height: 400,
     xField: "date",
     yField: "value",
     smooth: true,
+    className: styles['dashboard-chart__line'],
     style: {
       stroke: "#1677FF",
       lineWidth: 2,

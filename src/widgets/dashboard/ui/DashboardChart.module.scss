@@ -6,4 +6,12 @@
   &__tabs {
     margin-bottom: 20px;
   }
+  &__line {
+    canvas {
+      height: 400px !important;
+      @media (max-width: 480px) {
+        height: 250px !important;
+      }
+    }
+  }
 }

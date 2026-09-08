@@ -130,8 +130,12 @@ main {
   @media (max-width: 960px) {
     padding: 35px 20px;
   }
+  @media (max-width: 768px) {
+    margin-top: 56px;
+  }
   @media (max-width: 480px) {
     padding: 25px 10px;
+    height: 51px;
   }
 }
 

@@ -1,5 +1,10 @@
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   display: none;
+  background-color: var(--White);
   @media (max-width: 768px) {
     display: block;
   }
