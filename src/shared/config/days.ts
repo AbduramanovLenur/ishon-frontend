@@ -1,4 +1,4 @@
-export const workingDays = {
+export const days = {
   MONDAY: "MONDAY",
   TUESDAY: "TUESDAY",
   WEDNESDAY: "WEDNESDAY",

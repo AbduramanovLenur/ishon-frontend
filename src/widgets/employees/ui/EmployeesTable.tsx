@@ -4,7 +4,7 @@ import { Image, Table, Tag } from "antd";
 import { useDeleteEmployee } from "@features/delete-employee-modal";
 import { useEmployeeList, type IEmployee } from "@entities/employees";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
-import { defaultValues, queries, status } from "@shared/config";
+import { defaultValues, queries, roles, status } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
 import { validationPage } from "@shared/utils";
 
@@ -104,7 +104,7 @@ const EmployeesTable: FC = () => {
             visible: true
           }}
           reset={{
-            visible: true
+            visible: record.type === roles.COMPANY_ADMIN
           }}
         />
       )

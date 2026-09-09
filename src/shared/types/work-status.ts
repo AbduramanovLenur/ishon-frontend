@@ -1,1 +1,3 @@
-export type TWorkStatus = "AT_WORK" | "LEFT" | "NOT_CHECKED_IN";
+import type { workStatus } from "../config";
+
+export type TWorkStatus = (typeof workStatus)[keyof typeof workStatus];

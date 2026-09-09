@@ -3,7 +3,7 @@ import { Image, Progress, Table, Tag, type TableProps } from "antd";
 
 import { useSystemLogList, type IEmployeeEvent } from "@entities/system-logs";
 import { Paginator, SearchInput } from "@shared/ui";
-import { defaultValues, eventType, queries } from "@shared/config";
+import { defaultValues, eventTypes, queries } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
 import { formatDate, formatTime, validationPage } from "@shared/utils";
 
@@ -87,7 +87,7 @@ export const SystemLogsTable: FC = () => {
     {
       title: "Harakat",
       render: (_, record) => (
-        record.eventType === eventType.ENTER ? 
+        record.eventType === eventTypes.ENTER ? 
         <Tag 
           color={"#f6ffed"} 
           style={{ color: '#389e0d' }}

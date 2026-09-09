@@ -1,1 +1,3 @@
-export type TDays = "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
+import { days } from "../config";
+
+export type TDays = (typeof days)[keyof typeof days];

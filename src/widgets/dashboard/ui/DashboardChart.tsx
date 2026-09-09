@@ -3,7 +3,7 @@ import { Line } from '@ant-design/plots';
 import { Spin, type SegmentedProps } from "antd";
 
 import { useStatisticsChart } from "@entities/statistics";
-import { defaultValues, period, queries } from "@shared/config";
+import { defaultValues, periods, queries } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
 import type { TPeriod } from "@shared/types";
 import { transformAttendanceDateData } from "@shared/utils";
@@ -19,7 +19,7 @@ const DashboardChart: FC = () => {
   useEffect(() => {
     if (periodValue) return;
 
-    set(queries.PERIOD, period.WEEK);
+    set(queries.PERIOD, periods.WEEK);
   }, [periodValue, set]);
   
   const chartData = transformAttendanceDateData(data?.chart ?? []);
@@ -54,8 +54,8 @@ const DashboardChart: FC = () => {
   };
 
   const options: SegmentedProps<string>["options"] = [
-    { label: "Hafta", value: period.WEEK },
-    { label: "Oy", value: period.MONTH },
+    { label: "Hafta", value: periods.WEEK },
+    { label: "Oy", value: periods.MONTH },
   ];
 
   return (
