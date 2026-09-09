@@ -17,3 +17,11 @@ export function useEmployeeById(employeeId: string | number | null, enabled: boo
     enabled
   })
 }
+
+export function useEmployeeLogin(employeeId: string | number | null, enabled: boolean) {
+  return useQuery({
+    queryKey: employeesKeys.login(employeeId),
+    queryFn: () => api.login(employeeId),
+    enabled
+  })
+}

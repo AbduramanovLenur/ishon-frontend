@@ -25,3 +25,7 @@ export interface IEmployeeAdmin {
   promotedAt: string;
   createdAt: string;
 }
+
+export interface IEmployeeLogin {
+  login: string;
+}

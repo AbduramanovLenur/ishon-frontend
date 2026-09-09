@@ -1,4 +1,5 @@
 export const endpoints = {
   LIST: '/api/company/employee/search',
-  BY_ID: '/api/company/employee/details'
+  BY_ID: '/api/company/employee/details',
+  LOGIN: '/api/company/company-admin/login'
 } as const;

@@ -1,16 +1,20 @@
 import type { FC } from "react";
-import { Form, Input, Modal, type FormProps } from "antd";
+import { Avatar, Divider, Flex, Form, Input, Modal, Skeleton, Typography, type FormProps } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 
 import type { IResetPasswordEmployeeFields } from "../model/types";
 import { close, stateResetPasswordEmployee } from "../model/slice";
 import { useResetPasswordEmployee } from "../model/mutations";
 
+import { useEmployeeLogin } from "@entities/employees";
+
 const ResetPasswordEmployeeModal: FC = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm<IResetPasswordEmployeeFields>();
   const { isOpen, employeeId } = useSelector(stateResetPasswordEmployee);
   const { mutateAsync, isPending } = useResetPasswordEmployee();
+  const { data, isLoading } = useEmployeeLogin(employeeId, isOpen);
 
   const closeManageModalHandle = () => {
     dispatch(close());
@@ -53,6 +57,39 @@ const ResetPasswordEmployeeModal: FC = () => {
       confirmLoading={isPending}
       zIndex={3000}
     >
+      {isLoading ? (
+        <Flex align="center" gap={12} style={{ padding: '12px 0' }}>
+          <Skeleton.Avatar active size={40} />
+          <Skeleton.Input active size="small" style={{ width: 120, height: 22 }} />
+        </Flex>
+      ) : (
+        <Flex
+          align="center"
+          gap={12}
+          style={{
+            padding: '12px 16px',
+            borderRadius: 8,
+            backgroundColor: '#f5f5f5',
+          }}
+        >
+          <Avatar
+            size={40}
+            icon={<UserOutlined />}
+            style={{ backgroundColor: '#1677ff' }}
+          />
+          <Flex vertical={true} gap={2}>
+            <Typography.Text type="secondary" style={{ fontSize: 12, lineHeight: 1 }}>
+              Login
+            </Typography.Text>
+            <Typography.Text strong style={{ fontSize: 15 }}>
+              {data?.login ?? '—'}
+            </Typography.Text>
+          </Flex>
+        </Flex>
+      )}
+
+      <Divider style={{ margin: '16px 0' }} />
+
       <Form
         form={form}
         onFinish={onSubmitHandle}
