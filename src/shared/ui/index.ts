@@ -6,3 +6,4 @@ export { default as ActionsDropdown } from "./ActionsDropdown/ActionsDropdown";
 export { default as GeofenceMap } from "./GeofenceMap/GeofenceMap";
 export { default as Tabs } from "./Tabs/Tabs";
 export { default as SelectList } from "./SelectList/SelectList";
+export { default as ErrorBoundary } from "./ErrorBoundary/ErrorBoundary";

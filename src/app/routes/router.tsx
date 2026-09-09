@@ -5,6 +5,7 @@ import RequireGuest from './guards/RequireGuest';
 import RequireAuth from './guards/RequireAuth';
 import RequireRole from './guards/RequireRole';
 import IndexRedirect from './guards/IndexRedirect';
+import { ErrorBoundary } from '@shared/ui';
 
 import { 
   AuthPage, 
@@ -14,7 +15,8 @@ import {
   EmployeesPage,
   LogsPage,
   ObjectsPage,
-  TodaysPresencePage
+  TodaysPresencePage,
+  NotFoundPage
 } from './pages';
 
 import { roles } from '@shared/config';
@@ -23,15 +25,21 @@ import { routes } from '@shared/config';
 const router = createBrowserRouter([
   { 
     element: <RequireGuest />,
+    errorElement: <ErrorBoundary><span /></ErrorBoundary>,
     children: [
       {
         path: routes.AUTH,
         element: <AuthPage />
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />
       }
     ]
   },
   {
     element: <RequireAuth />,
+    errorElement: <ErrorBoundary><span /></ErrorBoundary>,
     children: [
       {
         element: <RootLayout />,
@@ -74,6 +82,10 @@ const router = createBrowserRouter([
                 element: <TodaysPresencePage />
               }
             ]
+          },
+          {
+            path: '*',
+            element: <NotFoundPage />
           }
         ]
       }

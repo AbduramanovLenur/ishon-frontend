@@ -3,6 +3,7 @@ import { RouterProvider } from "react-router-dom";
 import { Spin } from "antd";
 
 import { AppProviders } from "./providers";
+import { ErrorBoundary } from "@shared/ui";
 import router from "./routes";
 
 const App : FC = () => {
@@ -11,17 +12,19 @@ const App : FC = () => {
   }, []);
   
   return (
-    <Suspense
-      fallback={
-        <div className="spin">
-          <Spin className="spin-loader" size="large" />
-        </div>
-      }
-    >
-      <AppProviders>
-        <RouterProvider router={router} />
-      </AppProviders>
-    </Suspense>
+    <ErrorBoundary>
+      <Suspense
+        fallback={
+          <div className="spin">
+            <Spin className="spin-loader" size="large" />
+          </div>
+        }
+      >
+        <AppProviders>
+          <RouterProvider router={router} />
+        </AppProviders>
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 
