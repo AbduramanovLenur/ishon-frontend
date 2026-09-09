@@ -19,7 +19,7 @@ const Employees: FC = () => {
           text="Barcha obyektlarda xodimlar kirish huquqlari va biometrik profillarini boshqaring."
         >
           <PrimaryButton onClick={openManageModalHandle}>
-            Xodim yaratish 123
+            Xodim yaratish
           </PrimaryButton>
         </TopContent>
         <EmployeesTable />
