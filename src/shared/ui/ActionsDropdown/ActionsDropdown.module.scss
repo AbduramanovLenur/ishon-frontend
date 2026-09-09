@@ -3,7 +3,8 @@
   &__edit {
     --ant-color-text: #035b03;
   }
-  &__delete {
+  &__delete,
+  &__revoke {
     --ant-color-text: #ff0000;
   }
   &__access {

@@ -1,0 +1,1 @@
+export { useDeleteAccess } from "./model/mutations";

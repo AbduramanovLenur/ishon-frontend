@@ -40,7 +40,7 @@ const ViewCompanyOwnerModal: FC = () => {
       cancelText="Yopish"
       okButtonProps={{ style: { display: "none" } }}
       onCancel={closeViewModalHandle}
-      style={{ zIndex: 1000 }}
+      zIndex={3000}
     >
       <DirectorDetails companyOwnerId={companyOwnerId} />
     </Modal>

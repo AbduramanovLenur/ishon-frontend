@@ -51,7 +51,7 @@ const ResetPasswordCompanyOwnerModal: FC = () => {
       onOk={onOkHandle}
       onCancel={closeManageModalHandle}
       confirmLoading={isPending}
-      style={{ zIndex: 1000 }}
+      zIndex={3000}
     >
       <Form
         form={form}

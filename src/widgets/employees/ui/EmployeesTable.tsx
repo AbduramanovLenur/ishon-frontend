@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { KeyOutlined } from "@ant-design/icons";
 
 import { GrantAccessModal, open as openGrantAccessModal } from "@features/grant-access-modal";
+import { useDeleteAccess } from "@features/delete-access-modal";
 import { useDeleteEmployee } from "@features/delete-employee-modal";
 import { useEmployeeList, type IEmployee } from "@entities/employees";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
@@ -19,7 +20,8 @@ const EmployeesTable: FC = () => {
   const search = get(queries.SEARCH) || defaultValues.search;
   const currentPage = validationPage(Number(get(queries.PAGE)), defaultValues.page);
   const { data, isLoading } = useEmployeeList(search, currentPage);
-  const { confirmDelete } = useDeleteEmployee();
+  const { confirmDelete: confirmDeleteEmployee } = useDeleteEmployee();
+  const { confirmDelete: confirmDeleteAccess } = useDeleteAccess();
 
   const dataSource = data?.content || [];
   const totalElems = data?.totalElements || 0;
@@ -57,13 +59,13 @@ const EmployeesTable: FC = () => {
       render: (_, record) => (
         <div className={styles['employees-table__name']}>
           {record.fullName}
-          {record.type === roles.COMPANY_ADMIN && <KeyOutlined />}
+          {record.type === roles.COMPANY_ADMIN && <KeyOutlined className={styles['employees-table__name-icon']} />}
         </div>
       )
     },
     {
       title: "Lavozimi",
-      width: 250,
+      width: 220,
       render: (_, record) => (
         <Tag 
           color={'#D9DFF5'} 
@@ -107,7 +109,7 @@ const EmployeesTable: FC = () => {
       render: (_, record) => (
         <ActionsDropdown 
           delete={{ 
-            onClick: () => confirmDelete(record.employeeId) 
+            onClick: () => confirmDeleteEmployee(record.employeeId) 
           }}
           edit={{
             onClick: () => openManageModalHandle(record.employeeId)
@@ -118,6 +120,10 @@ const EmployeesTable: FC = () => {
           }}
           reset={{
             visible: record.type === roles.COMPANY_ADMIN
+          }}
+          revoke={{
+            visible: record.type === roles.COMPANY_ADMIN,
+            onClick: () => confirmDeleteAccess(record.employeeId)
           }}
         />
       )

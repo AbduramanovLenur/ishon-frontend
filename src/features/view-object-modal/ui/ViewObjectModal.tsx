@@ -47,7 +47,7 @@ const ViewObjectModal: FC = () => {
       cancelText="Yopish"
       okButtonProps={{ style: { display: "none" } }}
       onCancel={closeViewModalHandle}
-      style={{ zIndex: 1000 }}
+      zIndex={3000}
     >
       <ObjectDetails objectId={objectId} />
     </Modal>

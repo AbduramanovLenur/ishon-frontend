@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { DeleteOutlined, EditOutlined, KeyOutlined, MoreOutlined, RedoOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, InboxOutlined, KeyOutlined, MoreOutlined, RedoOutlined } from "@ant-design/icons";
 import { Button, Dropdown, type MenuProps } from "antd";
 
 import type { IAction } from "../../types";
@@ -11,13 +11,15 @@ interface IActionsDropdownProps {
   delete?: IAction;
   reset?: IAction;
   access?: IAction;
+  revoke?: IAction;
 }
 
 const ActionsDropdown: FC<IActionsDropdownProps> = ({
   edit = { visible: true },
   delete: deleteAction = { visible: true },
   reset = { visible: false },
-  access = { visible: false }
+  access = { visible: false },
+  revoke = { visible: false }
 }) => {
   const items: MenuProps["items"] = [
     edit?.visible !== false && {
@@ -46,6 +48,13 @@ const ActionsDropdown: FC<IActionsDropdownProps> = ({
       label: reset?.text || "Qayta o‘rnatish",
       icon: <RedoOutlined />,
       className: styles['actions-dropdown__reset']
+    },
+
+    revoke?.visible !== false && {
+      key: "revoke",
+      label: revoke?.text || "Bekor qilish",
+      icon: <InboxOutlined />,
+      className: styles['actions-dropdown__revoke']
     }
   ].filter(Boolean) as MenuProps["items"];
 
@@ -64,6 +73,9 @@ const ActionsDropdown: FC<IActionsDropdownProps> = ({
         break;
       case "reset":
         reset?.onClick?.();
+        break;
+      case "revoke":
+        revoke?.onClick?.();
         break;
     }
   };

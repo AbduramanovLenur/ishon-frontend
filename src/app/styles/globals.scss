@@ -188,6 +188,7 @@ main {
 }
 
 .modal {
+  color: red;
   &__container {
     @media (max-width: 480px) {
       --ant-modal-content-padding: 15px;

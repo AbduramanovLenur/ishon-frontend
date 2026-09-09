@@ -102,7 +102,7 @@ const ManageObjectModal: FC = () => {
         onOk={onOkHandle}
         onCancel={closeManageModalHandle}
         confirmLoading={isPendingCreate || isPendingUpdate}
-        style={{ zIndex: 1000 }}
+        zIndex={3000}
       >
         <Form 
           form={form}
