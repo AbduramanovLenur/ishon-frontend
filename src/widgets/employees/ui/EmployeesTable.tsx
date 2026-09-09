@@ -3,6 +3,7 @@ import { Image, Table, Tag, type TableProps } from "antd";
 import { useDispatch } from "react-redux";
 import { KeyOutlined } from "@ant-design/icons";
 
+import { ResetPasswordEmployeeModal, open as openResetPasswordModal } from "@features/reset-password-employee-modal";
 import { GrantAccessModal, open as openGrantAccessModal } from "@features/grant-access-modal";
 import { useDeleteAccess } from "@features/delete-access-modal";
 import { useDeleteEmployee } from "@features/delete-employee-modal";
@@ -38,6 +39,10 @@ const EmployeesTable: FC = () => {
 
   const openGrantAccessModalHandle = (id: number | string) => {
     dispatch(openGrantAccessModal(id));
+  }
+
+  const openResetPasswordModalHandle = (id: number | string) => {
+    dispatch(openResetPasswordModal(id));
   }
 
   const columns: TableProps<IEmployee>['columns'] = [
@@ -119,7 +124,8 @@ const EmployeesTable: FC = () => {
             onClick: () => openGrantAccessModalHandle(record.employeeId)
           }}
           reset={{
-            visible: record.type === roles.COMPANY_ADMIN
+            visible: record.type === roles.COMPANY_ADMIN,
+            onClick: () => openResetPasswordModalHandle(record.employeeId)
           }}
           revoke={{
             visible: record.type === roles.COMPANY_ADMIN,
@@ -162,6 +168,7 @@ const EmployeesTable: FC = () => {
         <Paginator total={totalElems} />
       </div>}
       <GrantAccessModal />
+      <ResetPasswordEmployeeModal />
     </div>
   );
 }

@@ -3,7 +3,7 @@ export interface IResetPasswordFields {
   confirmNewPassword: string;
 }
 
-export interface IUpdatePasswordCompanyOwnerPayload extends IResetPasswordFields {
+export interface IUpdatePasswordCompanyOwnerFields extends IResetPasswordFields {
   companyOwnerId: string | number;
 }
 

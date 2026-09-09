@@ -8,6 +8,7 @@ import { reducer as viewCompanyOwnerReducer } from "@features/view-company-owner
 import { reducer as manageObjectReducer } from "@features/manage-object-modal";
 import { reducer as viewObjectReducer } from "@features/view-object-modal";
 import { reducer as grantAccessEmployeeReducer } from "@features/grant-access-modal";
+import { reducer as resetPasswordEmployeeReducer } from "@features/reset-password-employee-modal";
 
 export const rootReducer = combineReducers({
   manageCompany: manageCompanyReducer,
@@ -17,5 +18,6 @@ export const rootReducer = combineReducers({
   viewCompanyOwner: viewCompanyOwnerReducer,
   manageObject: manageObjectReducer,
   viewObject: viewObjectReducer,
-  grantAccessEmployee: grantAccessEmployeeReducer
+  grantAccessEmployee: grantAccessEmployeeReducer,
+  resetPasswordEmployee: resetPasswordEmployeeReducer
 });

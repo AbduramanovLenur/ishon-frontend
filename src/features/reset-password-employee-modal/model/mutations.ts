@@ -3,18 +3,18 @@ import { App } from "antd";
 import type { AxiosError } from "axios";
 
 import { api } from "../api/api";
-import type { IUpdatePasswordCompanyOwnerFields } from "./types";
+import type { IUpdatePasswordEmployeeFields } from "./types";
 
 import type { IApiResponse } from "@shared/types";
 
-export function useResetPasswordCompanyOwner() {
+export function useResetPasswordEmployee() {
   const { message } = App.useApp();
 
   return {
     ...useMutation<
       unknown,
       AxiosError<IApiResponse<unknown>>, 
-      IUpdatePasswordCompanyOwnerFields
+      IUpdatePasswordEmployeeFields
     >({
       mutationFn: api.resetPassword,
       onSuccess: () => {

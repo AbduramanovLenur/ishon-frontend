@@ -2,7 +2,7 @@ import { App } from "antd";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 
-import type { IGrantAccessFields } from "./types";
+import type { IUpdateAccessFields } from "./types";
 import { api } from "../api/api";
 
 import { employeesKeys, type IEmployeeAdmin } from "@entities/employees";
@@ -16,9 +16,9 @@ export function useGrantAccess() {
     ...useMutation<
       IApiResponse<IEmployeeAdmin>,
       AxiosError<IApiResponse<IEmployeeAdmin>>,
-      IGrantAccessFields
+      IUpdateAccessFields
     >({
-      mutationFn: api.grant_access,
+      mutationFn: api.grantAccess,
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
           queryKey: employeesKeys.byId(variables.employeeId)

@@ -1,7 +1,10 @@
 export interface IGrantAccessFields {
-  employeeId: string | number;
   username: string;
   password: string;
+}
+
+export interface IUpdateAccessFields extends IGrantAccessFields {
+  employeeId: string | number;
 }
 
 export interface IState {
