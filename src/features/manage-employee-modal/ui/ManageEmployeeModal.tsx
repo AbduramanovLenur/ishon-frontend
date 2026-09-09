@@ -268,14 +268,6 @@ const ManageEmployeeModal: FC = () => {
           <Switch />
         </Form.Item>}
       </Form>
-      {/* <Image
-        wrapperStyle={{ display: "none" }}
-        preview={{
-          visible: previewOpen,
-          onVisibleChange: (visible) => setPreviewOpen(visible),
-        }}
-        src={previewImage}
-      /> */}
     </Modal>
   );
 }
