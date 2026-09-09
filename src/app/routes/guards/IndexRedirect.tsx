@@ -2,7 +2,7 @@ import { type FC } from "react";
 import { Navigate } from "react-router-dom";
 
 import { useUser } from "@entities/user";
-import { roleHomeRoutes } from "@shared/config";
+import { roleHomeRoutes, roles } from "@shared/config";
 import type { TRoles } from "@shared/types";
 
 const IndexRedirect: FC = () => {
@@ -12,7 +12,7 @@ const IndexRedirect: FC = () => {
     return null;
   }
 
-  return <Navigate to={roleHomeRoutes[user.type as TRoles]} replace />;
+  return <Navigate to={roleHomeRoutes[user.type as Exclude<TRoles, typeof roles.EMPLOYEE>]} replace />;
 }
 
 export default IndexRedirect;
