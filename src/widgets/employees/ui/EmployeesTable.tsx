@@ -3,6 +3,7 @@ import { Image, Table, Tag, type TableProps } from "antd";
 import { useDispatch } from "react-redux";
 import { KeyOutlined } from "@ant-design/icons";
 
+import { ManageEmployeeModal, open as openManageModal } from "@features/manage-employee-modal";
 import { ResetPasswordEmployeeModal, open as openResetPasswordModal } from "@features/reset-password-employee-modal";
 import { GrantAccessModal, open as openGrantAccessModal } from "@features/grant-access-modal";
 import { useDeleteAccess } from "@features/delete-access-modal";
@@ -28,7 +29,7 @@ const EmployeesTable: FC = () => {
   const totalElems = data?.totalElements || 0;
 
   const openManageModalHandle = (id: number | string) => {
-    // dispatch(openManageModal(id));
+    dispatch(openManageModal(id));
     console.log(id)
   }
 
@@ -176,6 +177,7 @@ const EmployeesTable: FC = () => {
       {defaultValues.pageSize < totalElems && <div className={styles['employees-table__bottom']}>
         <Paginator total={totalElems} />
       </div>}
+      <ManageEmployeeModal />
       <GrantAccessModal />
       <ResetPasswordEmployeeModal />
     </div>

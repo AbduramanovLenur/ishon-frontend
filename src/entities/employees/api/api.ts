@@ -12,5 +12,12 @@ export const api = {
         ...(page && { page }),
       }})
       .then((response) => response.data.data);
-  }
+  },
+  getById: (employeeId: string | number | null) => {
+    return axiosInstance
+      .get<IApiResponse<IEmployee>>(endpoints.BY_ID, { params: {
+        ...(employeeId && { employeeId })
+      }})
+      .then((response) => response.data.data)
+  },
 }

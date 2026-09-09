@@ -9,3 +9,11 @@ export function useEmployeeList(search: string, page: number) {
     queryFn: () => api.list(search, page),
   });
 }
+
+export function useEmployeeById(employeeId: string | number | null, enabled: boolean) {
+  return useQuery({
+    queryKey: employeesKeys.byId(employeeId),
+    queryFn: () => api.getById(employeeId),
+    enabled
+  })
+}
