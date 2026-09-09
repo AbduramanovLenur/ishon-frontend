@@ -14,3 +14,14 @@ export interface IEmployee {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IEmployeeAdmin {
+  employeeId: string;
+  companyId: string;
+  fullName: string;
+  phone: string;
+  position: string;
+  active: boolean;
+  promotedAt: string;
+  createdAt: string;
+}

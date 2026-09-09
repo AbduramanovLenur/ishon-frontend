@@ -60,7 +60,7 @@ const ActionsDropdown: FC<IActionsDropdownProps> = ({
         deleteAction?.onClick?.();
         break;
       case "access":
-        reset?.onClick?.();
+        access?.onClick?.();
         break;
       case "reset":
         reset?.onClick?.();

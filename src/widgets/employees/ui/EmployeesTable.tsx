@@ -1,6 +1,9 @@
 import type { FC } from "react";
-import { Image, Table, Tag } from "antd";
+import { Image, Table, Tag, type TableProps } from "antd";
+import { useDispatch } from "react-redux";
+import { KeyOutlined } from "@ant-design/icons";
 
+import { GrantAccessModal, open as openGrantAccessModal } from "@features/grant-access-modal";
 import { useDeleteEmployee } from "@features/delete-employee-modal";
 import { useEmployeeList, type IEmployee } from "@entities/employees";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
@@ -9,9 +12,9 @@ import { useQueryParams } from "@shared/lib";
 import { validationPage } from "@shared/utils";
 
 import styles from "./EmployeesTable.module.scss";
-import type { TableProps } from "antd/lib/table";
 
 const EmployeesTable: FC = () => {
+  const dispatch = useDispatch();
   const { get } = useQueryParams();
   const search = get(queries.SEARCH) || defaultValues.search;
   const currentPage = validationPage(Number(get(queries.PAGE)), defaultValues.page);
@@ -31,6 +34,10 @@ const EmployeesTable: FC = () => {
     console.log(id)
   }
 
+  const openGrantAccessModalHandle = (id: number | string) => {
+    dispatch(openGrantAccessModal(id));
+  }
+
   const columns: TableProps<IEmployee>['columns'] = [
     {
       title: "Surat",
@@ -47,7 +54,12 @@ const EmployeesTable: FC = () => {
     },
     {
       title: "Ism-familiya",
-      render: (_, record) => record.fullName
+      render: (_, record) => (
+        <div className={styles['employees-table__name']}>
+          {record.fullName}
+          {record.type === roles.COMPANY_ADMIN && <KeyOutlined />}
+        </div>
+      )
     },
     {
       title: "Lavozimi",
@@ -101,7 +113,8 @@ const EmployeesTable: FC = () => {
             onClick: () => openManageModalHandle(record.employeeId)
           }}
           access={{
-            visible: true
+            visible: record.type === roles.EMPLOYEE,
+            onClick: () => openGrantAccessModalHandle(record.employeeId)
           }}
           reset={{
             visible: record.type === roles.COMPANY_ADMIN
@@ -142,6 +155,7 @@ const EmployeesTable: FC = () => {
       {defaultValues.pageSize < totalElems && <div className={styles['employees-table__bottom']}>
         <Paginator total={totalElems} />
       </div>}
+      <GrantAccessModal />
     </div>
   );
 }
