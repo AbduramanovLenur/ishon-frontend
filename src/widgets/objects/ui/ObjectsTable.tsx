@@ -39,29 +39,29 @@ export const ObjectsTable: FC = () => {
       render: (_, record) => (
         <span className={styles['objects-table__badge-cell']}>
           <span>
-            { getFirstChar(record.name) }
+            { getFirstChar(record?.name) }
           </span>
           <span>
-            { record.name }
+            { record?.name }
           </span>
         </span>
       )
     },
     {
       title: "Manzil",
-      render: (_, record) => record.address
+      render: (_, record) => record?.address
     },
     {
       title: "Ish soatlari",
       width: 200,
-      render: (_, record) => `${record.shiftStartTime} - ${record.shiftEndTime}`
+      render: (_, record) => `${record?.shiftStartTime} - ${record?.shiftEndTime}`
     },
     {
       title: 'Holat',
       width: 120,
       render: (_, record) => (
         
-        record.status === status.ACTIVE ? (
+        record?.status === status.ACTIVE ? (
           <Tag color={'#D9DFF5'} style={{ color: '#4F46E5' }}>Faol</Tag>
         ) : (
           <Tag color={'#DCE2F3'} style={{ color: '#464555' }}>Faol emas</Tag>
@@ -74,10 +74,10 @@ export const ObjectsTable: FC = () => {
       render: (_, record) => (
         <ActionsDropdown 
           delete={{ 
-            onClick: () => confirmDelete(record.objectId)
+            onClick: () => confirmDelete(record?.objectId)
           }}
           edit={{
-            onClick: () => openManageModalHandle(record.objectId)
+            onClick: () => openManageModalHandle(record?.objectId)
           }}
         />
       )
@@ -99,7 +99,7 @@ export const ObjectsTable: FC = () => {
           rowKey="objectId"
           onRow={(record) => ({
             onClick: () => {
-              openViewModalHandle(record.objectId);
+              openViewModalHandle(record?.objectId);
             },
             style: { 
               cursor: 'pointer' 

@@ -40,10 +40,10 @@ const CompaniesTable: FC = () => {
       render: (_, record) => (
         <span className={styles['companies-table__badge-cell']}>
           <span>
-            { getFirstChar(record.name) }
+            { getFirstChar(record?.name) }
           </span>
           <span>
-            { record.name }
+            { record?.name }
           </span>
         </span>
       ),
@@ -51,21 +51,21 @@ const CompaniesTable: FC = () => {
     {
       title: 'Manzil',
       width: 250,
-      render: (_, record) => record.address,
+      render: (_, record) => record?.address,
     },
     {
       title: 'Obyektlar',
-      render: (_, record) => record.objectLimit,
+      render: (_, record) => record?.objectLimit,
     },
     {
       title: 'Xodimlar',
-      render: (_, record) => record.employeeLimit,
+      render: (_, record) => record?.employeeLimit,
     },
     {
       title: 'Holat',
       render: (_, record) => (
         
-        record.status === status.ACTIVE ? (
+        record?.status === status.ACTIVE ? (
           <Tag color={'#D9DFF5'} style={{ color: '#4F46E5' }}>Faol</Tag>
         ) : (
           <Tag color={'#DCE2F3'} style={{ color: '#464555' }}>Faol emas</Tag>
@@ -78,10 +78,10 @@ const CompaniesTable: FC = () => {
       render: (_, record) => (
         <ActionsDropdown 
           delete={{ 
-            onClick: () => confirmDelete(record.id) 
+            onClick: () => confirmDelete(record?.id) 
           }}
           edit={{
-            onClick: () => openManageModalHandle(record.id)
+            onClick: () => openManageModalHandle(record?.id)
           }}
         />
       )
@@ -103,7 +103,7 @@ const CompaniesTable: FC = () => {
           rowKey="id"
           onRow={(record) => ({
             onClick: () => {
-              openViewModalHandle(record.id);
+              openViewModalHandle(record?.id);
             },
             style: {
               cursor: 'pointer'

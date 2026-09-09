@@ -34,17 +34,17 @@ const TodaysPresenceTable: FC = () => {
       render: (_, record) => (
         <Image
           className={styles['todays-presence-table__ava']}
-          src={record.photoUrl}
+          src={record?.photoUrl}
           loading="lazy"
           width={40}
           height={40}
-          alt={record.fullName}
+          alt={record?.fullName}
         />
       )
     },
     {
       title: "Ism-familiya",
-      render: (_, record) => record.fullName
+      render: (_, record) => record?.fullName
     },
     {
       title: "Lavozimi",
@@ -54,7 +54,7 @@ const TodaysPresenceTable: FC = () => {
           color={'#D9DFF5'} 
           style={{ color: '#4F46E5', whiteSpace: 'normal' }}
         >
-          { record.position }
+          { record?.position }
         </Tag>
       )
     },
@@ -66,7 +66,7 @@ const TodaysPresenceTable: FC = () => {
           color={'#f0f9ff'} 
           style={{ color: '#0284c7', whiteSpace: 'normal' }}
         >
-          { record.objectName }
+          { record?.objectName }
         </Tag>
       )
     },
@@ -75,7 +75,7 @@ const TodaysPresenceTable: FC = () => {
           {
             title: "Kirish vaqti",
             render: (_: unknown, record: IEmployee) =>
-              formatTime(record.checkInTime),
+              formatTime(record?.checkInTime),
           },
         ]
       : []),
@@ -84,7 +84,7 @@ const TodaysPresenceTable: FC = () => {
           {
             title: "Chiqish vaqti",
             render: (_: unknown, record: IEmployee) =>
-              formatTime(record.checkOutTime),
+              formatTime(record?.checkOutTime),
           },
         ]
       : []),
@@ -93,7 +93,7 @@ const TodaysPresenceTable: FC = () => {
           {
             title: "Oxirgi ko‘rilgan sana",
             render: (_: unknown, record: IEmployee) =>
-              formatTime(record.lastSeenDate),
+              formatTime(record?.lastSeenDate),
           },
         ]
       : []),

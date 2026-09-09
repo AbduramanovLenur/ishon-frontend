@@ -51,11 +51,11 @@ const EmployeesTable: FC = () => {
       render: (_, record) => (
         <Image
           className={styles['employees-table__ava']}
-          src={record.fileUrl}
+          src={record?.fileUrl}
           loading="lazy"
           width={40}
           height={40}
-          alt={record.fullName}
+          alt={record?.fullName}
         />
       )
     },
@@ -63,8 +63,8 @@ const EmployeesTable: FC = () => {
       title: "Ism-familiya",
       render: (_, record) => (
         <div className={styles['employees-table__name']}>
-          {record.fullName}
-          {record.type === roles.COMPANY_ADMIN && <KeyOutlined className={styles['employees-table__name-icon']} />}
+          {record?.fullName}
+          {record?.type === roles.COMPANY_ADMIN && <KeyOutlined className={styles['employees-table__name-icon']} />}
         </div>
       )
     },
@@ -76,32 +76,41 @@ const EmployeesTable: FC = () => {
           color={'#D9DFF5'} 
           style={{ color: '#4F46E5', whiteSpace: 'normal' }}
         >
-          { record.position }
+          { record?.position }
         </Tag>
       )
     },
     {
       title: 'Telefon raqami',
       width: 220,
-      render: (_, record) => record.phone
+      render: (_, record) => record?.phone
     },
     {
       title: "Obyekt nomi",
       width: 200,
       render: (_, record) => (
-        <Tag 
-          color={'#EEF2FF'} 
-          style={{ color: '#6D5ACF', whiteSpace: 'normal' }}
-        >
-          { record.assignedObject.name }
-        </Tag>
+        !record?.assignedObject?.name ? (
+          <Tag 
+            color={'#fff7e6'} 
+            style={{ color: '#d46b08' }}
+          >
+            Noma’lum obyekt
+          </Tag>
+        ) : (
+          <Tag 
+            color={'#EEF2FF'} 
+            style={{ color: '#6D5ACF', whiteSpace: 'normal' }}
+          >
+            { record.assignedObject.name }
+          </Tag>
+        )
       )
     },
     {
       title: 'Holat',
       width: 100,
       render: (_, record) => (
-        record.status === status.ACTIVE ? (
+        record?.status === status.ACTIVE ? (
           <Tag color={'#D9DFF5'} style={{ color: '#4F46E5' }}>Faol</Tag>
         ) : (
           <Tag color={'#DCE2F3'} style={{ color: '#464555' }}>Faol emas</Tag>
@@ -114,22 +123,22 @@ const EmployeesTable: FC = () => {
       render: (_, record) => (
         <ActionsDropdown 
           delete={{ 
-            onClick: () => confirmDeleteEmployee(record.employeeId) 
+            onClick: () => confirmDeleteEmployee(record?.employeeId) 
           }}
           edit={{
-            onClick: () => openManageModalHandle(record.employeeId)
+            onClick: () => openManageModalHandle(record?.employeeId)
           }}
           access={{
-            visible: record.type === roles.EMPLOYEE,
-            onClick: () => openGrantAccessModalHandle(record.employeeId)
+            visible: record?.type === roles.EMPLOYEE,
+            onClick: () => openGrantAccessModalHandle(record?.employeeId)
           }}
           reset={{
-            visible: record.type === roles.COMPANY_ADMIN,
-            onClick: () => openResetPasswordModalHandle(record.employeeId)
+            visible: record?.type === roles.COMPANY_ADMIN,
+            onClick: () => openResetPasswordModalHandle(record?.employeeId)
           }}
           revoke={{
-            visible: record.type === roles.COMPANY_ADMIN,
-            onClick: () => confirmDeleteAccess(record.employeeId)
+            visible: record?.type === roles.COMPANY_ADMIN,
+            onClick: () => confirmDeleteAccess(record?.employeeId)
           }}
         />
       )
@@ -151,7 +160,7 @@ const EmployeesTable: FC = () => {
           rowKey="employeeId"
           onRow={(record) => ({
             onClick: () => {
-              openViewModalHandle(record.employeeId);
+              openViewModalHandle(record?.employeeId);
             },
             style: {
               cursor: 'pointer'

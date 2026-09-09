@@ -24,11 +24,11 @@ export const SystemLogsTable: FC = () => {
       render: (_, record) => (
         <Image
           className={styles['system-logs-table__ava']}
-          src={record.photoUrl}
+          src={record?.photoUrl}
           loading="lazy"
           width={40}
           height={40}
-          alt={record.fullName}
+          alt={record?.fullName}
         />
       )
     },
@@ -37,10 +37,10 @@ export const SystemLogsTable: FC = () => {
       render: (_, record) => (
         <div className={styles['system-logs-table__info']}>
           <div className={styles['system-logs-table__date']}>
-            { formatDate(record.eventTime) }
+            { formatDate(record?.eventTime) }
           </div>
           <div className={styles['system-logs-table__time']}>
-            { formatTime(record.eventTime) }
+            { formatTime(record?.eventTime) }
           </div>
         </div>
       )
@@ -49,8 +49,8 @@ export const SystemLogsTable: FC = () => {
       title: "Ism-familiya",
       width: 200,
       render: (_, record) => (
-        record.fullName ? 
-        record.fullName : 
+        record?.fullName ? 
+        record?.fullName : 
         <Tag 
           color={'#fff7e6'} 
           style={{ color: '#d46b08' }}
@@ -66,7 +66,7 @@ export const SystemLogsTable: FC = () => {
           color={'#D9DFF5'} 
           style={{ color: '#4F46E5' }}
         >
-          { record.latitude }, { record.longitude }
+          { record?.latitude }, { record?.longitude }
         </Tag>
       )
     },
@@ -74,8 +74,8 @@ export const SystemLogsTable: FC = () => {
       title: "Obyekt nomi",
       width: 250,
       render: (_, record) => (
-        record.object?.name ? 
-        record.object.name : 
+        record?.object?.name ? 
+        record?.object.name : 
         <Tag 
           color={'#fff7e6'} 
           style={{ color: '#d46b08' }}
@@ -87,7 +87,7 @@ export const SystemLogsTable: FC = () => {
     {
       title: "Harakat",
       render: (_, record) => (
-        record.eventType === eventTypes.ENTER ? 
+        record?.eventType === eventTypes.ENTER ? 
         <Tag 
           color={"#f6ffed"} 
           style={{ color: '#389e0d' }}
@@ -104,7 +104,7 @@ export const SystemLogsTable: FC = () => {
     },
     {
       title: "Aniqlik",
-      render: (_, record) => <Progress percent={record.similarity} />
+      render: (_, record) => <Progress percent={record?.similarity} />
     }
   ];
   

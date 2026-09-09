@@ -45,10 +45,10 @@ export const DirectorsTable: FC = () => {
       render: (_, record) => (
         <span className={styles['directors-table__badge-cell']}>
           <span>
-            { getFirstChar(record.fullName) }
+            { getFirstChar(record?.fullName) }
           </span>
           <span>
-            { record.fullName }
+            { record?.fullName }
           </span>
         </span>
       ),
@@ -61,14 +61,14 @@ export const DirectorsTable: FC = () => {
           color={'#2db7f5'} 
           variant="solid"
         >
-          {record.username}
+          {record?.username}
         </Tag>
       ),
     },
     {
       title: 'Lavozimi',
       width: 200,
-      render: (_, record) => record.position
+      render: (_, record) => record?.position
     },
     {
       title: 'Kompaniya',
@@ -80,13 +80,13 @@ export const DirectorsTable: FC = () => {
           variant="solid"
           style={{ color: "#5C6274" }}
         >
-          {record.companyName}
+          {record?.companyName}
         </Tag>
       ),
     },
     {
       title: 'Telefon raqami',
-      render: (_, record) => record.phone
+      render: (_, record) => record?.phone
     },
     {
       title: 'Harakatlar',
@@ -94,14 +94,14 @@ export const DirectorsTable: FC = () => {
       render: (_, record) => (
         <ActionsDropdown 
           delete={{ 
-            onClick: () => confirmDelete(record.companyOwnerId)
+            onClick: () => confirmDelete(record?.companyOwnerId)
           }}
           edit={{
-            onClick: () => openManageModalHandle(record.companyOwnerId)
+            onClick: () => openManageModalHandle(record?.companyOwnerId)
           }}
           reset={{
             visible: true,
-            onClick: () => openResetPasswordModalHandle(record.companyOwnerId)
+            onClick: () => openResetPasswordModalHandle(record?.companyOwnerId)
           }}
         />
       )
@@ -123,7 +123,7 @@ export const DirectorsTable: FC = () => {
           rowKey="companyOwnerId"
           onRow={(record) => ({
             onClick: () => {
-              openViewModalHandle(record.companyOwnerId);
+              openViewModalHandle(record?.companyOwnerId);
             },
             style: { 
               cursor: 'pointer' 
