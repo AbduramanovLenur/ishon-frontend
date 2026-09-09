@@ -17,3 +17,9 @@ export const formatTime = (date: string | Date): string => {
 export const formatNumber = (value: string | number): string => {
   return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
+
+export const formatHoursMinutes = (time?: string | null): string => {
+  if (!time) return "";
+
+  return time.slice(0, 5);
+};

@@ -5,6 +5,7 @@ import { EnvironmentOutlined } from "@ant-design/icons";
 import { useObjectById } from "../model/queries";
 
 import { GeofenceMap } from "@shared/ui";
+import { formatHoursMinutes } from "@shared/utils";
 
 import styles from "./ObjectDetails.module.scss";
 
@@ -126,7 +127,7 @@ const ObjectDetails: FC<IObjectDetailsProps> = ({ objectId }) => {
                 Ish vaqti
               </div>
               <div className={styles['object-details__value']}>
-                { data.shiftStartTime } - { data.shiftEndTime }
+                { formatHoursMinutes(data.shiftStartTime) } - { formatHoursMinutes(data.shiftEndTime) }
               </div>
             </div>
           )

@@ -9,7 +9,7 @@ import { useObjectList, type IObject } from "@entities/objects";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
 import { defaultValues, queries, status } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
-import { getFirstChar, validationPage } from "@shared/utils";
+import { formatHoursMinutes, getFirstChar, validationPage } from "@shared/utils";
 
 import styles from "./ObjectsTable.module.scss";
 
@@ -54,7 +54,7 @@ export const ObjectsTable: FC = () => {
     {
       title: "Ish soatlari",
       width: 200,
-      render: (_, record) => `${record?.shiftStartTime} - ${record?.shiftEndTime}`
+      render: (_, record) => `${formatHoursMinutes(record?.shiftStartTime)} - ${formatHoursMinutes(record?.shiftEndTime)}`
     },
     {
       title: 'Holat',
