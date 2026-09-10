@@ -5,4 +5,5 @@ export const employeesKeys = {
   byId: (employeeId: string | number | null) => [...employeesKeys.all, employeeId],
   username: (employeeId: string | number | null) => [...employeesKeys.all, 'username', employeeId],
   profile: (employeeId: string | number | null) => [...employeesKeys.all, 'profile', employeeId],
+  history: (employeeId: string | number | null, eventType?: string, late?: boolean, early?: boolean, page?: number) => [...employeesKeys.all, 'history', employeeId, eventType, late, early, page]
 } as const;

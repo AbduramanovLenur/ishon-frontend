@@ -1,0 +1,105 @@
+.profile-employee {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 30px;
+  @media (max-width: 768px) {
+    gap: 30px;
+  }
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 20px;
+  }
+  &__ava {
+    width: 190px !important;
+    height: 190px !important;
+    @media (max-width: 1024px) {
+      width: 160px !important;
+      height: 160px !important;
+    }
+    @media (max-width: 768px) {
+      width: 150px !important;
+      height: 150px !important;
+    }
+    @media (max-width: 480px) {
+      width: 140px !important;
+      height: 140px !important;
+    }
+    &-image {
+      border-radius: 12px;
+      border: 1px solid #C7C4D8;
+      object-fit: cover;
+      object-position: center;
+      height: 100% !important;
+      width: 100% !important;
+    }
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    @media (max-width: 480px) {
+      align-items: center;
+    }
+  }
+  &__title {
+    font-size: 42px;
+    line-height: 1;
+    font-weight: 600;
+    margin-bottom: 10px;
+    @media (max-width: 1024px) {
+      font-size: 40px;
+    }
+    @media (max-width: 768px) {
+      font-size: 32px;
+    }
+    @media (max-width: 480px) {
+      font-size: 28px;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+  }
+  &__object {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--Brown);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    @media (max-width: 768px) {
+      font-size: 18px;
+    }
+    @media (max-width: 480px) {
+      font-size: 16px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+  }
+  &__position {
+    font-size: 16px;
+    line-height: 1.6;
+    @media (max-width: 768px) {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    @media (max-width: 480px) {
+      text-align: center;
+    }
+  }
+  &__skeleton {
+    height: 180px !important;
+    width: 100% !important;
+    margin-bottom: 30px;
+    @media (max-width: 960px) {
+      height: 140px !important;
+    }
+    @media (max-width: 480px) {
+      height: 100px;
+    }
+    div {
+      width: inherit !important;
+      height: inherit !important;
+    }
+  }
+}

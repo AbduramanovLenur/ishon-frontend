@@ -55,6 +55,9 @@ export function useUpdateEmployee() {
         queryClient.invalidateQueries({
           queryKey: employeesKeys.byId(variables.employeeId)
         });
+        queryClient.invalidateQueries({
+          queryKey: employeesKeys.profile(variables.employeeId)
+        });
         
         message.success('Xodim yangilandi');
       },

@@ -21,10 +21,10 @@ export function useGrantAccess() {
       mutationFn: api.grantAccess,
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
-          queryKey: employeesKeys.byId(variables.employeeId)
+          queryKey: employeesKeys.collection()
         });
         queryClient.invalidateQueries({
-          queryKey: employeesKeys.collection()
+          queryKey: employeesKeys.byId(variables.employeeId)
         });
 
         message.success('Kirish huquqlari muvaffaqiyatli berildi');
