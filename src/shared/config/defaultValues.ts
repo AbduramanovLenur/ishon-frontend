@@ -6,5 +6,8 @@ export const defaultValues = {
   radius: 150,
   statusWork: '',
   object: '',
-  period: ''
+  period: '',
+  event: '',
+  late: null,
+  early: null
 } as const;

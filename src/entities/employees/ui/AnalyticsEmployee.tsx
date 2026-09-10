@@ -8,12 +8,14 @@ import {
 } from "@ant-design/icons";
 
 import styles from "./AnalyticsEmployee.module.scss";
+import { Skeleton } from "antd";
 
 interface IAnalyticsEmployeeProps {
   workedDays: number;
   notCheckedInDays: number;
   lateArrivals: number;
   earlyLeaves: number;
+  isLoading: boolean;
 }
 
 const AnalyticsEmployee: FC<IAnalyticsEmployeeProps> = ({
@@ -21,6 +23,7 @@ const AnalyticsEmployee: FC<IAnalyticsEmployeeProps> = ({
   notCheckedInDays,
   lateArrivals,
   earlyLeaves,
+  isLoading
 }) => {
   const analytics = [
     {
@@ -52,27 +55,28 @@ const AnalyticsEmployee: FC<IAnalyticsEmployeeProps> = ({
 
   return (
     <div className={styles['analytics-employee']}>
-      <h2 className={styles['analytics-employee__title']}>
-        Analitika sharhi
-      </h2>
       <ul className={styles['analytics-employee__list']}>
         {analytics.map(({ icon, label, value }) => (
-          <li
-            key={label}
-            className={styles['analytics-employee__item']}
-          >
-            <div className={styles['analytics-employee__box']}>
-              <div className={styles['analytics-employee__info']}>
-                {icon}
-                <div className={styles['analytics-employee__text']}>
-                  {label}
+          isLoading ? (
+            <Skeleton.Node className={styles['analytics-employee__skeleton']} />
+          ) : (
+            <li
+              key={label}
+              className={styles['analytics-employee__item']}
+            >
+              <div className={styles['analytics-employee__box']}>
+                <div className={styles['analytics-employee__info']}>
+                  {icon}
+                  <div className={styles['analytics-employee__text']}>
+                    {label}
+                  </div>
+                </div>
+                <div className={styles['analytics-employee__value']}>
+                  {value}
                 </div>
               </div>
-              <div className={styles['analytics-employee__value']}>
-                {value}
-              </div>
-            </div>
-          </li>
+            </li>
+          )
         ))}
       </ul>
     </div>

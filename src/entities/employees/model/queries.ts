@@ -26,9 +26,22 @@ export function useEmployeeUsername(employeeId: string | number | null, enabled:
   });
 }
 
-export function useEmployeeProfile(employeeId: string | number | null) {
+export function useEmployeeProfile(employeeId: string | number) {
   return useQuery({
     queryKey: employeesKeys.profile(employeeId),
     queryFn: () => api.profile(employeeId)
+  });
+}
+
+export function useEmployeeHistory(
+  employeeId: string | number,
+  eventType: string,
+  late: boolean | null,
+  early: boolean | null,
+  page: number
+) {
+  return useQuery({
+    queryKey: employeesKeys.history(employeeId, eventType, late, early, page),
+    queryFn: () => api.history(employeeId, eventType, late, early, page)
   });
 }

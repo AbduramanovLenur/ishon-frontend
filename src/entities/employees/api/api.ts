@@ -1,4 +1,4 @@
-import type { IEmployee, IEmployeeDetails, IEmployeeLogin } from "../model/types";
+import type { IEmployee, IEmployeeDetails, IEmployeeEvent, IEmployeeLogin } from "../model/types";
 import { endpoints } from "./endpoints";
 
 import { axiosInstance } from "@shared/api";
@@ -27,11 +27,29 @@ export const api = {
       }})
       .then((response) => response.data.data);
   },
-  profile: (employeeId: string | number | null) => {
+  profile: (employeeId: string | number) => {
     return axiosInstance
       .get<IApiResponse<IEmployeeDetails>>(endpoints.PROFILE, { params: {
         ...(employeeId && { employeeId })
       }})
       .then((response) => response.data.data);
+  },
+  history: (
+    employeeId: string | number,
+    eventType: string,
+    late: boolean | null,
+    early: boolean | null,
+    page: number
+  ) => {
+    return axiosInstance
+      .get<IApiResponse<IPaginatedData<IEmployeeEvent>>>(endpoints.HISTORY, { params: {
+        size: 10,
+        ...(employeeId && { employeeId }),
+        ...(eventType && { eventType }),
+        ...(late !== null && { late }),
+        ...(early !== null && { early }),
+        ...(page && { page }),
+      }})
+      .then((response) => response.data.data)
   }
 }

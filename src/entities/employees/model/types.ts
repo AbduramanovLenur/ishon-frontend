@@ -1,5 +1,5 @@
 import type { roles } from "@/shared/config";
-import type { IManual, TDays, TRoles, TStatus } from "@shared/types";
+import type { IManual, TDays, TEvent, TRoles, TStatus } from "@shared/types";
 
 export interface IEmployee {
   employeeId: string;
@@ -45,4 +45,14 @@ export interface IEmployeeDetails {
   position: string;
   assignedObject: IManual;
   statistics: IEmployeeStatistics;
+}
+
+export interface IEmployeeEvent {
+  eventId: string;
+  eventType: TEvent;
+  eventTime: string;
+  object: IManual;
+  snapshotUrl: string;
+  late: boolean;
+  earlyLeave: boolean;
 }

@@ -3,5 +3,8 @@ export const queries = {
   SEARCH: 'search',
   STATUS_WORK: 'statusWork',
   OBJECT: 'object',
-  PERIOD: 'period'
+  PERIOD: 'period',
+  EVENT: 'event',
+  LATE: 'late',
+  EARLY: 'early'
 } as const;
