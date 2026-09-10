@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Table, type TableProps, Tag } from "antd";
 import { useDispatch } from "react-redux";
+import { formatPhoneNumberIntl } from "react-phone-number-input";
 
 import { ResetPasswordCompanyOwnerModal } from "@features/reset-password-company-owner-modal";
 import { useDeleteCompanyOwner } from "@features/delete-director-modal";
@@ -86,7 +87,7 @@ export const DirectorsTable: FC = () => {
     },
     {
       title: 'Telefon raqami',
-      render: (_, record) => record?.phone
+      render: (_, record) => formatPhoneNumberIntl(record?.phone)
     },
     {
       title: 'Harakatlar',

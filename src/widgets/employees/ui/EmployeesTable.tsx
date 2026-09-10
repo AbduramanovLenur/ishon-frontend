@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { Image, Table, Tag, type TableProps } from "antd";
 import { useDispatch } from "react-redux";
 import { KeyOutlined } from "@ant-design/icons";
+import { formatPhoneNumberIntl } from 'react-phone-number-input';
 
 import { ManageEmployeeModal, open as openManageModal } from "@features/manage-employee-modal";
 import { ResetPasswordEmployeeModal, open as openResetPasswordModal } from "@features/reset-password-employee-modal";
@@ -83,7 +84,7 @@ const EmployeesTable: FC = () => {
     {
       title: 'Telefon raqami',
       width: 220,
-      render: (_, record) => record?.phone
+      render: (_, record) =>  formatPhoneNumberIntl(record?.phone)
     },
     {
       title: "Obyekt nomi",
@@ -143,7 +144,7 @@ const EmployeesTable: FC = () => {
         />
       )
     }
-  ]
+  ];
   
   return (
     <div className={styles['employees-table']}>
