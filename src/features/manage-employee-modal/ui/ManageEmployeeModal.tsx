@@ -36,19 +36,19 @@ const ManageEmployeeModal: FC = () => {
   useEffect(() => {
     if (isEdit && data) {
       form.setFieldsValue({
-        fullName: data?.fullName,
-        position: data?.position,
-        phone: data?.phone?.replace(/\s/g, ""),
-        assignedObjectId: data?.assignedObject?.id,
-        workingDays: data?.workingDays,
-        status: data?.status === status.ACTIVE,
-        image: data?.fileUrl
+        fullName: data.fullName,
+        position: data.position,
+        phone: data.phone?.replace(/\s/g, ""),
+        assignedObjectId: data.assignedObject?.id,
+        workingDays: data.workingDays,
+        status: data.status === status.ACTIVE,
+        image: data.fileUrl
           ? [
               {
-                uid: String(data?.fileId),
+                uid: String(data.fileId),
                 name: "employee-image",
                 status: "done",
-                url: data?.fileUrl,
+                url: data.fileUrl,
               },
             ]
           : [],
@@ -76,7 +76,7 @@ const ManageEmployeeModal: FC = () => {
 
         const uploadResponse = await mutateAsyncUpload(formData);
 
-        fileId = uploadResponse.data?.fileId;
+        fileId = uploadResponse.data?.fileId ?? '';
     }
 
     if (isEdit) {

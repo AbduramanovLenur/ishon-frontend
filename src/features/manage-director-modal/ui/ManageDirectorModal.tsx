@@ -31,11 +31,11 @@ const ManageDirectorModal: FC = () => {
   useEffect(() => {
     if (isEdit && data) {
       form.setFieldsValue({
-        fullName: data?.fullName,
-        username: data?.username,
-        position: data?.position,
-        companyId: data?.companyId,
-        phone: data?.phone,
+        fullName: data.fullName,
+        username: data.username,
+        position: data.position,
+        companyId: data.companyId,
+        phone: data.phone,
       });
     }
   }, [data, isEdit, form]);
