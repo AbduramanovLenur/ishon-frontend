@@ -8,6 +8,6 @@ export const defaultValues = {
   object: '',
   period: '',
   event: '',
-  late: null,
-  early: null
+  late: '',
+  early: ''
 } as const;

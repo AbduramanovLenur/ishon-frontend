@@ -37,8 +37,8 @@ export const api = {
   history: (
     employeeId: string | number,
     eventType: string,
-    late: boolean | null,
-    early: boolean | null,
+    late: boolean | string,
+    early: boolean | string,
     page: number
   ) => {
     return axiosInstance
@@ -46,8 +46,8 @@ export const api = {
         size: 10,
         ...(employeeId && { employeeId }),
         ...(eventType && { eventType }),
-        ...(late !== null && { late }),
-        ...(early !== null && { early }),
+        ...(late !== '' && { late }),
+        ...(early !== '' && { early }),
         ...(page && { page }),
       }})
       .then((response) => response.data.data)

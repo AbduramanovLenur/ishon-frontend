@@ -11,3 +11,5 @@ export { eventTypes } from "./eventTypes";
 export { workStatus } from "./workStatus";
 export { periods } from "./periods";
 export { days } from "./days";
+export { lateValues } from "./lateValues";
+export { earlyValues } from "./earlyValues";

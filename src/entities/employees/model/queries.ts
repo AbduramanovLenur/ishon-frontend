@@ -36,8 +36,8 @@ export function useEmployeeProfile(employeeId: string | number) {
 export function useEmployeeHistory(
   employeeId: string | number,
   eventType: string,
-  late: boolean | null,
-  early: boolean | null,
+  late: boolean | string,
+  early: boolean | string,
   page: number
 ) {
   return useQuery({

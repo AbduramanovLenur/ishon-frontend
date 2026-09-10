@@ -8,9 +8,10 @@ import styles from "./SelectList.module.scss";
 interface ISelectListProps {
   options: SelectProps['options'];
   queryKey: string;
-  defaultValue?: string;
+  defaultValue?: string | null;
   showAll?: boolean;
   isLoading?: boolean;
+  onChange?: (value: string) => void;
 };
 
 const SelectList: FC<ISelectListProps> = ({
@@ -19,12 +20,18 @@ const SelectList: FC<ISelectListProps> = ({
   defaultValue = '',
   showAll = true,
   isLoading = false,
+  onChange
 }) => {
   const { set, get, remove } = useQueryParams();
 
   const currentValue = get(queryKey) || defaultValue;
 
   const onChangeHandle = (value: string) => {
+    if (onChange) {
+      onChange(value);
+      return;
+    }
+    
     if (!value) {
       remove(queryKey);
       return;

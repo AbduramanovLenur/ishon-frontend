@@ -8,8 +8,8 @@ export const employeesKeys = {
   history: (
     employeeId: string | number | null, 
     eventType?: string, 
-    late?: boolean | null, 
-    early?: boolean | null, 
+    late?: boolean | string, 
+    early?: boolean | string, 
     page?: number
   ) => [...employeesKeys.all, 'history', employeeId, eventType, late, early, page]
 } as const;

@@ -1,5 +1,8 @@
 .analytics-employee {
   margin-bottom: 40px;
+  @media (max-width: 480px) {
+    margin-bottom: 25px;
+  }
   &__list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
