@@ -33,8 +33,7 @@ const EmployeesTable: FC = () => {
     console.log(id)
   }
 
-  const openViewModalHandle = (id: number | string) => {
-    // dispatch(openViewModal(id));
+  const openViewHandle = (id: number | string) => {
     console.log(id)
   }
 
@@ -161,7 +160,7 @@ const EmployeesTable: FC = () => {
           rowKey="employeeId"
           onRow={(record) => ({
             onClick: () => {
-              openViewModalHandle(record?.employeeId);
+              openViewHandle(record?.employeeId);
             },
             style: {
               cursor: 'pointer'
