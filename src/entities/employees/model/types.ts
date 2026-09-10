@@ -10,6 +10,7 @@ export interface IEmployee {
   type: Extract<TRoles, typeof roles.COMPANY_ADMIN | typeof roles.EMPLOYEE>;
   assignedObject: IManual;
   fileUrl: string;
+  fileId: string | number;
   workingDays: TDays[];
   createdAt: string;
   updatedAt: string;

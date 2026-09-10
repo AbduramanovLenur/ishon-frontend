@@ -3,6 +3,7 @@ import type { AxiosError } from "axios";
 import { App } from "antd";
 
 import { api } from "../api/api";
+import type { ICreateEmployeeFields, IUpdateEmployeeFields } from "./types";
 
 import { employeesKeys, type IEmployee } from "@entities/employees";
 import type { IApiResponse } from "@shared/types";
@@ -15,7 +16,7 @@ export function useCreateEmployee() {
     ...useMutation<
       IApiResponse<IEmployee>, 
       AxiosError<IApiResponse<IEmployee>>, 
-      FormData
+      ICreateEmployeeFields
     >({
       mutationFn: api.create,
       onSuccess: () => {
@@ -44,12 +45,9 @@ export function useUpdateEmployee() {
     ...useMutation<
       IApiResponse<IEmployee>, 
       AxiosError<IApiResponse<IEmployee>>, 
-      {
-        employeeId: string | number;
-        formData: FormData;
-      }
+      IUpdateEmployeeFields
     >({
-      mutationFn: ({ formData }) => api.update(formData),
+      mutationFn: api.update,
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
           queryKey: employeesKeys.byId(variables.employeeId)

@@ -9,3 +9,4 @@ export const EmployeesPage = lazyRetry(() => import('@pages/employees'));
 export const LogsPage = lazyRetry(() => import('@pages/system-logs'));
 export const TodaysPresencePage = lazyRetry(() => import('@pages/todays-presence'));
 export const NotFoundPage = lazyRetry(() => import('@pages/not-found'));
+export const SingleEmployeePage = lazyRetry(() => import('@pages/single-employee'));

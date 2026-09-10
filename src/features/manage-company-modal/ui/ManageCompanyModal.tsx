@@ -22,11 +22,11 @@ const ManageCompanyModal: FC = () => {
   useEffect(() => {
     if (isEdit && data) {
       form.setFieldsValue({
-        name: data.name,
-        address: data.address,
-        objectLimit: data.objectLimit,
-        employeeLimit: data.employeeLimit,
-        status: data.status === status.ACTIVE
+        name: data?.name,
+        address: data?.address,
+        objectLimit: data?.objectLimit,
+        employeeLimit: data?.employeeLimit,
+        status: data?.status === status.ACTIVE
       });
     }
   }, [data, isEdit, form]);

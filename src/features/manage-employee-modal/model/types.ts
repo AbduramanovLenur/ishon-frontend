@@ -15,12 +15,12 @@ export interface IManageEmployeeFields extends IBaseFields {
 }
 
 export interface ICreateEmployeeFields extends IBaseFields {
-  image: File;
+  fileId: string | number;
 }
 
 export interface IUpdateEmployeeFields extends IBaseFields {
   employeeId: string | number;
-  image: File;
+  fileId: string | number;
   status: TStatus;
 }
 

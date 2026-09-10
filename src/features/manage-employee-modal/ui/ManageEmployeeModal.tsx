@@ -1,19 +1,20 @@
 import { useEffect, type FC } from "react";
-import { Checkbox, Form, Input, Modal, Select, Switch, Upload, type FormProps } from "antd";
+import { Checkbox, Form, Input, Modal, Select, Skeleton, Switch, Upload, type FormProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
+import { PlusOutlined } from "@ant-design/icons";
 import PhoneInput from 'react-phone-number-input';
 
 import type { IManageEmployeeFields } from "../model/types";
 import { close, stateManageEmployee } from "../model/slice";
 import { useCreateEmployee, useUpdateEmployee } from "../model/mutations";
+import { workingDaysOptions } from "../model/config";
 
 import { useEmployeeById } from "@entities/employees";
 import { useManualObjectList } from "@entities/objects";
 import { status } from "@shared/config";
+import { useUploadFile } from "@shared/lib";
 
 import 'react-phone-number-input/style.css';
-import { workingDaysOptions } from "../model/config";
-import { PlusOutlined } from "@ant-design/icons";
 
 const ManageEmployeeModal: FC = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const ManageEmployeeModal: FC = () => {
   const { isOpen, employeeId } = useSelector(stateManageEmployee);
   const { mutateAsync: mutateAsyncCreate, isPending: isPendingCreate } = useCreateEmployee();
   const { mutateAsync: mutateAsyncUpdate, isPending: isPendingUpdate } = useUpdateEmployee();
+  const { mutateAsync: mutateAsyncUpload } = useUploadFile();
   const isEdit = !!employeeId;
   const title = !isEdit ? "Xodim yaratish" : "Xodim yangilash";
   const { data, isLoading: isLoadingEmployee } = useEmployeeById(employeeId, isEdit);
@@ -34,19 +36,19 @@ const ManageEmployeeModal: FC = () => {
   useEffect(() => {
     if (isEdit && data) {
       form.setFieldsValue({
-        fullName: data.fullName,
-        position: data.position,
-        phone: data.phone?.replace(/\s/g, ""),
-        assignedObjectId: data.assignedObject.id,
-        workingDays: data.workingDays,
-        status: data.status === status.ACTIVE,
-        image: data.fileUrl
+        fullName: data?.fullName,
+        position: data?.position,
+        phone: data?.phone?.replace(/\s/g, ""),
+        assignedObjectId: data?.assignedObject?.id,
+        workingDays: data?.workingDays,
+        status: data?.status === status.ACTIVE,
+        image: data?.fileUrl
           ? [
               {
-                uid: data.employeeId,
+                uid: String(data?.fileId),
                 name: "employee-image",
                 status: "done",
-                url: data.fileUrl,
+                url: data?.fileUrl,
               },
             ]
           : [],
@@ -55,7 +57,7 @@ const ManageEmployeeModal: FC = () => {
   }, [data, isEdit, form]);
 
   const closeManageModalHandle = () => {
-    dispatch(close());
+    dispatch(close());  
     form.resetFields();
   }
 
@@ -63,48 +65,40 @@ const ManageEmployeeModal: FC = () => {
     form.submit();
   }
 
-  const onSubmitHandle: FormProps<IManageEmployeeFields>["onFinish"] = (values) => {
-    const formData = new FormData();
+  const onSubmitHandle: FormProps<IManageEmployeeFields>['onFinish'] = async (values) => {
+    let fileId = isEdit ? (data?.fileId ?? '') : '';
 
-    formData.append("fullName", values.fullName);
-    formData.append("position", values.position);
-    formData.append("phone", values.phone);
-    formData.append("assignedObjectId", String(values.assignedObjectId));
+    const file = values.image?.[0]?.originFileObj;
 
-    values.workingDays.forEach((day) => {
-      formData.append("workingDays", day);
-    });
+    if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
 
-    const image = values.image[0]?.originFileObj;
+        const uploadResponse = await mutateAsyncUpload(formData);
 
-    if (image) {
-      formData.append("image", image);
+        fileId = uploadResponse.data?.fileId;
     }
 
     if (isEdit) {
-      formData.append(
-        "employeeId",
-        String(employeeId),
-      );
-
-      formData.append(
-        "status",
-        values.status ? status.ACTIVE : status.INACTIVE,
-      );
-
-      mutateAsyncUpdate({
+      await mutateAsyncUpdate({
+        ...values,
         employeeId,
-        formData
+        fileId,
+        status: values.status ? status.ACTIVE : status.INACTIVE
       }, {
-        onSuccess: () => {
-          closeManageModalHandle();
+          onSuccess: () => {
+            closeManageModalHandle();
+          },
         },
-      });
+      );
 
       return;
     }
 
-    mutateAsyncCreate(formData, {
+    await mutateAsyncCreate({
+      ...values,
+      fileId
+    }, {
       onSuccess: () => {
         closeManageModalHandle();
       },
@@ -159,21 +153,24 @@ const ManageEmployeeModal: FC = () => {
             },
           ]}
         >
-          <Upload
-            listType="picture-card"
-            accept="image/png,image/jpeg,image/webp"
-            maxCount={1}
-            beforeUpload={() => false}
-            disabled={isEdit && isLoadingEmployee}
-            showUploadList={{
-              showPreviewIcon: false
-            }}
-          >
-            <div>
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>Yuklash</div>
-            </div>
-          </Upload>
+          {isEdit && isLoadingEmployee ? (
+            <Skeleton.Image active />
+          ) : (
+              <Upload
+                  listType="picture-card"
+                  accept="image/png,image/jpeg,image/webp"
+                  maxCount={1}
+                  beforeUpload={() => false}
+                  showUploadList={{
+                      showPreviewIcon: false,
+                  }}
+              >
+                  <div>
+                      <PlusOutlined />
+                      <div style={{ marginTop: 8 }}>Yuklash</div>
+                  </div>
+              </Upload>
+          )}
         </Form.Item>
         <Form.Item<IManageEmployeeFields>
           className="modal__item"
@@ -221,7 +218,7 @@ const ManageEmployeeModal: FC = () => {
             className="modal__phone"
             international
             defaultCountry="UZ"
-            onChange={() => {}}
+            onChange={() => false}
             disabled={isEdit && isLoadingEmployee}
           />
         </Form.Item>

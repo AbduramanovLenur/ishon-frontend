@@ -11,3 +11,4 @@ export type { IManual } from "./manual";
 export type { TPeriod } from "./periods";
 export type { IDateValue } from "./chart";
 export type { TDays } from "./days";
+export type { IFile } from "./file";

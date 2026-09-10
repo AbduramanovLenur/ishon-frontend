@@ -27,16 +27,16 @@ const ManageObjectModal: FC = () => {
   useEffect(() => {
     if (isEdit && data) {
       form.setFieldsValue({
-        name: data.name,
-        address: data.address,
-        latitude: data.latitude,
-        longitude: data.longitude,
-        geofenceRadiusMeters: data.geofenceRadiusMeters,
-        shiftStartTime: dayjs(data.shiftStartTime, "HH:mm:ss"),
-        shiftEndTime: dayjs(data.shiftEndTime, "HH:mm:ss"),
-        lateEntryGraceMinutes: data.lateEntryGraceMinutes,
-        earlyLeaveGraceMinutes: data.earlyLeaveGraceMinutes,
-        status: data.status === status.ACTIVE,
+        name: data?.name,
+        address: data?.address,
+        latitude: data?.latitude,
+        longitude: data?.longitude,
+        geofenceRadiusMeters: data?.geofenceRadiusMeters,
+        shiftStartTime: dayjs(data?.shiftStartTime, "HH:mm:ss"),
+        shiftEndTime: dayjs(data?.shiftEndTime, "HH:mm:ss"),
+        lateEntryGraceMinutes: data?.lateEntryGraceMinutes,
+        earlyLeaveGraceMinutes: data?.earlyLeaveGraceMinutes,
+        status: data?.status === status.ACTIVE,
       });
     }
   }, [data, isEdit, form]);

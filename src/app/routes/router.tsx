@@ -5,7 +5,6 @@ import RequireGuest from './guards/RequireGuest';
 import RequireAuth from './guards/RequireAuth';
 import RequireRole from './guards/RequireRole';
 import IndexRedirect from './guards/IndexRedirect';
-import { ErrorBoundary } from '@shared/ui';
 
 import { 
   AuthPage, 
@@ -16,11 +15,13 @@ import {
   LogsPage,
   ObjectsPage,
   TodaysPresencePage,
+  SingleEmployeePage,
   NotFoundPage
 } from './pages';
 
 import { roles } from '@shared/config';
 import { routes } from '@shared/config';
+import { ErrorBoundary } from '@shared/ui';
 
 const router = createBrowserRouter([
   { 
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
               {
                 path: routes.EMPLOYEES,
                 element: <EmployeesPage />
+              },
+              {
+                path: routes.SINGLE_EMPLOYEE(':id'),
+                element: <SingleEmployeePage />
               },
               {
                 path: routes.LOGS,

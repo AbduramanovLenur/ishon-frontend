@@ -7,5 +7,6 @@ export const routes = {
   OBJECTS: '/objects',
   EMPLOYEES: '/employees',
   LOGS: '/logs',
-  TODAYS_PRESENCE: '/todays-presence'
+  TODAYS_PRESENCE: '/todays-presence',
+  SINGLE_EMPLOYEE: (id: string | number) => `${routes.EMPLOYEES}/${id}`
 } as const;
