@@ -1,6 +1,8 @@
 export const employeesKeys = {
   all: ['employees'],
-  list: (search?: string, page?: number) => [...employeesKeys.all, search, page ],
+  collection: () => [...employeesKeys.all, 'list'],
+  list: (search?: string, page?: number) => [...employeesKeys.collection(), search, page],
   byId: (employeeId: string | number | null) => [...employeesKeys.all, employeeId],
-  login: (employeeId: string | number | null) => [...employeesKeys.all, 'login', employeeId],
+  username: (employeeId: string | number | null) => [...employeesKeys.all, 'username', employeeId],
+  profile: (employeeId: string | number | null) => [...employeesKeys.all, 'profile', employeeId],
 } as const;

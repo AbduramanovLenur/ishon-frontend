@@ -1,5 +1,6 @@
 export const companiesOwnerKeys = {
   all: ['companies-owner-admin'],
-  list: (search?: string, page?: number) => [...companiesOwnerKeys.all, search, page ],
+  collection: () => [...companiesOwnerKeys.all, 'list'],
+  list: (search?: string, page?: number) => [...companiesOwnerKeys.collection(), search, page ],
   byId: (companyOwnerId: string | number | null) => [...companiesOwnerKeys.all, companyOwnerId]
 } as const;

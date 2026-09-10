@@ -1,4 +1,5 @@
 export const systemLogsKeys = {
   all: ['system-logs'],
-  list: (search?: string, page?: number) => [...systemLogsKeys.all, search, page ]
+  collection: () => [...systemLogsKeys.all, 'list'],
+  list: (search?: string, page?: number) => [...systemLogsKeys.collection(), search, page ]
 }

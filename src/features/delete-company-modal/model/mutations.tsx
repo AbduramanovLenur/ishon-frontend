@@ -4,8 +4,8 @@ import { App } from "antd";
 import type { AxiosError } from "axios";
 
 import { api } from "../api/api";
-import { companiesKeys } from "@entities/companies";
 
+import { companiesKeys } from "@entities/companies";
 import type { IApiResponse } from "@shared/types";
 
 export const useDeleteCompany = () => {
@@ -20,7 +20,7 @@ export const useDeleteCompany = () => {
     mutationFn: api.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: companiesKeys.all,
+        queryKey: companiesKeys.collection(),
       });
 
       message.success("Kompaniya o'chirildi");

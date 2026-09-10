@@ -21,7 +21,7 @@ export function useCreateObject () {
       mutationFn: api.create,
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: objectsKeys.all
+          queryKey: objectsKeys.collection()
         });
         
         message.success('Obyekt yaratildi');
@@ -50,10 +50,10 @@ export function useUpdateObject() {
       mutationFn: api.update,
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
-          queryKey: objectsKeys.byId(variables.objectId)
+          queryKey: objectsKeys.collection()
         });
         queryClient.invalidateQueries({
-          queryKey: objectsKeys.all
+          queryKey: objectsKeys.byId(variables.objectId)
         });
         
         message.success('Obyekt yangilandi');

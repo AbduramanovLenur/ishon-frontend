@@ -1,11 +1,9 @@
 import type { FC } from "react";
 
+import { SingleEmployee } from "@widgets/single-employee";
+
 const SingleEmployeePage: FC = () => {
-  return (
-    <div>
-      Single Employee
-    </div>
-  );
+  return <SingleEmployee />;
 }
 
 export default SingleEmployeePage;

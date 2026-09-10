@@ -15,13 +15,20 @@ export function useEmployeeById(employeeId: string | number | null, enabled: boo
     queryKey: employeesKeys.byId(employeeId),
     queryFn: () => api.getById(employeeId),
     enabled
-  })
+  });
 }
 
-export function useEmployeeLogin(employeeId: string | number | null, enabled: boolean) {
+export function useEmployeeUsername(employeeId: string | number | null, enabled: boolean) {
   return useQuery({
-    queryKey: employeesKeys.login(employeeId),
-    queryFn: () => api.login(employeeId),
+    queryKey: employeesKeys.username(employeeId),
+    queryFn: () => api.username(employeeId),
     enabled
-  })
+  });
+}
+
+export function useEmployeeProfile(employeeId: string | number | null) {
+  return useQuery({
+    queryKey: employeesKeys.profile(employeeId),
+    queryFn: () => api.profile(employeeId)
+  });
 }

@@ -21,7 +21,7 @@ export function useCreateCompanyOwner () {
       mutationFn: api.create,
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: companiesOwnerKeys.all
+          queryKey: companiesOwnerKeys.collection()
         });
         
         message.success('Direktor yaratildi');
@@ -50,10 +50,10 @@ export function useUpdateCompanyOwner() {
       mutationFn: api.update,
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
-          queryKey: companiesOwnerKeys.byId(variables.companyOwnerId)
+          queryKey: companiesOwnerKeys.collection()
         });
         queryClient.invalidateQueries({
-          queryKey: companiesOwnerKeys.all
+          queryKey: companiesOwnerKeys.byId(variables.companyOwnerId)
         });
         
         message.success('Direktor yangilandi');

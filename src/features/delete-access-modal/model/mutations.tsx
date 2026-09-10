@@ -20,7 +20,7 @@ export const useDeleteAccess = () => {
     mutationFn: api.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: employeesKeys.all,
+        queryKey: employeesKeys.collection()
       });
 
       message.success("Administrator huquqlari bekor qilindi");

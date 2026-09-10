@@ -20,7 +20,7 @@ export const useDeleteEmployee = () => {
     mutationFn: api.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: employeesKeys.all,
+        queryKey: employeesKeys.collection()
       });
 
       message.success("Xodim o'chirildi");

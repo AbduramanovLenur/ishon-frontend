@@ -21,7 +21,7 @@ export function useCreateEmployee() {
       mutationFn: api.create,
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: employeesKeys.all
+          queryKey: employeesKeys.collection()
         });
         
         message.success('Xodim yaratildi');
@@ -50,10 +50,10 @@ export function useUpdateEmployee() {
       mutationFn: api.update,
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
-          queryKey: employeesKeys.byId(variables.employeeId)
+          queryKey: employeesKeys.collection()
         });
         queryClient.invalidateQueries({
-          queryKey: employeesKeys.all
+          queryKey: employeesKeys.byId(variables.employeeId)
         });
         
         message.success('Xodim yangilandi');

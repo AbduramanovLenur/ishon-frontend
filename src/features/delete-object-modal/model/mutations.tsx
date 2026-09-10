@@ -20,7 +20,7 @@ export const useDeleteObject = () => {
     mutationFn: api.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: objectsKeys.all,
+        queryKey: objectsKeys.collection(),
       });
 
       message.success("Obyekt o'chirildi");

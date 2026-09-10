@@ -30,3 +30,19 @@ export interface IEmployeeAdmin {
 export interface IEmployeeLogin {
   login: string;
 }
+
+export interface IEmployeeStatistics {
+  workedDays: number;
+  notCheckedInDays: number;
+  lateArrivals: number;
+  earlyLeaves: number;
+}
+
+export interface IEmployeeDetails {
+  employeeId: string;
+  photoUrl: string;
+  fullName: string;
+  position: string;
+  assignedObject: IManual;
+  statistics: IEmployeeStatistics;
+}

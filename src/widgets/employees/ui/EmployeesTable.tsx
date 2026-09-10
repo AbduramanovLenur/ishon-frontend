@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { Image, Table, Tag, type TableProps } from "antd";
 import { useDispatch } from "react-redux";
 import { KeyOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 import { formatPhoneNumberIntl } from 'react-phone-number-input';
 
 import { ManageEmployeeModal, open as openManageModal } from "@features/manage-employee-modal";
@@ -11,7 +12,7 @@ import { useDeleteAccess } from "@features/delete-access-modal";
 import { useDeleteEmployee } from "@features/delete-employee-modal";
 import { useEmployeeList, type IEmployee } from "@entities/employees";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
-import { defaultValues, queries, roles, status } from "@shared/config";
+import { defaultValues, queries, roles, routes, status } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
 import { validationPage } from "@shared/utils";
 
@@ -19,6 +20,7 @@ import styles from "./EmployeesTable.module.scss";
 
 const EmployeesTable: FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { get } = useQueryParams();
   const search = get(queries.SEARCH) || defaultValues.search;
   const currentPage = validationPage(Number(get(queries.PAGE)), defaultValues.page);
@@ -31,11 +33,10 @@ const EmployeesTable: FC = () => {
 
   const openManageModalHandle = (id: number | string) => {
     dispatch(openManageModal(id));
-    console.log(id)
   }
 
   const openViewHandle = (id: number | string) => {
-    console.log(id)
+    navigate(routes.SINGLE_EMPLOYEE(id));
   }
 
   const openGrantAccessModalHandle = (id: number | string) => {

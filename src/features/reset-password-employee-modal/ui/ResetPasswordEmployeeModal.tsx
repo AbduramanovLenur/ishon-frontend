@@ -7,14 +7,14 @@ import type { IResetPasswordEmployeeFields } from "../model/types";
 import { close, stateResetPasswordEmployee } from "../model/slice";
 import { useResetPasswordEmployee } from "../model/mutations";
 
-import { useEmployeeLogin } from "@entities/employees";
+import { useEmployeeUsername } from "@entities/employees";
 
 const ResetPasswordEmployeeModal: FC = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm<IResetPasswordEmployeeFields>();
   const { isOpen, employeeId } = useSelector(stateResetPasswordEmployee);
   const { mutateAsync, isPending } = useResetPasswordEmployee();
-  const { data, isLoading } = useEmployeeLogin(employeeId, isOpen);
+  const { data, isLoading } = useEmployeeUsername(employeeId, isOpen);
 
   const closeManageModalHandle = () => {
     dispatch(close());

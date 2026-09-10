@@ -1,4 +1,4 @@
-import type { IEmployee, IEmployeeLogin } from "../model/types";
+import type { IEmployee, IEmployeeDetails, IEmployeeLogin } from "../model/types";
 import { endpoints } from "./endpoints";
 
 import { axiosInstance } from "@shared/api";
@@ -18,13 +18,20 @@ export const api = {
       .get<IApiResponse<IEmployee>>(endpoints.BY_ID, { params: {
         ...(employeeId && { employeeId })
       }})
-      .then((response) => response.data.data)
+      .then((response) => response.data.data);
   },
-  login: (employeeId: string | number | null) => {
+  username: (employeeId: string | number | null) => {
     return axiosInstance
       .get<IApiResponse<IEmployeeLogin>>(endpoints.LOGIN, { params: {
         ...(employeeId && { employeeId })
       }})
-      .then((response) => response.data.data)
+      .then((response) => response.data.data);
+  },
+  profile: (employeeId: string | number | null) => {
+    return axiosInstance
+      .get<IApiResponse<IEmployeeDetails>>(endpoints.PROFILE, { params: {
+        ...(employeeId && { employeeId })
+      }})
+      .then((response) => response.data.data);
   }
 }

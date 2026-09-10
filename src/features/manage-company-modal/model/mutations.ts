@@ -21,7 +21,7 @@ export function useCreateCompany() {
       mutationFn: api.create,
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: companiesKeys.all
+          queryKey: companiesKeys.collection()
         });
         queryClient.invalidateQueries({
           queryKey: companiesKeys.manualList()
@@ -53,10 +53,10 @@ export function useUpdateCompany() {
       mutationFn: api.update,
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({
-          queryKey: companiesKeys.byId(variables.companyId)
+          queryKey: companiesKeys.collection()
         });
         queryClient.invalidateQueries({
-          queryKey: companiesKeys.all
+          queryKey: companiesKeys.byId(variables.companyId)
         });
         queryClient.invalidateQueries({
           queryKey: companiesKeys.manualList()

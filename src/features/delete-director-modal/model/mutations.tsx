@@ -20,7 +20,7 @@ export const useDeleteCompanyOwner = () => {
     mutationFn: api.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: companiesOwnerKeys.all,
+        queryKey: companiesOwnerKeys.collection(),
       });
 
       message.success("Direktor o'chirildi");

@@ -1,0 +1,1 @@
+export { default as SingleEmployee } from "./ui/SingleEmployee";

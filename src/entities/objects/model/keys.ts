@@ -1,6 +1,7 @@
 export const objectsKeys = {
   all: ['objects'],
-  list: (search?: string, page?: number) => [...objectsKeys.all, search, page ],
+  collection: () => [...objectsKeys.all, 'list'],
+  list: (search?: string, page?: number) => [...objectsKeys.collection(), search, page ],
   byId: (objectId: string | number | null) => [...objectsKeys.all, objectId],
   manualList: () => [...objectsKeys.all, 'manual-list']
 }
