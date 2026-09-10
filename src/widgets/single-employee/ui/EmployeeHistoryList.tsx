@@ -1,7 +1,8 @@
 import type { FC } from "react";
 import { useParams } from "react-router-dom";
+import { Skeleton } from "antd";
 
-import { useEmployeeHistory } from "@entities/employees";
+import { HistoryItem, useEmployeeHistory } from "@entities/employees";
 import { useQueryParams } from "@shared/lib";
 import { defaultValues, earlyValues, lateValues, queries } from "@shared/config";
 import { validationPage } from "@shared/utils";
@@ -33,9 +34,17 @@ const EmployeeHistoryList: FC = () => {
 
   return (
     <div className={styles['history-employee']}>
-      <ul className={styles['history-employee__list']}>
-        
-      </ul>
+      {isLoading ? (
+        <Skeleton.Node className={styles['history-employee__skeleton']} />
+      ) : (
+        <ul className={styles['history-employee__list']}>
+          {historyData.map((item) => (
+            <li className={styles['history-employee__item']}>
+              <HistoryItem item={item} />
+            </li>
+          ))}
+        </ul>
+      )}
       {defaultValues.pageSize < totalElements && <div className={styles['objects-table__bottom']}>
         <Paginator total={totalElements} />
       </div>}

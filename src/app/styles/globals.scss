@@ -385,3 +385,7 @@ main {
 .css-var-root.ant-dropdown-css-var {
   --ant-dropdown-z-index-popup: 50;
 }
+
+.ant-image-preview {
+  z-index: 3000;
+}
