@@ -135,6 +135,20 @@ const ObjectDetails: FC<IObjectDetailsProps> = ({ objectId }) => {
         {isLoading ? (
           <Skeleton.Node className={styles['object-details__skeleton']} />
         ) : (
+          data?.attendanceClosingTime && (
+            <div className={styles['object-details__wrapper']}>
+              <div className={styles['object-details__small-title']}>
+                Avtomatik yopilish vaqti
+              </div>
+              <div className={styles['object-details__value']}>
+                { formatHoursMinutes(data.attendanceClosingTime) }
+              </div>
+            </div>
+          )
+        )}
+        {isLoading ? (
+          <Skeleton.Node className={styles['object-details__skeleton']} />
+        ) : (
           data?.lateEntryGraceMinutes && (
             <div className={styles['object-details__wrapper']}>
               <div className={styles['object-details__small-title']}>
