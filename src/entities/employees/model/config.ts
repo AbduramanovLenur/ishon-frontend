@@ -1,4 +1,6 @@
 export const eventTypes = {
   ENTER: "Kirish",
-  EXIT: "Chiqish"
+  EXIT: "Chiqish",
+  LATE: "Kechikkan",
+  EARLY: "Erta"
 }

@@ -1,14 +1,14 @@
 import type { FC } from "react";
+import { Skeleton } from "antd";
 import { 
-  CloseOutlined, 
-  FieldTimeOutlined, 
-  ReconciliationOutlined, 
-  ScheduleOutlined, 
-  // SelectOutlined 
+  CloseOutlined,
+  FieldTimeOutlined,
+  ReconciliationOutlined,
+  ScheduleOutlined,
+  // SelectOutlined
 } from "@ant-design/icons";
 
 import styles from "./AnalyticsEmployee.module.scss";
-import { Skeleton } from "antd";
 
 interface IAnalyticsEmployeeProps {
   workedDays: number;
@@ -50,7 +50,7 @@ const AnalyticsEmployee: FC<IAnalyticsEmployeeProps> = ({
     //   icon: <SelectOutlined />,
     //   label: 'Qayd etilmagan',
     //   value: earlyLeaves,
-    // }
+    // },
   ];
 
   return (

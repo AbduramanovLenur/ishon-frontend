@@ -14,17 +14,42 @@ interface IHistoryItemProps {
 };
 
 const HistoryItem: FC<IHistoryItemProps> = ({ item }) => {
+  const tags = [
+    item.eventType && {
+      id: 1,
+      text: eventTypes[item.eventType],
+      color: '#2db7f5',
+      textColor: undefined,
+    },
+    item.late && {
+      id: 2,
+      text: eventTypes.LATE,
+      color: '#DCFCE7',
+      textColor: '#389e0d',
+    },
+    item.earlyLeave && {
+      id: 3,
+      text: eventTypes.EARLY,
+      color: '#FCE7F3',
+      textColor: '#9D174D',
+    },
+  ].filter((tag): tag is Exclude<typeof tag, false> => Boolean(tag));
+
   return (
     <div className={styles['history-item']}>
       <div className={styles['history-item__info']}>
         <div className={styles['history-item__wrapper']}>
-          {item?.eventType && <Tag
-            className={styles['history-item__tag']}
-            color={'#2db7f5'} 
-            variant="solid"
-          >
-            {eventTypes[item.eventType]}
-          </Tag>}
+          {tags.map((tag) => (
+            <Tag
+              key={tag.id}
+              className={styles['history-item__tag']}
+              color={tag.color}
+              style={tag.textColor ? { color: tag.textColor } : undefined}
+              variant={tag.textColor ? undefined : 'solid'}
+            >
+              {tag.text}
+            </Tag>
+          ))}
           {item.eventTime && <div className={styles['history-item__date']}>
             {formatDate(item.eventTime)}
           </div>}
