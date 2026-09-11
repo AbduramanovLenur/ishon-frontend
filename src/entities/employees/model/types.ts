@@ -36,6 +36,7 @@ export interface IEmployeeStatistics {
   notCheckedInDays: number;
   lateArrivals: number;
   earlyLeaves: number;
+  notLeftDays: number;
 }
 
 export interface IEmployeeDetails {
@@ -49,10 +50,11 @@ export interface IEmployeeDetails {
 
 export interface IEmployeeEvent {
   eventId: string;
-  eventType: TEvent;
+  type: TEvent;
   eventTime: string;
   object: IManual;
   snapshotUrl: string;
   late: boolean;
   earlyLeave: boolean;
+  attendanceDate: string;
 }

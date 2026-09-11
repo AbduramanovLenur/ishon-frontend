@@ -5,7 +5,7 @@ import {
   FieldTimeOutlined,
   ReconciliationOutlined,
   ScheduleOutlined,
-  // SelectOutlined
+  SelectOutlined
 } from "@ant-design/icons";
 
 import styles from "./AnalyticsEmployee.module.scss";
@@ -15,6 +15,7 @@ interface IAnalyticsEmployeeProps {
   notCheckedInDays: number;
   lateArrivals: number;
   earlyLeaves: number;
+  notLeftDays: number;
   isLoading: boolean;
 }
 
@@ -23,45 +24,51 @@ const AnalyticsEmployee: FC<IAnalyticsEmployeeProps> = ({
   notCheckedInDays,
   lateArrivals,
   earlyLeaves,
+  notLeftDays,
   isLoading
 }) => {
   const analytics = [
     {
+      id: 1,
       icon: <ReconciliationOutlined />,
       label: 'Ishlangan kunlar',
       value: workedDays,
     },
     {
+      id: 2,
       icon: <CloseOutlined />,
       label: 'Qoldirilgan kunlar',
       value: notCheckedInDays,
     },
     {
+      id: 3,
       icon: <ScheduleOutlined />,
       label: 'Kechikib kelishlar',
       value: lateArrivals,
     },
     {
+      id: 4,
       icon: <FieldTimeOutlined />,
       label: 'Erta ketishlar',
       value: earlyLeaves,
     },
-    // {
-    //   icon: <SelectOutlined />,
-    //   label: 'Qayd etilmagan',
-    //   value: earlyLeaves,
-    // },
+    {
+      id: 5,
+      icon: <SelectOutlined />,
+      label: 'Qayd etilmagan',
+      value: notLeftDays,
+    },
   ];
 
   return (
     <div className={styles['analytics-employee']}>
       <ul className={styles['analytics-employee__list']}>
-        {analytics.map(({ icon, label, value }) => (
+        {analytics.map(({ id, icon, label, value }) => (
           isLoading ? (
             <Skeleton.Node className={styles['analytics-employee__skeleton']} />
           ) : (
             <li
-              key={label}
+              key={id}
               className={styles['analytics-employee__item']}
             >
               <div className={styles['analytics-employee__box']}>

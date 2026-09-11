@@ -34,6 +34,7 @@ const ManageObjectModal: FC = () => {
         geofenceRadiusMeters: data.geofenceRadiusMeters,
         shiftStartTime: dayjs(data.shiftStartTime, "HH:mm:ss"),
         shiftEndTime: dayjs(data.shiftEndTime, "HH:mm:ss"),
+        attendanceClosingTime: dayjs(data.attendanceClosingTime, "HH:mm:ss"),
         lateEntryGraceMinutes: data.lateEntryGraceMinutes,
         earlyLeaveGraceMinutes: data.earlyLeaveGraceMinutes,
         status: data?.status === status.ACTIVE,
@@ -57,6 +58,7 @@ const ManageObjectModal: FC = () => {
         objectId,
         shiftStartTime: values.shiftStartTime.format("HH:mm"),
         shiftEndTime: values.shiftEndTime.format("HH:mm"),
+        attendanceClosingTime: values.attendanceClosingTime.format("HH:mm"),
         status: values.status ? status.ACTIVE : status.INACTIVE
       }, {
         onSuccess: () => {
@@ -69,7 +71,8 @@ const ManageObjectModal: FC = () => {
     mutateAsyncCreate({
       ...values,
       shiftStartTime: values.shiftStartTime.format("HH:mm"),
-      shiftEndTime: values.shiftEndTime.format("HH:mm")
+      shiftEndTime: values.shiftEndTime.format("HH:mm"),
+      attendanceClosingTime: values.attendanceClosingTime.format("HH:mm")
     }, {
       onSuccess: () => {
         closeManageModalHandle();
@@ -167,7 +170,7 @@ const ManageObjectModal: FC = () => {
           </Form.Item>
           <Flex className={styles['object-manage-modal__flex']}>
             <Form.Item<IManageObjectFields>
-              className="modal__item"
+              className="modal__item not-margened-item"
               layout="vertical"
               label="Ish kuni boshlanish vaqti"
               name="shiftStartTime"
@@ -183,7 +186,7 @@ const ManageObjectModal: FC = () => {
               />
             </Form.Item>
             <Form.Item<IManageObjectFields>
-              className="modal__item"
+              className="modal__item not-margened-item"
               layout="vertical"
               label="Ish kuni tugash vaqti"
               name="shiftEndTime"
@@ -199,9 +202,25 @@ const ManageObjectModal: FC = () => {
               />
             </Form.Item>
           </Flex>
+          <Form.Item<IManageObjectFields>
+            className="modal__item"
+            layout="vertical"
+            label="Avtomatik yopilish vaqti"
+            name="attendanceClosingTime"
+            rules={[{ 
+              required: true,
+              message: 'Avtomatik yopilish vaqtini kiriting'
+            }]}
+          >
+            <TimePicker
+              format="HH:mm"
+              style={{ width: "100%" }}
+              className="modal__timepicker"
+            />
+          </Form.Item>
           <Flex className={styles['object-manage-modal__flex']}>
             <Form.Item<IManageObjectFields>
-              className="modal__item"
+              className="modal__item not-margened-item"
               layout="vertical"
               label="Kechikishga ruxsat etilgan vaqt (daq.)"
               name="lateEntryGraceMinutes"
@@ -218,7 +237,7 @@ const ManageObjectModal: FC = () => {
               />
             </Form.Item>
             <Form.Item<IManageObjectFields>
-              className="modal__item"
+              className="modal__item not-margened-item"
               layout="vertical"
               label="Erta ketishga ruxsat etilgan vaqt (daq.)"
               name="earlyLeaveGraceMinutes"

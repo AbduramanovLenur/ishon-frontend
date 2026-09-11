@@ -1,8 +1,4 @@
-import {
-  MutationCache,
-  QueryCache,
-  QueryClient,
-} from '@tanstack/react-query';
+import { QueryCache, QueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
 import axios from 'axios';
 
@@ -16,12 +12,6 @@ const getErrorMessage = (error: unknown): string => {
 
 export const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: (error) => {
-      message.error(getErrorMessage(error));
-    },
-  }),
-
-  mutationCache: new MutationCache({
     onError: (error) => {
       message.error(getErrorMessage(error));
     },

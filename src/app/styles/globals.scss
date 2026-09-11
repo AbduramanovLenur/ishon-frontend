@@ -172,11 +172,9 @@ main {
 .ant-input-number {
   width: 100%;
 }
-.not-margened-bottom {
-  margin-bottom: 0;
-}
 .not-margened-item {
   --ant-form-item-margin-bottom: 0 !important;
+  margin: 0;
 }
 
 .spin {

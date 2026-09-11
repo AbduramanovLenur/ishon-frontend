@@ -8,6 +8,10 @@ export const events = [
   {
     label: 'Chiqish',
     value: eventTypes.EXIT
+  },
+  {
+    label: 'Chiqish qayd etilmagan',
+    value: eventTypes.NOT_LEFT
   }
 ];
 

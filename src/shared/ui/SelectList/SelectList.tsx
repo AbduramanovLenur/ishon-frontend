@@ -12,6 +12,7 @@ interface ISelectListProps {
   showAll?: boolean;
   isLoading?: boolean;
   onChange?: (value: string) => void;
+  className?: string;
 };
 
 const SelectList: FC<ISelectListProps> = ({
@@ -20,7 +21,8 @@ const SelectList: FC<ISelectListProps> = ({
   defaultValue = '',
   showAll = true,
   isLoading = false,
-  onChange
+  onChange,
+  className = ''
 }) => {
   const { set, get, remove } = useQueryParams();
 
@@ -46,7 +48,7 @@ const SelectList: FC<ISelectListProps> = ({
 
   return (
     <Select 
-      className={styles['select-list']}
+      className={`${styles['select-list']} ${className}`}
       value={currentValue}
       options={allOptions} 
       onChange={onChangeHandle}

@@ -11,6 +11,7 @@ export interface IObject {
   geofenceRadiusMeters: number;
   shiftStartTime: string;
   shiftEndTime: string;
+  attendanceClosingTime: string;
   lateEntryGraceMinutes: number;
   earlyLeaveGraceMinutes: number;
   createdAt: string;

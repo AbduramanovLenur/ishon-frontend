@@ -15,9 +15,9 @@ interface IHistoryItemProps {
 
 const HistoryItem: FC<IHistoryItemProps> = ({ item }) => {
   const tags = [
-    item.eventType && {
+    item.type && {
       id: 1,
-      text: eventTypes[item.eventType],
+      text: eventTypes[item.type],
       color: '#2db7f5',
       textColor: undefined,
     },
@@ -50,9 +50,11 @@ const HistoryItem: FC<IHistoryItemProps> = ({ item }) => {
               {tag.text}
             </Tag>
           ))}
-          {item.eventTime && <div className={styles['history-item__date']}>
-            {formatDate(item.eventTime)}
-          </div>}
+          {(item.eventTime || item.attendanceDate) && (
+            <div className={styles['history-item__date']}>
+              {formatDate(item.eventTime || item.attendanceDate)}
+            </div>
+          )}
         </div>
         {item?.eventTime && <div className={styles['history-item__information']}>
           {formatTime(item.eventTime)}

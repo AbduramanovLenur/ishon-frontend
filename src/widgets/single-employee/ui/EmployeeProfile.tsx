@@ -21,6 +21,7 @@ const EmployeeProfile: FC = () => {
         notCheckedInDays={data?.statistics?.notCheckedInDays ?? 0}
         lateArrivals={data?.statistics?.lateArrivals ?? 0}
         earlyLeaves={data?.statistics?.earlyLeaves ?? 0}
+        notLeftDays={data?.statistics?.notLeftDays ?? 0}
         isLoading={isLoading}
       />
     </>

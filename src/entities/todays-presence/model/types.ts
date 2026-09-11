@@ -28,6 +28,7 @@ export interface IEmployeeCounts {
   atWork: number;
   left: number;
   notCheckedIn: number;
+  notLeft: number;
 }
 
 export interface IEmployeesResponse {

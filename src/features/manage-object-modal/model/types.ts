@@ -15,16 +15,19 @@ export interface IManageObjectFields extends IBaseFields {
   status: boolean;
   shiftStartTime: Dayjs;
   shiftEndTime: Dayjs;
+  attendanceClosingTime: Dayjs;
 }
 
 export interface ICreateObjectFields extends IBaseFields {
   shiftStartTime: string;
   shiftEndTime: string;
+  attendanceClosingTime: string;
 };
 
 export interface IUpdateObjectFields extends IBaseFields {
   shiftStartTime: string;
   shiftEndTime: string;
+  attendanceClosingTime: string;
   objectId: string | number;
   status: TStatus;
 }

@@ -8,6 +8,11 @@
   background-color: var(--White);
   border: 1px solid #C7C4D8;
   margin-bottom: 16px;
+  @media (max-width: 1200px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
   @media (max-width: 768px) {
     align-items: flex-start;
     flex-direction: column;
