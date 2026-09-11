@@ -203,11 +203,11 @@ const ManageObjectModal: FC = () => {
             <Form.Item<IManageObjectFields>
               className="modal__item"
               layout="vertical"
-              label="Erta ketishga ruxsat etilgan vaqt (daq.)"
-              name="earlyLeaveGraceMinutes"
+              label="Kechikishga ruxsat etilgan vaqt (daq.)"
+              name="lateEntryGraceMinutes"
               rules={[{ 
                 required: true,
-                message: 'Erta ketishga ruxsat etilgan vaqtni kiriting'
+                message: 'Kechikishga ruxsat etilgan vaqtni kiriting'
               }]}
             >
               <InputNumber
@@ -220,11 +220,11 @@ const ManageObjectModal: FC = () => {
             <Form.Item<IManageObjectFields>
               className="modal__item"
               layout="vertical"
-              label="Kechikishga ruxsat etilgan vaqt (daq.)"
-              name="lateEntryGraceMinutes"
+              label="Erta ketishga ruxsat etilgan vaqt (daq.)"
+              name="earlyLeaveGraceMinutes"
               rules={[{ 
                 required: true,
-                message: 'Kechikishga ruxsat etilgan vaqtni kiriting'
+                message: 'Erta ketishga ruxsat etilgan vaqtni kiriting'
               }]}
             >
               <InputNumber
