@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import uzUZ from "antd/locale/uz_UZ";
 import dayjs from "dayjs";
 
+import ObjectLocationField from "./ObjectLocationField";
 import { useCreateObject, useUpdateObject } from "../model/mutations";
 import { close, stateManageObject } from "../model/slice";
 import type { IManageObjectFields } from "../model/types";
@@ -12,7 +13,6 @@ import { useObjectById } from "@entities/objects";
 import { defaultValues, status } from "@shared/config";
 
 import styles from "./ManageObjectModal.module.scss";
-import ObjectLocationField from "./ObjectLocationField";
 
 const ManageObjectModal: FC = () => {
   const dispatch = useDispatch();
@@ -106,6 +106,7 @@ const ManageObjectModal: FC = () => {
         onCancel={closeManageModalHandle}
         confirmLoading={isPendingCreate || isPendingUpdate}
         zIndex={3000}
+        destroyOnHidden
       >
         <Form 
           form={form}

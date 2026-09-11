@@ -18,6 +18,8 @@ const ObjectLocationField: FC<IObjectLocationFieldProps> = ({ form, isOpen, isEd
   const latitude = Form.useWatch("latitude", form);
   const longitude = Form.useWatch("longitude", form);
   const radius = Form.useWatch("geofenceRadiusMeters", form);
+  const lat = latitude !== undefined ? Number(latitude) : undefined;
+  const lng = longitude !== undefined ? Number(longitude) : undefined;
 
   useEffect(() => {
     if (!isOpen || isEdit || currentLatitude === null || currentLongitude === null) {
@@ -62,8 +64,8 @@ const ObjectLocationField: FC<IObjectLocationFieldProps> = ({ form, isOpen, isEd
         layout="vertical"
       >
         <GeofenceMap
-          latitude={latitude !== undefined ? Number(latitude) : undefined}
-          longitude={longitude !== undefined ? Number(longitude) : undefined}
+          latitude={lat}
+          longitude={lng}
           radius={radius ?? 0}
           editable
           onPositionChange={handlePositionChange}
