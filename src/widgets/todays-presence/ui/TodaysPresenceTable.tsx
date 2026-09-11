@@ -6,7 +6,7 @@ import { Paginator, SearchInput } from "@shared/ui";
 import { defaultValues, queries, workStatus } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
 import type { TWorkStatus } from "@shared/types";
-import { formatTime, validationPage } from "@shared/utils";
+import { formatDate, formatTime, validationPage } from "@shared/utils";
 
 import styles from "./TodaysPresenceTable.module.scss";
 
@@ -93,7 +93,7 @@ const TodaysPresenceTable: FC = () => {
           {
             title: "Oxirgi ko‘rilgan sana",
             render: (_: unknown, record: IEmployee) =>
-              formatTime(record?.lastSeenDate),
+              formatDate(record?.lastSeenDate),
           },
         ]
       : []),
