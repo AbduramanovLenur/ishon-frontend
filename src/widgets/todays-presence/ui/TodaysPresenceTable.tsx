@@ -48,7 +48,7 @@ const TodaysPresenceTable: FC = () => {
     },
     {
       title: "Lavozimi",
-      width: 250,
+      width: 200,
       render: (_, record) => (
         <Tag 
           color={'#D9DFF5'} 
@@ -60,7 +60,7 @@ const TodaysPresenceTable: FC = () => {
     },
     {
       title: "Obyekt nomi",
-      width: 300,
+      width: 250,
       render: (_, record) => (
         <Tag 
           color={'#f0f9ff'} 
