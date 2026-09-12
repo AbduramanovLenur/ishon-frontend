@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Typography } from "antd";
+import { Skeleton, Typography } from "antd";
 import { LinkOutlined } from "@ant-design/icons";
 
 import styles from "./TelegramIntegration.module.scss";
@@ -23,13 +23,21 @@ const TelegramIntegration: FC<ITelegramIntegrationProps> = ({ telegramLink, isLo
           <div className={styles['telegram-integration__content-label']}>
             Bot havolasi
           </div>
-          <a className={styles['telegram-integration__content-link']} href={telegramLink} target="_blank">
-            {telegramLink}
-          </a>
+          {isLoading ? (
+            <Skeleton.Node className={styles['telegram-integration__skeleton']} />
+          ) : (
+            <a 
+              className={styles['telegram-integration__content-link']} 
+              href={telegramLink} 
+              target="_blank"
+            >
+              {telegramLink}
+            </a>
+          )}
         </div>
-        <div className={styles['telegram-integration__copy']}>
+        {!isLoading && <div className={styles['telegram-integration__copy']}>
           <Typography.Text copyable={{ text: telegramLink }} />
-        </div>
+        </div>}
       </div>
       <div className={styles['telegram-integration__text']}>
         Telegram akkauntlarini ulash uchun ushbu havolani xodimlar bilan ulashing.
