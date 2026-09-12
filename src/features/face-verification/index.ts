@@ -1,0 +1,1 @@
+export { useUploadFacePicture, useAttendance } from "./model/mutations";

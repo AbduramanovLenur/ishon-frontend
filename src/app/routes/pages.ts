@@ -11,3 +11,4 @@ export const TodaysPresencePage = lazyRetry(() => import('@pages/todays-presence
 export const NotFoundPage = lazyRetry(() => import('@pages/not-found'));
 export const SingleEmployeePage = lazyRetry(() => import('@pages/single-employee'));
 export const SettingsPage = lazyRetry(() => import('@pages/settings'));
+export const AttendancePage = lazyRetry(() => import('@pages/attendance'));

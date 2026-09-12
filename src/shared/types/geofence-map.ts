@@ -13,4 +13,9 @@ export interface IGeofenceMapProps {
   ) => void;
   height?: number;
   zoom?: number;
+  dragging?: boolean;
+  scrollWheelZoom?: boolean;
+  doubleClickZoom?: boolean;
+  touchZoom?: boolean;
+  zoomControl?: boolean;
 }

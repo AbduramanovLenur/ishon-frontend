@@ -35,6 +35,11 @@ const GeofenceMap: FC<IGeofenceMapProps> = ({
   onPositionChange,
   height = 350,
   zoom = defaultValues.zoom,
+  dragging = true,
+  scrollWheelZoom = true,
+  doubleClickZoom = true,
+  touchZoom = true,
+  zoomControl = true
 }) => {
   const hasValidPosition =
     latitude !== undefined &&
@@ -88,7 +93,11 @@ const GeofenceMap: FC<IGeofenceMapProps> = ({
         center={position}
         zoom={zoom}
         className={styles.container}
-        scrollWheelZoom
+        scrollWheelZoom={scrollWheelZoom}
+        dragging={dragging}
+        doubleClickZoom={doubleClickZoom}
+        touchZoom={touchZoom}
+        zoomControl={zoomControl}
       >
         <TileLayer
           attribution="&copy; OpenStreetMap contributors"

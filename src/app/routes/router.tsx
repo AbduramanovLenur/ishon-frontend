@@ -17,7 +17,8 @@ import {
   TodaysPresencePage,
   SingleEmployeePage,
   SettingsPage,
-  NotFoundPage
+  NotFoundPage,
+  AttendancePage
 } from './pages';
 
 import { roles } from '@shared/config';
@@ -25,6 +26,10 @@ import { routes } from '@shared/config';
 import { ErrorBoundary } from '@shared/ui';
 
 const router = createBrowserRouter([
+  {
+    path: routes.ATTENDANCE,
+    element: <AttendancePage />
+  },
   { 
     element: <RequireGuest />,
     errorElement: <ErrorBoundary><span /></ErrorBoundary>,

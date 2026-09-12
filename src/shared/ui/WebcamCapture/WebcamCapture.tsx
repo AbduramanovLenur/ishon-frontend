@@ -1,0 +1,84 @@
+import { useRef, useState, type FC } from "react";
+import Webcam from "react-webcam";
+import { CameraOutlined, DeleteOutlined } from "@ant-design/icons";
+
+import { dataUrlToFile } from "@shared/lib";
+
+import styles from "./WebcamCapture.module.scss";
+
+interface IWebcamCaptureProps {
+  onCapture: (file: File) => void;
+  onDelete?: () => void;
+  className?: string;
+}
+
+const WebcamCapture: FC<IWebcamCaptureProps> = ({
+  onCapture,
+  onDelete,
+  className,
+}) => {
+  const webcamRef = useRef<Webcam>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
+  const capture = () => {
+    const imageSrc = webcamRef.current?.getScreenshot();
+    if (!imageSrc) return;
+
+    setPreview(imageSrc);
+    onCapture(dataUrlToFile(imageSrc, `photo-${Date.now()}.jpg`));
+  };
+
+  const handleDelete = () => {
+    setPreview(null);
+    onDelete?.();
+  };
+
+  return (
+    <div className={`${styles["webcam"]}${className ? ` ${className}` : ""}`}>
+      {preview ? (
+        <img 
+          className={styles["webcam__media"]} 
+          src={preview} 
+          alt="Captured" 
+        />
+      ) : (
+        <Webcam
+          ref={webcamRef}
+          className={styles["webcam__media"]}
+          screenshotFormat="image/jpeg"
+          screenshotQuality={1}
+          audio={false}
+          videoConstraints={{
+            width: 1280,
+            height: 1280,
+            facingMode: "user",
+          }}
+        />
+      )}
+
+      <div className={styles["webcam__controls"]}>
+        {preview ? (
+          <button
+            type="button"
+            className={`${styles["webcam__btn"]} ${styles["webcam__btn--delete"]}`}
+            onClick={handleDelete}
+            aria-label="Delete"
+          >
+            <DeleteOutlined />
+          </button>
+        ) : (
+          <button
+            type="button"
+            className={`${styles["webcam__btn"]} ${styles["webcam__btn--capture"]}`}
+            onClick={capture}
+            aria-label="Capture"
+          >
+            <CameraOutlined />
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default WebcamCapture;

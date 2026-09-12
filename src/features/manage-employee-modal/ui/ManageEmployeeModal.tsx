@@ -71,12 +71,12 @@ const ManageEmployeeModal: FC = () => {
     const file = values.image?.[0]?.originFileObj;
 
     if (file) {
-        const formData = new FormData();
-        formData.append('file', file);
+      const formData = new FormData();
+      formData.append('file', file);
 
-        const uploadResponse = await mutateAsyncUpload(formData);
+      const uploadResponse = await mutateAsyncUpload(formData);
 
-        fileId = uploadResponse.data?.fileId ?? '';
+      fileId = uploadResponse.data?.fileId ?? '';
     }
 
     if (isEdit) {
