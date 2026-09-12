@@ -1,11 +1,9 @@
 import type { FC } from "react";
 
+import { Settings } from "@widgets/settings";
+
 const SettingsPage: FC = () => {
-  return (
-    <div>
-      123
-    </div>
-  );
+  return <Settings />;
 }
 
 export default SettingsPage;

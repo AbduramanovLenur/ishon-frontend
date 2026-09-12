@@ -7,6 +7,7 @@ import { api } from "../api/api";
 import type { IAuthData, IAuthFields } from "./types";
 
 import { userKeys } from "@entities/user";
+import { settingsKeys } from "@entities/settings";
 import { clearTokens, setTokens } from "@shared/api";
 import { routes } from "@shared/config";
 import type { IApiResponse } from "@shared/types";
@@ -53,6 +54,7 @@ export function useLogout() {
   const logout = () => {
     clearTokens();
     queryClient.removeQueries({ queryKey: userKeys.user });
+    queryClient.removeQueries({ queryKey: settingsKeys.all });
     navigate(routes.AUTH, { replace: true });
     message.success("Siz akkauntdan chiqdingiz");
   };

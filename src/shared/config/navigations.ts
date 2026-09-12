@@ -51,5 +51,12 @@ export const navigations: INavigation[] = [
     path: routes.TODAYS_PRESENCE,
     icon: 'todays-presence',
     roles: [roles.COMPANY_OWNER, roles.COMPANY_ADMIN]
+  },
+  {
+    id: 8,
+    label: 'Sozlamalar',
+    path: routes.SETTINGS,
+    icon: 'settings',
+    roles: [roles.COMPANY_OWNER, roles.COMPANY_ADMIN]
   }
 ];
