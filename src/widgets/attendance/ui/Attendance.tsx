@@ -1,27 +1,32 @@
 import { useEffect, type FC } from 'react';
 import { Button, Form, Input, message, type FormProps } from 'antd';
 import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
+import { useGeolocated } from 'react-geolocated';
 
 import type { IAttendanceFields } from '../model/types';
 
 import { useAttendance, useUploadFacePicture } from '@features/face-verification';
 import { GeofenceMap, WebcamCapture } from '@shared/ui';
-import { useCurrentLocation } from '@shared/lib';
 import { eventTypes } from '@shared/config';
 
 import styles from './Attendance.module.scss';
 
 const Attendance: FC = () => {
-  const { latitude, longitude } = useCurrentLocation();
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } = useGeolocated({
+    positionOptions: {
+      enableHighAccuracy: true,
+    },
+    userDecisionTimeout: 10000,
+  });
   const [form] = Form.useForm<IAttendanceFields>();
   const { mutateAsync: mutateASyncUpload } = useUploadFacePicture();
   const { mutateAsync: mutateAsyncAttendance, isPending: isPendingAttendance } = useAttendance();
 
   useEffect(() => {
-    if (latitude != null && longitude != null) {
-      form.setFieldsValue({ latitude, longitude });
+    if (coords?.latitude != null && coords?.longitude != null) {
+      form.setFieldsValue({ latitude: coords.latitude, longitude: coords.longitude });
     }
-  }, [latitude, longitude, form]);
+  }, [coords, form]);
 
   const handleCapture = (file: File) => {
     form.setFieldsValue({ photo: file });
@@ -34,6 +39,16 @@ const Attendance: FC = () => {
   const onSubmitHandle: FormProps<IAttendanceFields>['onFinish'] = async (values) => {
     if (!values.photo) {
       message.warning('Iltimos, avval rasmga oling!');
+      return;
+    }
+
+    if (!isGeolocationAvailable) {
+      message.error('Geolokatsiya qo‘llab-quvvatlanmaydi');
+      return;
+    }
+
+    if (!isGeolocationEnabled) {
+      message.error('Geolokatsiyaga ruxsat berilmagan');
       return;
     }
 
@@ -101,8 +116,8 @@ const Attendance: FC = () => {
 
           <GeofenceMap
             height={200}
-            latitude={latitude ?? undefined}
-            longitude={longitude ?? undefined}
+            latitude={coords?.latitude ?? undefined}
+            longitude={coords?.longitude ?? undefined}
             dragging={false}
             doubleClickZoom={false}
             scrollWheelZoom={false}

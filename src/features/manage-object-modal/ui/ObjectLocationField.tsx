@@ -1,11 +1,11 @@
 import { Form, Input } from "antd";
 import { useEffect, type FC } from "react";
 import type { FormInstance } from "antd/lib/form";
+import { useGeolocated } from 'react-geolocated';
 
 import type { IManageObjectFields } from "../model/types";
 
 import { GeofenceMap } from "@shared/ui";
-import { useCurrentLocation } from "@shared/lib";
 
 interface IObjectLocationFieldProps {
   form: FormInstance<IManageObjectFields>;
@@ -14,7 +14,14 @@ interface IObjectLocationFieldProps {
 }
 
 const ObjectLocationField: FC<IObjectLocationFieldProps> = ({ form, isOpen, isEdit }) => {
-  const { latitude: currentLatitude, longitude: currentLongitude } = useCurrentLocation();
+  const { coords } = useGeolocated({
+    positionOptions: {
+      enableHighAccuracy: true,
+    },
+    userDecisionTimeout: 10000,
+  });
+  const currentLatitude = coords?.latitude;
+  const currentLongitude = coords?.longitude;
   const latitude = Form.useWatch("latitude", form);
   const longitude = Form.useWatch("longitude", form);
   const radius = Form.useWatch("geofenceRadiusMeters", form);
