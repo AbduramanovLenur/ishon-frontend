@@ -16,6 +16,7 @@ import {
   ObjectsPage,
   TodaysPresencePage,
   SingleEmployeePage,
+  SettingsPage,
   NotFoundPage
 } from './pages';
 
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
               {
                 path: routes.TODAYS_PRESENCE,
                 element: <TodaysPresencePage />
+              },
+              {
+                path: routes.SETTINGS,
+                element: <SettingsPage />
               }
             ]
           },

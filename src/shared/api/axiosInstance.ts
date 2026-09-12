@@ -5,7 +5,10 @@ import { clearTokens, getAccessToken } from './tokenStorage';
 
 export const axiosInstance = axios.create({
   baseURL: env.API_BASE_URL,
-  // headers: { 'Content-Type': 'application/json' },
+  headers: { 
+    // 'Content-Type': 'application/json' 
+    'Accept-Language': 'uz,ru;q=0.9,en;q=0.8'
+  },
 });
 
 axiosInstance.interceptors.request.use((config) => {

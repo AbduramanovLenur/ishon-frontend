@@ -8,5 +8,6 @@ export const routes = {
   EMPLOYEES: '/employees',
   LOGS: '/logs',
   TODAYS_PRESENCE: '/todays-presence',
-  SINGLE_EMPLOYEE: (id: string | number) => `${routes.EMPLOYEES}/${id}`
+  SINGLE_EMPLOYEE: (id: string | number) => `${routes.EMPLOYEES}/${id}`,
+  SETTINGS: '/settings'
 } as const;
