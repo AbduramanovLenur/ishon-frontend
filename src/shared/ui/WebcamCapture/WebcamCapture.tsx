@@ -2,7 +2,7 @@ import { useRef, useState, type FC } from "react";
 import Webcam from "react-webcam";
 import { CameraOutlined, DeleteOutlined } from "@ant-design/icons";
 
-import { dataUrlToFile } from "@shared/lib";
+import { dataUrlToFile } from "@shared/utils";
 
 import styles from "./WebcamCapture.module.scss";
 

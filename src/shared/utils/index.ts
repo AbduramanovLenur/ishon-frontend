@@ -3,3 +3,4 @@ export { validationPage } from "./validationPage";
 export { formatDate, formatTime, formatNumber, formatHoursMinutes } from "./formatters";
 export { transformAttendanceDateData } from "./transformers";
 export { lazyRetry } from "./lazyRetry";
+export { dataUrlToFile } from "./dataUrlToFile";

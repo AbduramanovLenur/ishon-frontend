@@ -7,6 +7,7 @@ import type { IAttendanceFaceIdFields, IAttendanceResponse, ISessionFields, ISes
 
 import type { IApiResponse, IFile } from "@shared/types";
 import { eventTypes } from "@shared/config";
+import { setTokens } from "@shared/api";
 
 export function useUploadFacePicture() {
   const { message } = App.useApp();
@@ -81,6 +82,7 @@ export function useSession() {
       onSuccess: (response) => {
         if (response.success) {
           message.success("Sessiya muvaffaqiyatli o‘rnatildi");
+          setTokens({ accessToken: response.data.accessToken });
         }
       },
       onError: (error) => {
