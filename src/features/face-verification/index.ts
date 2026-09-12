@@ -1,1 +1,1 @@
-export { useUploadFacePicture, useAttendance } from "./model/mutations";
+export { useUploadFacePicture, useAttendance, useSession } from "./model/mutations";

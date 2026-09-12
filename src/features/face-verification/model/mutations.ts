@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 
 import { api } from "../api/api";
-import type { IAttendanceFaceIdFields, IAttendanceResponse } from "./types";
+import type { IAttendanceFaceIdFields, IAttendanceResponse, ISessionFields, ISessionResponse } from "./types";
 
 import type { IApiResponse, IFile } from "@shared/types";
 import { eventTypes } from "@shared/config";
@@ -61,6 +61,32 @@ export function useAttendance() {
         const msg =
           error.response?.data?.error?.message ??
           "Davomatni qayd etishda xatolik yuz berdi";
+
+        message.error(msg);
+      },
+    }),
+  };
+}
+
+export function useSession() {
+  const { message } = App.useApp();
+
+  return {
+    ...useMutation<
+      IApiResponse<ISessionResponse>,
+      AxiosError<IApiResponse<ISessionResponse>>,
+      ISessionFields
+    >({
+      mutationFn: api.session,
+      onSuccess: (response) => {
+        if (response.success) {
+          message.success("Sessiya muvaffaqiyatli o‘rnatildi");
+        }
+      },
+      onError: (error) => {
+        const msg =
+          error.response?.data?.error?.message ??
+          "Sessiyani o‘rnatishda xatolik yuz berdi";
 
         message.error(msg);
       },

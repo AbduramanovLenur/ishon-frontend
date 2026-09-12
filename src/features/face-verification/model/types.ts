@@ -18,3 +18,17 @@ export interface IAttendanceResponse {
   distanceMeters: number;
   inside: boolean;
 }
+
+export interface ISessionFields {
+  companyToken: string;
+  initData: string;
+}
+
+export interface ISessionResponse {
+  companyId: string | number;
+  companyName: string;
+  accessToken: string;
+  tokenType: string;
+  expiresAt: string;
+  expiresIn: number;
+}

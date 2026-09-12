@@ -1,5 +1,5 @@
 import { endpoints } from "./endpoints";
-import type { IAttendanceFaceIdFields, IAttendanceResponse } from "../model/types";
+import type { IAttendanceFaceIdFields, IAttendanceResponse, ISessionFields, ISessionResponse } from "../model/types";
 
 import { axiosInstance } from "@shared/api";
 import type { IApiResponse, IFile } from "@shared/types";
@@ -14,5 +14,10 @@ export const api = {
     return axiosInstance
       .post<IApiResponse<IAttendanceResponse>>(endpoints.ATTENDANCE, values)
       .then((response) => response.data);
-  }
+  },
+  session: (values: ISessionFields) => {
+    return axiosInstance
+      .post<IApiResponse<ISessionResponse>>(endpoints.SESSION, values)
+      .then((response) => response.data);
+  },
 }
