@@ -1,6 +1,7 @@
 import { useRef, useState, type FC } from "react";
 import Webcam from "react-webcam";
 import { CameraOutlined, DeleteOutlined } from "@ant-design/icons";
+import { message } from "antd";
 
 import { dataUrlToFile } from "@shared/utils";
 
@@ -33,6 +34,24 @@ const WebcamCapture: FC<IWebcamCaptureProps> = ({
     onDelete?.();
   };
 
+  const handleUserMedia = () => {
+  console.log('CAMERA SUCCESS');
+
+  message.success('Kamera yoqildi');
+};
+
+  const handleUserMediaError = (error: string | DOMException) => {
+    console.error('CAMERA ERROR:', error);
+
+    message.error(
+      `Kameraga ruxsat berilmadi: ${
+        typeof error === 'string'
+          ? error
+          : error.message
+      }`,
+    );
+  };
+
   return (
     <div className={`${styles["webcam"]}${className ? ` ${className}` : ""}`}>
       {preview ? (
@@ -48,6 +67,8 @@ const WebcamCapture: FC<IWebcamCaptureProps> = ({
           screenshotFormat="image/jpeg"
           screenshotQuality={1}
           audio={false}
+          onUserMedia={handleUserMedia}
+          onUserMediaError={handleUserMediaError}
           videoConstraints={{
             width: 1280,
             height: 1280,
