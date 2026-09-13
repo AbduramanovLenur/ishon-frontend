@@ -22,10 +22,10 @@ export const useAttendanceLocation = (): IAttendanceLocationResult => {
     userDecisionTimeout: 10000,
     isOptimisticGeolocationEnabled: false,
     watchPosition: false,
-    suppressLocationOnMount: tgLocation.isGeolocationAvailable,
+    suppressLocationOnMount: tgLocation.isSupported,
   });
 
-  if (tgLocation.isGeolocationAvailable) {
+  if (tgLocation.isSupported) {
     return {
       latitude: tgLocation.latitude,
       longitude: tgLocation.longitude,

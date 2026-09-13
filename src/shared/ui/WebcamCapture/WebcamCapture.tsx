@@ -41,6 +41,7 @@ const WebcamCapture: FC<IWebcamCaptureProps> = ({
 
   const handleUserMediaError = (error: string | DOMException) => {
     console.error("CAMERA ERROR:", error);
+    message.error("Kamerani ochib bo'lmadi. Iltimos, ruxsatni tekshiring.");
   };
 
   return (

@@ -90,6 +90,7 @@ export const useTelegramLocation = (): IUseTelegramLocationResult => {
     return {
       latitude: coords?.latitude,
       longitude: coords?.longitude,
+      isSupported: true,
       isGeolocationAvailable: tgLocationAvailable,
       isGeolocationEnabled: tgLocationAvailable && !permissionDenied,
       requestLocation,
@@ -100,6 +101,7 @@ export const useTelegramLocation = (): IUseTelegramLocationResult => {
   return {
     latitude: undefined,
     longitude: undefined,
+    isSupported: false,
     isGeolocationAvailable: false,
     isGeolocationEnabled: false,
     requestLocation,

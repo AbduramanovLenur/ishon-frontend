@@ -13,6 +13,7 @@ export interface ITelegramLocationData {
 export interface IUseTelegramLocationResult {
   latitude: number | undefined;
   longitude: number | undefined;
+  isSupported: boolean;
   isGeolocationAvailable: boolean;
   isGeolocationEnabled: boolean;
   requestLocation: () => void;
