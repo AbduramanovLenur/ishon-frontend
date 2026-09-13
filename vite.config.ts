@@ -23,8 +23,5 @@ export default defineConfig({
       '@shared': path.resolve(__dirname, './src/shared'),
     },
   },
-  server: {
-    host: true,
-    allowedHosts: ['cleaver-padlock-leotard.ngrok-free.dev'],
-  },
+  
 })
