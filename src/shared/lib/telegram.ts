@@ -12,7 +12,7 @@ if (import.meta.env.DEV) {
   eruda.init();
 }
 
-const insideTelegram = isTMA();
+export const insideTelegram = isTMA();
 const launchParams = insideTelegram ? retrieveLaunchParams() : undefined;
 
 if (insideTelegram) {

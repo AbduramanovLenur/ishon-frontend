@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
 
 import { env, routes } from '../config';
+import { insideTelegram } from '../lib/telegram';
 import { clearTokens, getAccessToken } from './tokenStorage';
 
 export const axiosInstance = axios.create({
@@ -26,7 +27,10 @@ axiosInstance.interceptors.response.use(
   (error: AxiosError) => {
     if (error.response?.status === 401) {
       clearTokens();
-      window.location.href = routes.AUTH;
+
+      if (!insideTelegram) {
+        window.location.href = routes.AUTH;
+      }
     }
 
     return Promise.reject(error);
