@@ -24,6 +24,9 @@ if (insideTelegram) {
 export const initData = launchParams ? (retrieveRawInitData() ?? '') : '';
 export const initDataUnsafe = launchParams?.tgWebAppData ?? {};
 export const startParam = launchParams?.tgWebAppStartParam ?? null;
+export const initDataHash = initData
+  ? new URLSearchParams(initData).get('hash') ?? ''
+  : '';
 
 if (import.meta.env.DEV) {
   console.log('initData (raw):', initData);

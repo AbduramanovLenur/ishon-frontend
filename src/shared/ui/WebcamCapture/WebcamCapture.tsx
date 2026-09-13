@@ -35,31 +35,17 @@ const WebcamCapture: FC<IWebcamCaptureProps> = ({
   };
 
   const handleUserMedia = () => {
-  console.log('CAMERA SUCCESS');
-
-  message.success('Kamera yoqildi');
-};
+    message.success("Kamera yoqildi");
+  };
 
   const handleUserMediaError = (error: string | DOMException) => {
-    console.error('CAMERA ERROR:', error);
-
-    message.error(
-      `Kameraga ruxsat berilmadi: ${
-        typeof error === 'string'
-          ? error
-          : error.message
-      }`,
-    );
+    console.error("CAMERA ERROR:", error);
   };
 
   return (
     <div className={`${styles["webcam"]}${className ? ` ${className}` : ""}`}>
       {preview ? (
-        <img 
-          className={styles["webcam__media"]} 
-          src={preview} 
-          alt="Captured" 
-        />
+        <img className={styles["webcam__media"]} src={preview} alt="Captured" />
       ) : (
         <Webcam
           ref={webcamRef}
