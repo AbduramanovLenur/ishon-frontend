@@ -1,6 +1,6 @@
 import { useEffect, type FC } from "react";
 
-// import { Result, Button } from "antd";
+import { Result, Button } from "antd";
 
 import { Attendance } from "@widgets/attendance";
 import { useSession } from "@features/face-verification";
@@ -9,9 +9,9 @@ import { initData, startParam } from "@shared/lib/telegram";
 const AttendancePage: FC = () => {
   const { 
     mutateAsync, 
-    // isError, 
-    // isPending,
-    // isSuccess 
+    isError, 
+    isPending,
+    isSuccess 
   } = useSession();
 
   useEffect(() => {
@@ -25,28 +25,28 @@ const AttendancePage: FC = () => {
     });
   }, [mutateAsync]);
 
-  // if (isPending) {
-  //   return <Result status="info" title="Sessiya o'rnatilmoqda..." />;
-  // }
+  if (isPending) {
+    return <Result status="info" title="Sessiya o'rnatilmoqda..." />;
+  }
 
-  // if (isError) {
-  //   return (
-  //     <Result
-  //       status="error"
-  //       title="Sessiya o'rnatilmadi"
-  //       subTitle="Sessiyani o'rnatishda xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring."
-  //       extra={
-  //         <Button type="primary" onClick={() => window.location.reload()}>
-  //           Qaytadan urinish
-  //         </Button>
-  //       }
-  //     />
-  //   );
-  // }
+  if (isError) {
+    return (
+      <Result
+        status="error"
+        title="Sessiya o'rnatilmadi"
+        subTitle="Sessiyani o'rnatishda xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring."
+        extra={
+          <Button type="primary" onClick={() => window.location.reload()}>
+            Qaytadan urinish
+          </Button>
+        }
+      />
+    );
+  }
 
-  // if (isSuccess) {
+  if (isSuccess) {
     return <Attendance />;
-  // }
+  }
 
   return null;
 };
