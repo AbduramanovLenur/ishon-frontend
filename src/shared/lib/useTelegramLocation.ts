@@ -5,39 +5,32 @@ import {
 } from "@telegram-apps/sdk";
 
 import type { ITelegramLocationData, IUseTelegramLocationResult } from "@shared/types";
-import { message } from "antd";
 
 export const useTelegramLocation = (): IUseTelegramLocationResult => {
   const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
   const [isRequesting, setIsRequesting] = useState(false);
   const [permissionDenied, setPermissionDenied] = useState(false);
+  const [locationAvailable, setLocationAvailable] = useState(false);
 
   const insideTMA = isTMA();
   const tgLocationSupported = insideTMA && locationManager.isSupported();
-  const tgLocationAvailable = insideTMA && locationManager.isAvailable();
 
   const requestLocation = useCallback(async () => {
-    message.error('123')
-
-    if (!tgLocationSupported || !tgLocationAvailable) {
+    if (!tgLocationSupported || !locationAvailable) {
       return;
     }
-
-    message.error('requestLocation')
 
     setIsRequesting(true);
     setPermissionDenied(false);
 
     try {
       if (!locationManager.isMounted()) {
-        message.error('mount')
         await locationManager.mount();
       }
 
       const location: ITelegramLocationData | null = await locationManager.requestLocation();
 
       if (location) {
-        message.error('location')
         setCoords({
           latitude: location.latitude,
           longitude: location.longitude,
@@ -48,7 +41,7 @@ export const useTelegramLocation = (): IUseTelegramLocationResult => {
     } finally {
       setIsRequesting(false);
     }
-  }, [tgLocationSupported, tgLocationAvailable]);
+  }, [tgLocationSupported, locationAvailable]);
 
   useEffect(() => {
     if (!tgLocationSupported) return;
@@ -59,6 +52,7 @@ export const useTelegramLocation = (): IUseTelegramLocationResult => {
           await locationManager.mount();
         }
         setIsRequesting(true);
+        setLocationAvailable(locationManager.isAvailable());
         const location: ITelegramLocationData | null = await locationManager.requestLocation();
         if (location) {
           setCoords({
@@ -87,6 +81,7 @@ export const useTelegramLocation = (): IUseTelegramLocationResult => {
     });
 
     const unsubAvailable = locationManager.isAvailable.sub((current) => {
+      setLocationAvailable(current);
       if (!current) {
         setPermissionDenied(true);
       }
@@ -102,8 +97,8 @@ export const useTelegramLocation = (): IUseTelegramLocationResult => {
     return {
       latitude: coords?.latitude,
       longitude: coords?.longitude,
-      isGeolocationAvailable: tgLocationAvailable,
-      isGeolocationEnabled: tgLocationAvailable && !permissionDenied,
+      isGeolocationAvailable: locationAvailable,
+      isGeolocationEnabled: locationAvailable && !permissionDenied,
       requestLocation,
       isRequesting,
     };
