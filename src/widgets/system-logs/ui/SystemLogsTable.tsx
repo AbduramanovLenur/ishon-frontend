@@ -104,6 +104,7 @@ export const SystemLogsTable: FC = () => {
     },
     {
       title: "Aniqlik",
+      width: 150,
       render: (_, record) => <Progress percent={record?.similarity} />
     }
   ];
