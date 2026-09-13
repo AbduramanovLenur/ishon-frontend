@@ -10,7 +10,8 @@ const AttendancePage: FC = () => {
   const { 
     mutateAsync, 
     isError, 
-    isPending 
+    isPending,
+    isSuccess 
   } = useSession();
 
   useEffect(() => {
@@ -43,7 +44,11 @@ const AttendancePage: FC = () => {
     );
   }
 
-  return <Attendance />;
+  if (isSuccess) {
+    return <Attendance />;
+  }
+
+  return null;
 };
 
 export default AttendancePage;

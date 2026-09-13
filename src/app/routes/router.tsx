@@ -4,6 +4,7 @@ import { RootLayout } from '../layouts/root-layout';
 import RequireGuest from './guards/RequireGuest';
 import RequireAuth from './guards/RequireAuth';
 import RequireRole from './guards/RequireRole';
+import RequireTelegram from './guards/RequireTelegram';
 import IndexRedirect from './guards/IndexRedirect';
 
 import { 
@@ -27,8 +28,13 @@ import { ErrorBoundary } from '@shared/ui';
 
 const router = createBrowserRouter([
   {
-    path: routes.ATTENDANCE,
-    element: <AttendancePage />
+    element: <RequireTelegram />,
+    children: [
+      {
+        path: routes.ATTENDANCE,
+        element: <AttendancePage />
+      }
+    ]
   },
   { 
     element: <RequireGuest />,
