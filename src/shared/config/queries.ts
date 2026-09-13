@@ -6,5 +6,6 @@ export const queries = {
   PERIOD: 'period',
   EVENT: 'event',
   LATE: 'late',
-  EARLY: 'early'
+  EARLY: 'early',
+  DATE: 'date'
 } as const;

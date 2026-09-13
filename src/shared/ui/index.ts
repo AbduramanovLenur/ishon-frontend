@@ -8,3 +8,4 @@ export { default as Tabs } from "./Tabs/Tabs";
 export { default as SelectList } from "./SelectList/SelectList";
 export { default as ErrorBoundary } from "./ErrorBoundary/ErrorBoundary";
 export { default as WebcamCapture } from "./WebcamCapture/WebcamCapture";
+export { default as DateFilter } from "./DateFilter/DateFilter";

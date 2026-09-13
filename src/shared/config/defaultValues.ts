@@ -9,5 +9,6 @@ export const defaultValues = {
   period: '',
   event: '',
   late: '',
-  early: ''
+  early: '',
+  date: ''
 } as const;

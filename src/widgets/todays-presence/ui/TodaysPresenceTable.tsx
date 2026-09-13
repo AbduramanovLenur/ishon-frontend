@@ -16,7 +16,8 @@ const TodaysPresenceTable: FC = () => {
   const currentPage = validationPage(Number(get(queries.PAGE)), defaultValues.page);
   const statusWork = (get(queries.STATUS_WORK) || defaultValues.statusWork) as TWorkStatus;
   const objectId = get(queries.OBJECT) || defaultValues.object;
-  const { data, isLoading } = useTodaysPresenceList(search, currentPage, statusWork, objectId);
+  const date = get(queries.DATE) || defaultValues.date;
+  const { data, isLoading } = useTodaysPresenceList(search, currentPage, statusWork, objectId, date);
 
   const dataSource = data?.employees?.content || [];
   const totalElems = data?.employees?.totalElements || 0;
