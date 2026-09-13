@@ -11,8 +11,6 @@ export interface IGeofenceMapProps {
   onPositionChange?: (
     coordinates: ICoordinates,
   ) => void;
-  onRequestLocation?: () => void;
-  isRequesting?: boolean;
   height?: number;
   zoom?: number;
   dragging?: boolean;
