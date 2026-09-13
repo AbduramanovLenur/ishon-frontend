@@ -5,6 +5,7 @@ import {
 } from "@telegram-apps/sdk";
 
 import type { ITelegramLocationData, IUseTelegramLocationResult } from "@shared/types";
+import { message } from "antd";
 
 export const useTelegramLocation = (): IUseTelegramLocationResult => {
   const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
@@ -16,21 +17,27 @@ export const useTelegramLocation = (): IUseTelegramLocationResult => {
   const tgLocationAvailable = insideTMA && locationManager.isAvailable();
 
   const requestLocation = useCallback(async () => {
+    message.error('123')
+
     if (!tgLocationSupported || !tgLocationAvailable) {
       return;
     }
+
+    message.error('requestLocation')
 
     setIsRequesting(true);
     setPermissionDenied(false);
 
     try {
       if (!locationManager.isMounted()) {
+        message.error('mount')
         await locationManager.mount();
       }
 
       const location: ITelegramLocationData | null = await locationManager.requestLocation();
 
       if (location) {
+        message.error('location')
         setCoords({
           latitude: location.latitude,
           longitude: location.longitude,
