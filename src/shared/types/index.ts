@@ -12,3 +12,4 @@ export type { TPeriod } from "./periods";
 export type { IDateValue } from "./chart";
 export type { TDays } from "./days";
 export type { IFile } from "./file";
+export type { ITelegramLocationData, IUseTelegramLocationResult } from "./telegram-location";

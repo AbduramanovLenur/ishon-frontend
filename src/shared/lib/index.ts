@@ -2,4 +2,5 @@ export { useQueryParams } from "./useQueryParams";
 export { useDebounce } from "./useDebounce";
 export { useMediaQuery } from "./useMediaQuery";
 export { useUploadFile } from "./useUploadFile";
+export { useTelegramLocation } from "./useTelegramLocation";
 export { initData, initDataUnsafe, startParam } from "./telegram";

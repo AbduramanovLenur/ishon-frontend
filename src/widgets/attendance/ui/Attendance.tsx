@@ -1,7 +1,5 @@
 import { useEffect, type FC } from 'react';
-import { Button, Form, Input, message, type FormProps } from 'antd';
-import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
-import { useGeolocated } from 'react-geolocated';
+import { Form, Input, message, type FormProps } from 'antd';
 
 import type { IAttendanceFields } from '../model/types';
 
@@ -9,24 +7,22 @@ import { useAttendance, useUploadFacePicture } from '@features/face-verification
 import { GeofenceMap, WebcamCapture } from '@shared/ui';
 import { eventTypes } from '@shared/config';
 
+import { useAttendanceLocation } from '../model/useAttendanceLocation';
+import AttendanceActions from './AttendanceActions';
+
 import styles from './Attendance.module.scss';
 
 const Attendance: FC = () => {
-  const { coords, isGeolocationAvailable, isGeolocationEnabled } = useGeolocated({
-    positionOptions: {
-      enableHighAccuracy: true,
-    },
-    userDecisionTimeout: 10000,
-  });
   const [form] = Form.useForm<IAttendanceFields>();
+  const { latitude, longitude, isGeolocationAvailable, isGeolocationEnabled } = useAttendanceLocation();
   const { mutateAsync: mutateASyncUpload } = useUploadFacePicture();
   const { mutateAsync: mutateAsyncAttendance, isPending: isPendingAttendance } = useAttendance();
 
   useEffect(() => {
-    if (coords?.latitude != null && coords?.longitude != null) {
-      form.setFieldsValue({ latitude: coords.latitude, longitude: coords.longitude });
+    if (latitude != null && longitude != null) {
+      form.setFieldsValue({ latitude, longitude });
     }
-  }, [coords, form]);
+  }, [latitude, longitude, form]);
 
   const handleCapture = (file: File) => {
     form.setFieldsValue({ photo: file });
@@ -43,7 +39,7 @@ const Attendance: FC = () => {
     }
 
     if (!isGeolocationAvailable) {
-      message.error('Geolokatsiya qo‘llab-quvvatlanmaydi');
+      message.error("Geolokatsiya qo'llab-quvvatlanmaydi");
       return;
     }
 
@@ -65,21 +61,20 @@ const Attendance: FC = () => {
       formData.append('file', file);
 
       const uploadResponse = await mutateASyncUpload(formData);
-
       fileUrl = uploadResponse.data?.fileUrl ?? '';
     }
 
-    const data = {
+    mutateAsyncAttendance({
       fileUrl,
       eventType: values.eventType,
       latitude: values.latitude,
-      longitude: values.longitude
-    }
-
-    mutateAsyncAttendance(data);
+      longitude: values.longitude,
+    });
   };
 
-  const handleSetEventType = (eventType: Exclude<(typeof eventTypes)[keyof typeof eventTypes], typeof eventTypes.NOT_LEFT>) => {
+  const handleSetEventType = (
+    eventType: Exclude<(typeof eventTypes)[keyof typeof eventTypes], typeof eventTypes.NOT_LEFT>,
+  ) => {
     form.setFieldsValue({ eventType });
   };
 
@@ -109,15 +104,12 @@ const Attendance: FC = () => {
             <Input />
           </Form.Item>
 
-          <WebcamCapture 
-            onCapture={handleCapture} 
-            onDelete={handleDelete}
-          />
+          <WebcamCapture onCapture={handleCapture} onDelete={handleDelete} />
 
           <GeofenceMap
             height={200}
-            latitude={coords?.latitude ?? undefined}
-            longitude={coords?.longitude ?? undefined}
+            latitude={latitude}
+            longitude={longitude}
             dragging={false}
             doubleClickZoom={false}
             scrollWheelZoom={false}
@@ -125,28 +117,11 @@ const Attendance: FC = () => {
             zoomControl={false}
           />
 
-          <div className={styles['attendance__actions']}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              icon={<LoginOutlined />}
-              className={styles['attendance__btn']}
-              onClick={() => handleSetEventType(eventTypes.ENTER)}
-              disabled={isPendingAttendance}
-            >
-              Kirish
-            </Button>
-
-            <Button
-              htmlType="submit"
-              icon={<LogoutOutlined />}
-              className={`${styles['attendance__btn']} ${styles['attendance__btn--exit']}`}
-              onClick={() => handleSetEventType(eventTypes.EXIT)}
-              disabled={isPendingAttendance}
-            >
-              Chiqish
-            </Button>
-          </div>
+          <AttendanceActions
+            onEnter={() => handleSetEventType(eventTypes.ENTER)}
+            onExit={() => handleSetEventType(eventTypes.EXIT)}
+            isPending={isPendingAttendance}
+          />
         </Form>
       </div>
     </div>
