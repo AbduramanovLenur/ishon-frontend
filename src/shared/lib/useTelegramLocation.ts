@@ -15,28 +15,32 @@ export const useTelegramLocation = (): IUseTelegramLocationResult => {
   const tgLocationSupported = insideTMA && locationManager.isSupported();
   const tgLocationAvailable = insideTMA && locationManager.isAvailable();
 
-  const requestLocation = useCallback(() => {
+  const requestLocation = useCallback(async () => {
     if (!tgLocationSupported || !tgLocationAvailable) {
       return;
     }
 
     setIsRequesting(true);
+    setPermissionDenied(false);
 
-    locationManager.requestLocation().then(
-      (location: ITelegramLocationData | null) => {
-        if (location) {
-          setCoords({
-            latitude: location.latitude,
-            longitude: location.longitude,
-          });
-        }
-        setIsRequesting(false);
-      },
-      () => {
-        setPermissionDenied(true);
-        setIsRequesting(false);
-      },
-    );
+    try {
+      if (!locationManager.isMounted()) {
+        await locationManager.mount();
+      }
+
+      const location: ITelegramLocationData | null = await locationManager.requestLocation();
+
+      if (location) {
+        setCoords({
+          latitude: location.latitude,
+          longitude: location.longitude,
+        });
+      }
+    } catch {
+      setPermissionDenied(true);
+    } finally {
+      setIsRequesting(false);
+    }
   }, [tgLocationSupported, tgLocationAvailable]);
 
   useEffect(() => {
