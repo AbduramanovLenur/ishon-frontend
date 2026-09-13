@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   isTMA,
   locationManager,
@@ -14,6 +14,30 @@ export const useTelegramLocation = (): IUseTelegramLocationResult => {
   const insideTMA = isTMA();
   const tgLocationSupported = insideTMA && locationManager.isSupported();
   const tgLocationAvailable = insideTMA && locationManager.isAvailable();
+
+  const requestLocation = useCallback(() => {
+    if (!tgLocationSupported || !tgLocationAvailable) {
+      return;
+    }
+
+    setIsRequesting(true);
+
+    locationManager.requestLocation().then(
+      (location: ITelegramLocationData | null) => {
+        if (location) {
+          setCoords({
+            latitude: location.latitude,
+            longitude: location.longitude,
+          });
+        }
+        setIsRequesting(false);
+      },
+      () => {
+        setPermissionDenied(true);
+        setIsRequesting(false);
+      },
+    );
+  }, [tgLocationSupported, tgLocationAvailable]);
 
   useEffect(() => {
     if (!tgLocationSupported) return;
@@ -47,6 +71,7 @@ export const useTelegramLocation = (): IUseTelegramLocationResult => {
     const unsubAccessGranted = locationManager.isAccessGranted.sub((current) => {
       if (current) {
         setPermissionDenied(false);
+        requestLocation();
       }
     });
 
@@ -60,31 +85,7 @@ export const useTelegramLocation = (): IUseTelegramLocationResult => {
       unsubAccessGranted();
       unsubAvailable();
     };
-  }, [tgLocationSupported]);
-
-  const requestLocation = () => {
-    if (!tgLocationSupported || !tgLocationAvailable) {
-      return;
-    }
-
-    setIsRequesting(true);
-
-    locationManager.requestLocation().then(
-      (location: ITelegramLocationData | null) => {
-        if (location) {
-          setCoords({
-            latitude: location.latitude,
-            longitude: location.longitude,
-          });
-        }
-        setIsRequesting(false);
-      },
-      () => {
-        setPermissionDenied(true);
-        setIsRequesting(false);
-      },
-    );
-  }
+  }, [tgLocationSupported, requestLocation]);
 
   if (tgLocationSupported) {
     return {
