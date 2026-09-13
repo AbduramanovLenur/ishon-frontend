@@ -4,7 +4,7 @@ import { Result, Button } from "antd";
 
 import { Attendance } from "@widgets/attendance";
 import { useSession } from "@features/face-verification";
-import { initDataHash, startParam } from "@shared/lib/telegram";
+import { initData, startParam } from "@shared/lib/telegram";
 
 const AttendancePage: FC = () => {
   const { 
@@ -14,13 +14,13 @@ const AttendancePage: FC = () => {
   } = useSession();
 
   useEffect(() => {
-    if (!startParam || !initDataHash) {
+    if (!startParam || !initData) {
       return;
     }
 
     mutateAsync({
       companyToken: startParam,
-      initData: initDataHash,
+      initData,
     });
   }, [mutateAsync]);
 

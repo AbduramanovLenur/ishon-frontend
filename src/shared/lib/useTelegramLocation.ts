@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   isTMA,
   locationManager,
@@ -62,7 +62,7 @@ export const useTelegramLocation = (): IUseTelegramLocationResult => {
     };
   }, [tgLocationSupported]);
 
-  const requestLocation = useCallback(() => {
+  const requestLocation = () => {
     if (!tgLocationSupported || !tgLocationAvailable) {
       return;
     }
@@ -84,7 +84,7 @@ export const useTelegramLocation = (): IUseTelegramLocationResult => {
         setIsRequesting(false);
       },
     );
-  }, [tgLocationSupported, tgLocationAvailable]);
+  }
 
   if (tgLocationSupported) {
     return {
