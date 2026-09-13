@@ -104,6 +104,10 @@ const Attendance: FC = () => {
             <Input />
           </Form.Item>
 
+          <Form.Item name="eventType" hidden>
+            <Input />
+          </Form.Item>
+
           <WebcamCapture onCapture={handleCapture} onDelete={handleDelete} />
 
           <GeofenceMap
