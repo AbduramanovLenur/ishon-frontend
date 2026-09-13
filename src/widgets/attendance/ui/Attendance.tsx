@@ -14,7 +14,7 @@ import styles from './Attendance.module.scss';
 
 const Attendance: FC = () => {
   const [form] = Form.useForm<IAttendanceFields>();
-  const { latitude, longitude, isGeolocationAvailable, isGeolocationEnabled } = useTelegramLocation();
+  const { latitude, longitude, isGeolocationAvailable, isGeolocationEnabled, requestLocation, isRequesting } = useTelegramLocation();
   const { mutateAsync: mutateASyncUpload } = useUploadFacePicture();
   const { mutateAsync: mutateAsyncAttendance, isPending: isPendingAttendance } = useAttendance();
 
@@ -119,6 +119,8 @@ const Attendance: FC = () => {
             scrollWheelZoom={false}
             touchZoom={false}
             zoomControl={false}
+            onRequestLocation={requestLocation}
+            isRequesting={isRequesting}
           />
 
           <AttendanceActions

@@ -1,4 +1,6 @@
 import { type FC } from "react";
+import { Button } from "antd";
+import { EnvironmentOutlined } from "@ant-design/icons";
 import { Circle, MapContainer, Marker, TileLayer } from "react-leaflet";
 import L from "leaflet";
 
@@ -33,6 +35,8 @@ const GeofenceMap: FC<IGeofenceMapProps> = ({
   radius = 0,
   editable = false,
   onPositionChange,
+  onRequestLocation,
+  isRequesting = false,
   height = 350,
   zoom = defaultValues.zoom,
   dragging = true,
@@ -58,6 +62,17 @@ const GeofenceMap: FC<IGeofenceMapProps> = ({
         <span>
           Joylashuv aniqlanmagan
         </span>
+        {onRequestLocation && (
+          <Button
+            icon={<EnvironmentOutlined />}
+            loading={isRequesting}
+            onClick={onRequestLocation}
+            className={styles.btn}
+            disabled={isRequesting}
+          >
+            Joylashuvni aniqlash
+          </Button>
+        )}
       </div>
     );
   }
