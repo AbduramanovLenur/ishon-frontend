@@ -19,6 +19,7 @@ const WebcamCapture: FC<IWebcamCaptureProps> = ({
   className,
 }) => {
   const webcamRef = useRef<Webcam>(null);
+  const [cameraActive, setCameraActive] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
 
   const capture = () => {
@@ -44,9 +45,7 @@ const WebcamCapture: FC<IWebcamCaptureProps> = ({
 
   return (
     <div className={`${styles["webcam"]}${className ? ` ${className}` : ""}`}>
-      {preview ? (
-        <img className={styles["webcam__media"]} src={preview} alt="Captured" />
-      ) : (
+      {cameraActive && (
         <Webcam
           ref={webcamRef}
           className={styles["webcam__media"]}
@@ -56,11 +55,29 @@ const WebcamCapture: FC<IWebcamCaptureProps> = ({
           onUserMedia={handleUserMedia}
           onUserMediaError={handleUserMediaError}
           videoConstraints={{
-            width: 1280,
-            height: 1280,
+            width: { ideal: 1280 },
+            height: { ideal: 1280 },
             facingMode: "user",
           }}
+          style={{ display: preview ? "none" : "block" }}
         />
+      )}
+
+      {preview && (
+        <img className={styles["webcam__media"]} src={preview} alt="Captured" />
+      )}
+
+      {!cameraActive && !preview && (
+        <div className={styles["webcam__start"]}>
+          <button
+            type="button"
+            className={`${styles["webcam__btn"]} ${styles["webcam__btn--capture"]}`}
+            onClick={() => setCameraActive(true)}
+            aria-label="Start camera"
+          >
+            <CameraOutlined />
+          </button>
+        </div>
       )}
 
       <div className={styles["webcam__controls"]}>
@@ -73,7 +90,7 @@ const WebcamCapture: FC<IWebcamCaptureProps> = ({
           >
             <DeleteOutlined />
           </button>
-        ) : (
+        ) : cameraActive ? (
           <button
             type="button"
             className={`${styles["webcam__btn"]} ${styles["webcam__btn--capture"]}`}
@@ -82,7 +99,7 @@ const WebcamCapture: FC<IWebcamCaptureProps> = ({
           >
             <CameraOutlined />
           </button>
-        )}
+        ) : null}
       </div>
     </div>
   );
