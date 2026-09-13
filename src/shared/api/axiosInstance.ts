@@ -28,7 +28,9 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401) {
       clearTokens();
 
-      if (!insideTelegram) {
+      if (insideTelegram) {
+        window.location.reload();
+      } else {
         window.location.href = routes.AUTH;
       }
     }
