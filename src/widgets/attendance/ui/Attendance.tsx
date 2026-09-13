@@ -7,14 +7,14 @@ import { useAttendance, useUploadFacePicture } from '@features/face-verification
 import { GeofenceMap, WebcamCapture } from '@shared/ui';
 import { eventTypes } from '@shared/config';
 
-import { useAttendanceLocation } from '../model/useAttendanceLocation';
+import { useTelegramLocation } from '@shared/lib';
 import AttendanceActions from './AttendanceActions';
 
 import styles from './Attendance.module.scss';
 
 const Attendance: FC = () => {
   const [form] = Form.useForm<IAttendanceFields>();
-  const { latitude, longitude, isGeolocationAvailable, isGeolocationEnabled } = useAttendanceLocation();
+  const { latitude, longitude, isGeolocationAvailable, isGeolocationEnabled } = useTelegramLocation();
   const { mutateAsync: mutateASyncUpload } = useUploadFacePicture();
   const { mutateAsync: mutateAsyncAttendance, isPending: isPendingAttendance } = useAttendance();
 
