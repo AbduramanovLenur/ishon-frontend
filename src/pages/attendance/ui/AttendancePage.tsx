@@ -1,6 +1,6 @@
 import { useEffect, type FC } from "react";
 
-import { Result, Button } from "antd";
+// import { Result, Button } from "antd";
 
 import { Attendance } from "@widgets/attendance";
 import { useSession } from "@features/face-verification";
@@ -9,9 +9,9 @@ import { initData, startParam } from "@shared/lib/telegram";
 const AttendancePage: FC = () => {
   const { 
     mutateAsync, 
-    isError, 
-    isPending,
-    isSuccess 
+    // isError, 
+    // isPending,
+    // isSuccess 
   } = useSession();
 
   useEffect(() => {
