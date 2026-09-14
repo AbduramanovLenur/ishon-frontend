@@ -4,3 +4,4 @@ export { formatDate, formatTime, formatNumber, formatHoursMinutes } from "./form
 export { transformAttendanceDateData } from "./transformers";
 export { lazyRetry } from "./lazyRetry";
 export { dataUrlToFile } from "./dataUrlToFile";
+export { formatDateToDisplay } from "./formatters";

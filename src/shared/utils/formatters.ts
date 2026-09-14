@@ -6,6 +6,16 @@ export const formatDate = (date: string | Date): string => {
   return `${months[value.getMonth()]} ${value.getDate()}, ${value.getFullYear()}`;
 };
 
+export const formatDateToDisplay = (date: string): string => {
+  if (!date) {
+    return '';
+  }
+
+  const [day, month, year] = date.split('-');
+
+  return `${months[Number(month) - 1]} ${day}, ${year}`;
+};
+
 export const formatTime = (date: string | Date): string => {
   return new Intl.DateTimeFormat("uz-UZ", {
     hour: "2-digit",

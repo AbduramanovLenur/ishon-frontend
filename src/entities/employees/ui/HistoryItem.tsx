@@ -5,7 +5,7 @@ import { HomeOutlined } from "@ant-design/icons";
 import type { IEmployeeEvent } from "../model/types";
 import { eventTypes } from "../model/config";
 
-import { formatDate, formatTime } from "@shared/utils";
+import { formatDate, formatDateToDisplay, formatTime } from "@shared/utils";
 
 import styles from "./HistoryItem.module.scss";
 
@@ -50,11 +50,15 @@ const HistoryItem: FC<IHistoryItemProps> = ({ item }) => {
               {tag.text}
             </Tag>
           ))}
-          {(item.eventTime || item.attendanceDate) && (
+          {item.eventTime ? (
             <div className={styles['history-item__date']}>
-              {formatDate(item.eventTime || item.attendanceDate)}
+              {formatDate(item.eventTime)}
             </div>
-          )}
+          ) : item.attendanceDate ? (
+            <div className={styles['history-item__date']}>
+              {formatDateToDisplay(item.attendanceDate)}
+            </div>
+          ) : null}
         </div>
         {item?.eventTime && <div className={styles['history-item__information']}>
           {formatTime(item.eventTime)}
