@@ -19,15 +19,15 @@ against `main`. Production deployment jobs are serialized and never interrupted
 by a newer deployment. The public API build setting is `https://api.ishonhr.uz`.
 Vite settings are embedded in browser code and must never contain secrets.
 
-### Required server setup (pending administrator approval)
+### Server setup
 
-Create a dedicated `ishon-frontend-deploy` SSH account without sudo access.
-Give it write access to `/var/www/ishon-frontend` and install its dedicated public
-key in `~/.ssh/authorized_keys` with the `restrict` option. The existing Nginx
+Use the existing `deploy` SSH account. Grant it write access to
+`/var/www/ishon-frontend` and install a dedicated frontend public key in
+`~/.ssh/authorized_keys` with the `restrict` option. The existing Nginx
 configuration already serves this directory with SPA fallback and uncached HTML;
 no Nginx reload is needed for deployments.
 
-Configure these GitHub Actions secrets before merging:
+The frontend repository uses these GitHub Actions secrets:
 
 - `DEPLOY_SSH_KEY`: the dedicated account's private Ed25519 key.
 - `DEPLOY_KNOWN_HOSTS`: the server host-key entry for `185.185.82.253`, verified
