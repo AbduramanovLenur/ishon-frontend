@@ -1,5 +1,6 @@
 import { useEffect, type FC } from "react";
 import { Image, Table, Tag, type TableProps } from "antd";
+import dayjs from "dayjs";
 
 import { useTodaysPresenceList, type IEmployee } from "@entities/todays-presence";
 import { Paginator, SearchInput } from "@shared/ui";
@@ -23,10 +24,14 @@ const TodaysPresenceTable: FC = () => {
   const totalElems = data?.employees?.totalElements || 0;
 
   useEffect(() => {
-    if (statusWork) return;
+    if (!statusWork) {
+      set(queries.STATUS_WORK, workStatus.AT_WORK);
+    }
 
-    set(queries.STATUS_WORK, workStatus.AT_WORK);
-  }, [set, statusWork]);
+    if (!date) {
+      set(queries.DATE, dayjs().format("DD-MM-YYYY"));
+    }
+  }, [date, set, statusWork]);
 
   const columns: TableProps<IEmployee>['columns'] = [
     {
