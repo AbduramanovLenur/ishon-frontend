@@ -2,7 +2,7 @@
 set -euo pipefail
 
 test -s dist/index.html
-target=ishon-frontend-deploy@185.185.82.253
+target=deploy@185.185.82.253
 webroot=/var/www/ishon-frontend
 export RSYNC_RSH='ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15'
 
