@@ -4,12 +4,14 @@ import type { SegmentedProps, SelectProps } from "antd";
 import { useTodaysPresenceListCount } from "@entities/todays-presence";
 import { SelectList, Tabs } from "@shared/ui";
 import { defaultValues, queries, workStatus } from "@shared/config";
-import { useMediaQuery } from "@shared/lib";
+import { useMediaQuery, useQueryParams } from "@shared/lib";
 
 import styles from "./TodaysPresenceStatusFilter.module.scss";
 
 const TodaysPresenceStatusFilter: FC = () => {
-  const { data, isLoading } = useTodaysPresenceListCount();
+  const { get } = useQueryParams();
+  const date = get(queries.DATE) || defaultValues.date;
+  const { data, isLoading } = useTodaysPresenceListCount(date);
   const isMobile = useMediaQuery('(max-width: 1200px)');
 
   const atWorkStatus = data?.atWork || 0;

@@ -12,9 +12,9 @@ export function useTodaysPresenceList(search: string, page: number, statusWork: 
   });
 }
 
-export function useTodaysPresenceListCount() {
+export function useTodaysPresenceListCount(date: string) {
   return useQuery({
-    queryKey: todaysPresenceKeys.listCount(),
-    queryFn: () => api.listCount()
+    queryKey: todaysPresenceKeys.collectionCount(date),
+    queryFn: () => api.collectionCount(date)
   })
 }

@@ -16,9 +16,11 @@ export const api = {
       }})
       .then((response) => response.data.data)
   },
-  listCount: () => {
+  collectionCount: (date: string) => {
     return axiosInstance
-      .get<IApiResponse<IEmployeeCounts>>(endpoints.LIST_COUNT)
+      .get<IApiResponse<IEmployeeCounts>>(endpoints.LIST_COUNT, { params: {
+        ...(date && { date })
+      }})
       .then((response) => response.data.data)
   }
 }
