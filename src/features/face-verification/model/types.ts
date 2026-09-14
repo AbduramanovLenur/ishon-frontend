@@ -1,3 +1,4 @@
+import type { TRejectionReason } from "@shared/types";
 import type { eventTypes } from "@shared/config";
 
 export interface IAttendanceFaceIdFields {
@@ -10,7 +11,7 @@ export interface IAttendanceFaceIdFields {
 export interface IAttendanceResponse {
   eventId: string;
   accepted: boolean;
-  rejectionReason: string;
+  rejectionReason: TRejectionReason;
   message: string;
   eventType: Exclude<(typeof eventTypes)[keyof typeof eventTypes], typeof eventTypes.NOT_LEFT>;
   eventTime: string;

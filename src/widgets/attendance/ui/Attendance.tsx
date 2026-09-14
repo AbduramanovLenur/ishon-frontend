@@ -15,7 +15,7 @@ import styles from './Attendance.module.scss';
 const Attendance: FC = () => {
   const [form] = Form.useForm<IAttendanceFields>();
   const { latitude, longitude, isGeolocationAvailable, isGeolocationEnabled } = useTelegramLocation();
-  const { mutateAsync: mutateASyncUpload } = useUploadFacePicture();
+  const { mutateAsync: mutateASyncUpload, isPending: isPendingUploadFile } = useUploadFacePicture();
   const { mutateAsync: mutateAsyncAttendance, isPending: isPendingAttendance } = useAttendance();
 
   useEffect(() => {
@@ -124,7 +124,7 @@ const Attendance: FC = () => {
           <AttendanceActions
             onEnter={() => handleSetEventType(eventTypes.ENTER)}
             onExit={() => handleSetEventType(eventTypes.EXIT)}
-            isPending={isPendingAttendance}
+            isPending={isPendingAttendance || isPendingUploadFile}
           />
         </Form>
       </div>
