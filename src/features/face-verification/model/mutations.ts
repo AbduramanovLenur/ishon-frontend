@@ -104,6 +104,21 @@ export function useAttendance() {
               "Siz ishga kirganingizni qayd etmagansiz. Chiqishni qayd etish mumkin emas."
             );
             break;
+          case rejectionReasons.OUTSIDE_ATTENDANCE_WINDOW:
+            message.error(
+              "Hozir ish vaqti emas. Iltimos, belgilangan ish vaqtida qayta urinib ko‘ring.",
+            );
+            break;
+          case rejectionReasons.ALREADY_COMPLETED_TODAY:
+            message.error(
+              "Bugungi kirish va chiqish qaydlari allaqachon amalga oshirilgan.",
+            );
+            break;
+          case rejectionReasons.TOO_FREQUENT_REQUEST:
+            message.error(
+              "So‘rov juda tez-tez yuborilmoqda. Iltimos, 15 soniyadan so‘ng qayta urinib ko‘ring.",
+            );
+            break;
         }
     } ,
       onError: (error) => {
