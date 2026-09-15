@@ -6,6 +6,7 @@ import { api } from "../api/api";
 import type { ICreateEmployeeFields, IUpdateEmployeeFields } from "./types";
 
 import { employeesKeys, type IEmployee } from "@entities/employees";
+import { todaysPresenceKeys } from "@entities/todays-presence";
 import type { IApiResponse } from "@shared/types";
 
 export function useCreateEmployee() {
@@ -22,6 +23,12 @@ export function useCreateEmployee() {
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: employeesKeys.collection()
+        });
+        queryClient.invalidateQueries({
+          queryKey: todaysPresenceKeys.collection()
+        });
+        queryClient.invalidateQueries({
+          queryKey: todaysPresenceKeys.listCount()
         });
         
         message.success('Xodim yaratildi');
@@ -57,6 +64,9 @@ export function useUpdateEmployee() {
         });
         queryClient.invalidateQueries({
           queryKey: employeesKeys.profile(variables.employeeId)
+        });
+        queryClient.invalidateQueries({
+          queryKey: todaysPresenceKeys.collection()
         });
         
         message.success('Xodim yangilandi');

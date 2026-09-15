@@ -5,7 +5,8 @@ import type { AxiosError } from "axios";
 
 import { api } from "../api/api";
 
-import { employeesKeys } from "@/entities/employees";
+import { todaysPresenceKeys } from "@entities/todays-presence";
+import { employeesKeys } from "@entities/employees";
 import type { IApiResponse } from "@shared/types";
 
 export const useDeleteEmployee = () => {
@@ -21,6 +22,12 @@ export const useDeleteEmployee = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: employeesKeys.collection()
+      });
+      queryClient.invalidateQueries({
+        queryKey: todaysPresenceKeys.collection()
+      });
+      queryClient.invalidateQueries({
+        queryKey: todaysPresenceKeys.listCount()
       });
 
       message.success("Xodim o'chirildi");
