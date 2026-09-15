@@ -1,10 +1,11 @@
 import { useEffect, type FC } from "react";
 import { Image, Table, Tag, type TableProps } from "antd";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 import { useTodaysPresenceList, type IEmployee } from "@entities/todays-presence";
 import { Paginator, SearchInput } from "@shared/ui";
-import { defaultValues, queries, workStatus } from "@shared/config";
+import { defaultValues, queries, routes, workStatus } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
 import type { TWorkStatus } from "@shared/types";
 import { formatDate, formatTime, validationPage } from "@shared/utils";
@@ -12,6 +13,7 @@ import { formatDate, formatTime, validationPage } from "@shared/utils";
 import styles from "./TodaysPresenceTable.module.scss";
 
 const TodaysPresenceTable: FC = () => {
+  const navigate = useNavigate();
   const { get, set } = useQueryParams();
   const search = get(queries.SEARCH) || defaultValues.search;
   const currentPage = validationPage(Number(get(queries.PAGE)), defaultValues.page);
@@ -32,6 +34,10 @@ const TodaysPresenceTable: FC = () => {
       set(queries.DATE, dayjs().format("DD-MM-YYYY"));
     }
   }, [date, set, statusWork]);
+
+  const openViewHandle = (id: number | string) => {
+    navigate(routes.SINGLE_EMPLOYEE(id));
+  }
 
   const columns: TableProps<IEmployee>['columns'] = [
     {
@@ -118,6 +124,14 @@ const TodaysPresenceTable: FC = () => {
             }
           }}
           rowKey="employeeId"
+          onRow={(record) => ({
+            onClick: () => {
+              openViewHandle(record?.employeeId);
+            },
+            style: {
+              cursor: 'pointer'
+            }
+          })}
           dataSource={dataSource}
           columns={columns}
           pagination={false}

@@ -1,15 +1,17 @@
 import type { FC } from "react";
 import { Image, Progress, Table, Tag, type TableProps } from "antd";
+import { useNavigate } from "react-router-dom";
 
 import { useSystemLogList, type IEmployeeEvent } from "@entities/system-logs";
 import { Paginator, SearchInput } from "@shared/ui";
-import { defaultValues, eventTypes, queries } from "@shared/config";
+import { defaultValues, eventTypes, queries, routes } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
 import { formatDate, formatTime, validationPage } from "@shared/utils";
 
 import styles from "./SystemLogsTable.module.scss";
 
 export const SystemLogsTable: FC = () => {
+  const navigate = useNavigate();
   const { get } = useQueryParams();
   const search = get(queries.SEARCH) || defaultValues.search;
   const currentPage = validationPage(Number(get(queries.PAGE)), defaultValues.page);
@@ -17,6 +19,10 @@ export const SystemLogsTable: FC = () => {
 
   const dataSource = data?.content || [];
   const totalElems = data?.totalElements || 0;
+
+  const openViewHandle = (id: number | string) => {
+    navigate(routes.SINGLE_EMPLOYEE(id));
+  }
 
   const columns: TableProps<IEmployeeEvent>['columns'] = [
     {
@@ -122,6 +128,14 @@ export const SystemLogsTable: FC = () => {
             }
           }}
           rowKey="eventId"
+          onRow={(record) => ({
+            onClick: () => {
+              openViewHandle(record?.employeeId);
+            },
+            style: {
+              cursor: 'pointer'
+            }
+          })}
           dataSource={dataSource}
           columns={columns}
           pagination={false}
