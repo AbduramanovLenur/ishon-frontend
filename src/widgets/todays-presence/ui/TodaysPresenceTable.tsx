@@ -51,6 +51,7 @@ const TodaysPresenceTable: FC = () => {
           width={40}
           height={40}
           alt={record?.fullName}
+          onClick={(event) => event.stopPropagation()}
         />
       )
     },
@@ -125,7 +126,13 @@ const TodaysPresenceTable: FC = () => {
           }}
           rowKey="employeeId"
           onRow={(record) => ({
-            onClick: () => {
+            onClick: (event) => {
+              const target = event.target as HTMLElement;
+
+              if (target.closest(".ant-image-preview")) {
+                return;
+              }
+
               openViewHandle(record?.employeeId);
             },
             style: {
