@@ -8,6 +8,13 @@ import type { IAuthData, IAuthFields } from "./types";
 
 import { userKeys } from "@entities/user";
 import { settingsKeys } from "@entities/settings";
+import { employeesKeys } from "@entities/employees";
+import { companiesKeys } from "@entities/companies";
+import { companiesOwnerKeys } from "@entities/directors";
+import { objectsKeys } from "@entities/objects";
+import { statisticsKeys } from "@entities/statistics";
+import { systemLogsKeys } from "@entities/system-logs";
+import { todaysPresenceKeys } from "@entities/todays-presence";
 import { clearTokens, setTokens } from "@shared/api";
 import { routes } from "@shared/config";
 import type { IApiResponse } from "@shared/types";
@@ -55,6 +62,14 @@ export function useLogout() {
     clearTokens();
     queryClient.removeQueries({ queryKey: userKeys.user });
     queryClient.removeQueries({ queryKey: settingsKeys.all });
+    queryClient.removeQueries({ queryKey: employeesKeys.all });
+    queryClient.removeQueries({ queryKey: companiesKeys.all });
+    queryClient.removeQueries({ queryKey: companiesOwnerKeys.all });
+    queryClient.removeQueries({ queryKey: objectsKeys.all });
+    queryClient.removeQueries({ queryKey: statisticsKeys.all });
+    queryClient.removeQueries({ queryKey: systemLogsKeys.all });
+    queryClient.removeQueries({ queryKey: todaysPresenceKeys.all });
+
     navigate(routes.AUTH, { replace: true });
     message.success("Siz akkauntdan chiqdingiz");
   };
