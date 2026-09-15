@@ -1,6 +1,5 @@
 .profile-employee {
   display: flex;
-  align-items: center;
   gap: 40px;
   margin-bottom: 30px;
   @media (max-width: 768px) {
@@ -85,6 +84,51 @@
     }
     @media (max-width: 480px) {
       text-align: center;
+    }
+  }
+  &__info {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    @media (max-width: 480px) {
+      align-items: center;
+      margin-top: 15px;
+    }
+  }
+  &__info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: var(--Brown);
+    @media (max-width: 768px) {
+      font-size: 14px;
+    }
+    @media (max-width: 480px) {
+      font-size: 13px;
+    }
+  }
+  &__info-icon {
+    font-size: 18px;
+    color: #2db7f5;
+    @media (max-width: 768px) {
+      font-size: 16px;
+    }
+  }
+  &__days {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    @media (max-width: 480px) {
+      justify-content: center;
+    }
+  }
+  &__day-tag {
+    font-size: 13px;
+    border-radius: 6px;
+    @media (max-width: 768px) {
+      font-size: 12px;
     }
   }
   &__skeleton {

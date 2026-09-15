@@ -14,6 +14,10 @@ const EmployeeProfile: FC = () => {
         object={data?.assignedObject?.name ?? ''}
         position={data?.position ?? ''}
         photoUrl={data?.photoUrl ?? ''}
+        phoneNumber={data?.phoneNumber ?? ''}
+        workdayStartTime={data?.workdayStartTime ?? ''}
+        workdayEndTime={data?.workdayEndTime ?? ''}
+        workingDays={data?.workingDays ?? []}
         isLoading={isLoading}
       />
       <AnalyticsEmployee 

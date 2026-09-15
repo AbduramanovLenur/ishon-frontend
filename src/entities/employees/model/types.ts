@@ -44,6 +44,10 @@ export interface IEmployeeDetails {
   photoUrl: string;
   fullName: string;
   position: string;
+  phoneNumber: string;
+  workdayStartTime: string;
+  workdayEndTime: string;
+  workingDays: TDays[];
   assignedObject: IManual;
   statistics: IEmployeeStatistics;
 }

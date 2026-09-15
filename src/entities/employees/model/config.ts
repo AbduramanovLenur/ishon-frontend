@@ -3,5 +3,5 @@ export const eventTypes = {
   EXIT: "Chiqish",
   LATE: "Kechikkan",
   EARLY: "Erta",
-  NOT_LEFT: "Chiqish qayd etilmagan"
-}
+  NOT_LEFT: "Chiqish qayd etilmagan",
+};

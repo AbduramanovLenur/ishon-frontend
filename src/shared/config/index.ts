@@ -14,3 +14,4 @@ export { days } from "./days";
 export { lateValues } from "./lateValues";
 export { earlyValues } from "./earlyValues";
 export { rejectionReasons } from "./rejectionReasons";
+export { daysLabels } from "./daysLabels";
