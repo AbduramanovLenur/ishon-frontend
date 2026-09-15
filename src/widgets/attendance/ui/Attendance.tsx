@@ -1,5 +1,6 @@
 import { useEffect, type FC } from 'react';
-import { Form, Input, message, type FormProps } from 'antd';
+import { Form, Input, Popover, message, type FormProps } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import type { IAttendanceFields } from '../model/types';
 
@@ -78,10 +79,30 @@ const Attendance: FC = () => {
     form.setFieldsValue({ eventType });
   };
 
+  const helpContent = (
+    <div className={styles['attendance__help']}>
+      <p className={styles['attendance__help-title']}>Yordam</p>
+      <ol className={styles['attendance__help-list']}>
+        <li>Telegram ilovasining <b>sozlamalari</b> bo'limiga boring va geolokatsiya hamda kamera uchun ruxsat bering.</li>
+        <li>Qurilmangizda <b>geolokatsiyani</b> yoqing.</li>
+        <li>Telegram mini app'ga kiring.</li>
+        <li>Geolokatsiya va kamera uchun ruxsat so'rovchi oyna paydo bo'ladi — <b>barcha ruxsatlarni bering</b>.</li>
+        <li>Agar geolokatsiya aniqlanmasa, mini app'ni qayta yuklang yoki yuqori o'ngdagi <b>uch nuqta</b> (...) tugmasini bosing va <b>qayta yuklash</b>ni tanlang.</li>
+      </ol>
+    </div>
+  );
+
   return (
     <div className={styles['attendance']}>
       <div className={styles['attendance__inner']}>
-        <h1 className={styles['attendance__title']}>Kuzatish</h1>
+        <div className={styles['attendance__header']}>
+          <h1 className={styles['attendance__title']}>Kuzatish</h1>
+          <Popover content={helpContent} trigger="click" placement="topRight">
+            <button type="button" className={styles['attendance__help-btn']}>
+              <QuestionCircleOutlined />
+            </button>
+          </Popover>
+        </div>
 
         <p className={styles['attendance__subtitle']}>
           Yuzingizni skanerlash uchun ramkaga joylashtiring
