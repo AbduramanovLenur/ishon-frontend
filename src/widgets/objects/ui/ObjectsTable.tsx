@@ -5,11 +5,13 @@ import { useDispatch } from "react-redux";
 import { useDeleteObject } from "@features/delete-object-modal";
 import { ViewObjectModal, open as openViewModal } from "@features/view-object-modal";
 import { ManageObjectModal, open as openManageModal } from "@features/manage-object-modal";
+import { ExportExcelButton } from "@features/export-excel";
 import { useObjectList, type IObject } from "@entities/objects";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
 import { defaultValues, queries, status } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
-import { formatHoursMinutes, getFirstChar, validationPage } from "@shared/utils";
+import type { ExportColumn } from "@shared/types";
+import { formatDate, formatHoursMinutes, getFirstChar, validationPage } from "@shared/utils";
 
 import styles from "./ObjectsTable.module.scss";
 
@@ -31,6 +33,34 @@ export const ObjectsTable: FC = () => {
   const openViewModalHandle = (id: number | string) => {
     dispatch(openViewModal(id));
   }
+
+  const exportColumns: ExportColumn<IObject>[] = [
+    { 
+      header: "Obyekt nomi", 
+      accessor: (row) => row.name 
+    },
+    { 
+      header: "Manzil", 
+      accessor: (row) => row.address 
+    },
+    {
+      header: "Ish boshlash",
+      accessor: (row) => formatHoursMinutes(row.shiftStartTime),
+    },
+    {
+      header: "Ish tugash",
+      accessor: (row) => formatHoursMinutes(row.shiftEndTime),
+    },
+    {
+      header: "Holat",
+      accessor: (row) =>
+        row.status === status.ACTIVE ? "Faol" : "Faol emas",
+    },
+    {
+      header: "Yaratilgan sana",
+      accessor: (row) => formatDate(row.createdAt),
+    },
+  ];
 
   const columns: TableProps<IObject>['columns'] = [
     {
@@ -88,6 +118,12 @@ export const ObjectsTable: FC = () => {
     <div className={styles['objects-table']}>
       <div className={styles['objects-table__top']}>
         <SearchInput placeholder="Obyektlarni qidirish..." />
+        <ExportExcelButton
+          data={dataSource}
+          columns={exportColumns}
+          fileName="obyektlar"
+          sheetName="Obyektlar"
+        />
       </div>
       <div className={styles['objects-table__middle']}>
         <Table<IObject>

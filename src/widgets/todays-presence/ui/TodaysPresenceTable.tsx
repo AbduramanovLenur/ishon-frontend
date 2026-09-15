@@ -3,12 +3,13 @@ import { Image, Table, Tag, type TableProps } from "antd";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 
+import { ExportExcelButton } from "@features/export-excel";
 import { useTodaysPresenceList, type IEmployee } from "@entities/todays-presence";
 import { Paginator, SearchInput } from "@shared/ui";
 import { defaultValues, queries, routes, workStatus } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
-import type { TWorkStatus } from "@shared/types";
-import { formatDate, formatTime, validationPage } from "@shared/utils";
+import type { ExportColumn, TWorkStatus } from "@shared/types";
+import { formatDateToDisplay, formatTime, validationPage } from "@shared/utils";
 
 import styles from "./TodaysPresenceTable.module.scss";
 
@@ -38,6 +39,41 @@ const TodaysPresenceTable: FC = () => {
   const openViewHandle = (id: number | string) => {
     navigate(routes.SINGLE_EMPLOYEE(id));
   }
+
+  const exportColumns: ExportColumn<IEmployee>[] = [
+    { 
+      header: "Surat", 
+      accessor: (row) => row.photoUrl, 
+      isImage: true 
+    },
+    { 
+      header: "Ism-familiya", 
+      accessor: (row) => row.fullName 
+    },
+    { 
+      header: "Lavozimi", 
+      accessor: (row) => row.position 
+    },
+    { 
+      header: "Obyekt nomi", 
+      accessor: (row) => row.objectName 
+    },
+    ...(statusWork === workStatus.AT_WORK
+      ? [{ 
+        header: "Kirish vaqti", 
+        accessor: (row: IEmployee) => formatTime(row.checkInTime) 
+      }] : []),
+    ...(statusWork === workStatus.LEFT
+      ? [{ 
+        header: "Chiqish vaqti", 
+        accessor: (row: IEmployee) => formatTime(row.checkOutTime) 
+      }] : []),
+    ...(statusWork === workStatus.NOT_CHECKED_IN
+      ? [{ 
+        header: "Oxirgi ko'rilgan sana", 
+        accessor: (row: IEmployee) => formatDateToDisplay(row.lastSeenDate) 
+      }] : []),
+  ];
 
   const columns: TableProps<IEmployee>['columns'] = [
     {
@@ -106,7 +142,7 @@ const TodaysPresenceTable: FC = () => {
           {
             title: "Oxirgi ko‘rilgan sana",
             render: (_: unknown, record: IEmployee) =>
-              formatDate(record?.lastSeenDate),
+              formatDateToDisplay(record?.lastSeenDate),
           },
         ]
       : []),
@@ -116,6 +152,12 @@ const TodaysPresenceTable: FC = () => {
     <div className={styles['todays-presence-table']}>
       <div className={styles['todays-presence-table__top']}>
         <SearchInput placeholder="Xodimlarni qidirish..." />
+        <ExportExcelButton
+          data={dataSource}
+          columns={exportColumns}
+          fileName="bugungi-davomat"
+          sheetName="Bugungi davomat"
+        />
       </div>
       <div className={styles['todays-presence-table__middle']}>
         <Table<IEmployee>

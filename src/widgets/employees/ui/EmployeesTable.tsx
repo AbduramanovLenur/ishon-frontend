@@ -10,10 +10,12 @@ import { ResetPasswordEmployeeModal, open as openResetPasswordModal } from "@fea
 import { GrantAccessModal, open as openGrantAccessModal } from "@features/grant-access-modal";
 import { useDeleteAccess } from "@features/delete-access-modal";
 import { useDeleteEmployee } from "@features/delete-employee-modal";
+import { ExportExcelButton } from "@features/export-excel";
 import { useEmployeeList, type IEmployee } from "@entities/employees";
 import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
 import { defaultValues, queries, roles, routes, status } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
+import type { ExportColumn } from "@shared/types";
 import { validationPage } from "@shared/utils";
 
 import styles from "./EmployeesTable.module.scss";
@@ -30,6 +32,33 @@ const EmployeesTable: FC = () => {
 
   const dataSource = data?.content || [];
   const totalElems = data?.totalElements || 0;
+
+  const exportColumns: ExportColumn<IEmployee>[] = [
+    { 
+      header: "Surat", 
+      accessor: (row) => row.fileUrl, isImage: true 
+    },
+    { 
+      header: "Ism-familiya", 
+      accessor: (row) => row.fullName 
+    },
+    { 
+      header: "Lavozimi", 
+      accessor: (row) => row.position 
+    },
+    { 
+      header: "Telefon raqami", 
+      accessor: (row) => formatPhoneNumberIntl(row.phone) },
+    {
+      header: "Obyekt nomi",
+      accessor: (row) => row.assignedObject?.name || "Noma'lum obyekt",
+    },
+    {
+      header: "Holat",
+      accessor: (row) =>
+        row.status === status.ACTIVE ? "Faol" : "Faol emas",
+    },
+  ];
 
   const openManageModalHandle = (id: number | string) => {
     dispatch(openManageModal(id));
@@ -152,6 +181,12 @@ const EmployeesTable: FC = () => {
     <div className={styles['employees-table']}>
       <div className={styles['employees-table__top']}>
         <SearchInput placeholder="Xodimlarni qidirish..." />
+        <ExportExcelButton
+          data={dataSource}
+          columns={exportColumns}
+          fileName="xodimlar"
+          sheetName="Xodimlar"
+        />
       </div>
       <div className={styles['employees-table__middle']}>
         <Table<IEmployee>

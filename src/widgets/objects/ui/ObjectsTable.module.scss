@@ -3,6 +3,10 @@
   border-radius: var(--border-radius);
   overflow: hidden;
   &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
     padding: 16px;
     background-color: #F0F3FF;
     border-bottom: 1px solid var(--border-color);

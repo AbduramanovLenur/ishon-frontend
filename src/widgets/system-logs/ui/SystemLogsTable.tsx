@@ -2,10 +2,12 @@ import type { FC } from "react";
 import { Image, Progress, Table, Tag, type TableProps } from "antd";
 import { useNavigate } from "react-router-dom";
 
+import { ExportExcelButton } from "@features/export-excel";
 import { useSystemLogList, type IEmployeeEvent } from "@entities/system-logs";
 import { Paginator, SearchInput } from "@shared/ui";
 import { defaultValues, eventTypes, queries, routes } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
+import type { ExportColumn } from "@shared/types";
 import { formatDate, formatTime, validationPage } from "@shared/utils";
 
 import styles from "./SystemLogsTable.module.scss";
@@ -23,6 +25,40 @@ export const SystemLogsTable: FC = () => {
   const openViewHandle = (id: number | string) => {
     navigate(routes.SINGLE_EMPLOYEE(id));
   }
+
+  const exportColumns: ExportColumn<IEmployeeEvent>[] = [
+    { 
+      header: "Surat", 
+      accessor: (row) => row.photoUrl, 
+      isImage: true 
+    },
+    {
+      header: "Sana",
+      accessor: (row) => formatDate(row.eventTime),
+    },
+    {
+      header: "Vaqt",
+      accessor: (row) => formatTime(row.eventTime),
+    },
+    { header: "Ism-familiya", accessor: (row) => row.fullName || "Noma'lum xodim" },
+    {
+      header: "Koordinatalar",
+      accessor: (row) => `${row.latitude}, ${row.longitude}`,
+    },
+    {
+      header: "Obyekt nomi",
+      accessor: (row) => row.object?.name || "Noma'lum obyekt",
+    },
+    {
+      header: "Harakat",
+      accessor: (row) =>
+        row.eventType === eventTypes.ENTER ? "Keldi" : "Ketdi",
+    },
+    { 
+      header: "Aniqlik", 
+      accessor: (row) => row.similarity 
+    },
+  ];
 
   const columns: TableProps<IEmployeeEvent>['columns'] = [
     {
@@ -120,6 +156,12 @@ export const SystemLogsTable: FC = () => {
     <div className={styles['system-logs-table']}>
       <div className={styles['system-logs-table__top']}>
         <SearchInput placeholder="Xodimlarni qidirish..." />
+        <ExportExcelButton
+          data={dataSource}
+          columns={exportColumns}
+          fileName="kirish-jurnali"
+          sheetName="Kirish jurnali"
+        />
       </div>
       <div className={styles['system-logs-table__middle']}>
         <Table<IEmployeeEvent>

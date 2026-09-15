@@ -14,3 +14,4 @@ export type { TDays } from "./days";
 export type { IFile } from "./file";
 export type { ITelegramLocationData, IUseTelegramLocationResult } from "./telegram-location";
 export type { TRejectionReason } from "./rejectionReasons";
+export type { ExportColumn } from "./export-excel";
