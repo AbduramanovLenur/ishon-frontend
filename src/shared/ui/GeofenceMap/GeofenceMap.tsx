@@ -47,25 +47,11 @@ const GeofenceMap: FC<IGeofenceMapProps> = ({
     !Number.isNaN(latitude) &&
     !Number.isNaN(longitude);
 
-  if (!hasValidPosition) {
-    return (
-      <div
-        className={styles.empty}
-        style={{
-          height
-        }}
-      >
-        <span>
-          Joylashuv aniqlanmagan
-        </span>
-      </div>
-    );
-  }
+  const position: [number, number] = hasValidPosition
+    ? [latitude, longitude]
+    : [...defaultValues.uzbekistanCenter] as [number, number];
 
-  const position: [number, number] = [
-    latitude,
-    longitude,
-  ];
+  const effectiveZoom = hasValidPosition ? zoom : defaultValues.uzbekistanZoom;
 
   const handleDragEnd = (event: L.DragEndEvent) => {
     if (!editable || !onPositionChange) {
@@ -91,7 +77,7 @@ const GeofenceMap: FC<IGeofenceMapProps> = ({
     >
       <MapContainer
         center={position}
-        zoom={zoom}
+        zoom={effectiveZoom}
         className={styles.container}
         scrollWheelZoom={scrollWheelZoom}
         dragging={dragging}
@@ -104,27 +90,31 @@ const GeofenceMap: FC<IGeofenceMapProps> = ({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <MapController
-          latitude={latitude}
-          longitude={longitude}
-          zoom={zoom}
-        />
+        {hasValidPosition && (
+          <MapController
+            latitude={latitude}
+            longitude={longitude}
+            zoom={effectiveZoom}
+          />
+        )}
 
         <MapClickHandler
           editable={editable}
           onPositionChange={onPositionChange}
         />
 
-        <Marker
-          position={position}
-          icon={markerIconOptions}
-          draggable={editable}
-          eventHandlers={{
-            dragend: handleDragEnd,
-          }}
-        />
+        {hasValidPosition && (
+          <Marker
+            position={position}
+            icon={markerIconOptions}
+            draggable={editable}
+            eventHandlers={{
+              dragend: handleDragEnd,
+            }}
+          />
+        )}
 
-        {radius > 0 && (
+        {hasValidPosition && radius > 0 && (
           <Circle
             center={position}
             radius={radius}
