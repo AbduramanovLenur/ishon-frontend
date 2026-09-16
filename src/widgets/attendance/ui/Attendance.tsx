@@ -1,4 +1,4 @@
-import { useEffect, type FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { Form, Input, Popover, message, type FormProps } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
@@ -15,6 +15,7 @@ import styles from './Attendance.module.scss';
 
 const Attendance: FC = () => {
   const [form] = Form.useForm<IAttendanceFields>();
+  const [photoKey, setPhotoKey] = useState(0);
   const { latitude, longitude, isGeolocationAvailable, isGeolocationEnabled } = useTelegramLocation();
   const { mutateAsync: mutateASyncUpload, isPending: isPendingUploadFile } = useUploadFacePicture();
   const { mutateAsync: mutateAsyncAttendance, isPending: isPendingAttendance } = useAttendance();
@@ -70,6 +71,9 @@ const Attendance: FC = () => {
       eventType: values.eventType,
       latitude: values.latitude,
       longitude: values.longitude,
+    }).then(() => {
+      form.setFieldsValue({ photo: null });
+      setPhotoKey((k) => k + 1);
     });
   };
 
@@ -129,7 +133,7 @@ const Attendance: FC = () => {
             <Input />
           </Form.Item>
 
-          <WebcamCapture onCapture={handleCapture} onDelete={handleDelete} />
+          <WebcamCapture key={photoKey} onCapture={handleCapture} onDelete={handleDelete} />
 
           <GeofenceMap
             height={200}
