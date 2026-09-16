@@ -14,6 +14,7 @@ export const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error) => {
       message.error(getErrorMessage(error));
+      window.location.replace('/');
     },
   }),
 

@@ -149,13 +149,13 @@ const ObjectDetails: FC<IObjectDetailsProps> = ({ objectId }) => {
         {isLoading ? (
           <Skeleton.Node className={styles['object-details__skeleton']} />
         ) : (
-          data?.lateEntryGraceMinutes && (
+          data?.lateEntryGraceMinutes !== null && (
             <div className={styles['object-details__wrapper']}>
               <div className={styles['object-details__small-title']}>
                 Kechikish uchun ruxsat etilgan vaqt
               </div>
               <div className={styles['object-details__value']}>
-                { data.lateEntryGraceMinutes } daq
+                { data?.lateEntryGraceMinutes } daq
               </div>
             </div>
           )
@@ -163,13 +163,13 @@ const ObjectDetails: FC<IObjectDetailsProps> = ({ objectId }) => {
         {isLoading ? (
           <Skeleton.Node className={styles['object-details__skeleton']} />
         ) : (
-          data?.earlyLeaveGraceMinutes && (
+          data?.earlyLeaveGraceMinutes !== null && (
             <div className={styles['object-details__wrapper']}>
               <div className={styles['object-details__small-title']}>
                 Erta ketish uchun ruxsat etilgan vaqt
               </div>
               <div className={styles['object-details__value']}>
-                { data.earlyLeaveGraceMinutes } daq
+                { data?.earlyLeaveGraceMinutes } daq
               </div>
             </div>
           )
