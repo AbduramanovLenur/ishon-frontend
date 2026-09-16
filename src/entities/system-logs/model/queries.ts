@@ -3,9 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { systemLogsKeys } from "./keys";
 import { api } from "../api/api";
 
-export function useSystemLogList(search: string, page: number) {
+export function useSystemLogList(search: string, page: number, objectId: number | string, from: string, to: string) {
   return useQuery({
-    queryKey: systemLogsKeys.list(search, page),
-    queryFn: () => api.list(search, page)
+    queryKey: systemLogsKeys.list(search, page, objectId, from, to),
+    queryFn: () => api.list(search, page, objectId, from, to)
   })
 }

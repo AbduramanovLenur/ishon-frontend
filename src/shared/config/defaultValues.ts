@@ -10,5 +10,7 @@ export const defaultValues = {
   event: '',
   late: '',
   early: '',
-  date: ''
+  date: '',
+  dateFrom: '',
+  dateTo: ''
 } as const;

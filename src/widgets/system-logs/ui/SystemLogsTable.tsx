@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import { ExportExcelButton } from "@features/export-excel";
 import { useSystemLogList, type IEmployeeEvent } from "@entities/system-logs";
-import { Paginator, SearchInput } from "@shared/ui";
+import { useManualObjectList } from "@entities/objects";
+import { DateRangeFilter, Paginator, SearchInput, SelectList } from "@shared/ui";
 import { defaultValues, eventTypes, queries, routes } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
 import type { ExportColumn } from "@shared/types";
@@ -17,7 +18,16 @@ export const SystemLogsTable: FC = () => {
   const { get } = useQueryParams();
   const search = get(queries.SEARCH) || defaultValues.search;
   const currentPage = validationPage(Number(get(queries.PAGE)), defaultValues.page);
-  const { data, isLoading } = useSystemLogList(search, currentPage);
+  const objectId = get(queries.OBJECT) || defaultValues.object;
+  const dateFrom = get(queries.DATE_FROM) || defaultValues.dateFrom;
+  const dateTo = get(queries.DATE_TO) || defaultValues.dateTo;
+  const { data, isLoading } = useSystemLogList(search, currentPage, objectId, dateFrom, dateTo);
+  const { data: objectDate, isLoading: isLoadingObject } = useManualObjectList(true);
+
+  const objectList = objectDate?.map((object) => ({
+    label: object.name,
+    value: object.id
+  })) ?? [];
 
   const dataSource = data?.content || [];
   const totalElems = data?.totalElements || 0;
@@ -156,12 +166,26 @@ export const SystemLogsTable: FC = () => {
     <div className={styles['system-logs-table']}>
       <div className={styles['system-logs-table__top']}>
         <SearchInput placeholder="Xodimlarni qidirish..." />
-        <ExportExcelButton
-          data={dataSource}
-          columns={exportColumns}
-          fileName="kirish-jurnali"
-          sheetName="Kirish jurnali"
-        />
+        <div className={styles['system-logs-table__wrapper']}>
+          <DateRangeFilter 
+            currentFromValue={dateFrom}
+            currentToValue={dateTo}
+          />
+          <SelectList
+            className={styles['system-logs-table__object-filter']}
+            options={objectList}
+            queryKey={queries.OBJECT}
+            defaultValue={defaultValues.object}
+            currentValue={objectId}
+            isLoading={isLoadingObject}
+          />
+          <ExportExcelButton
+            data={dataSource}
+            columns={exportColumns}
+            fileName="kirish-jurnali"
+            sheetName="Kirish jurnali"
+          />
+        </div>
       </div>
       <div className={styles['system-logs-table__middle']}>
         <Table<IEmployeeEvent>

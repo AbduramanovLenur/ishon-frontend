@@ -12,6 +12,7 @@ import { useDeleteAccess } from "@features/delete-access-modal";
 import { useDeleteEmployee } from "@features/delete-employee-modal";
 import { ExportExcelButton } from "@features/export-excel";
 import { useEmployeeList, type IEmployee } from "@entities/employees";
+import { useManualObjectList } from "@entities/objects";
 import { ActionsDropdown, Paginator, SearchInput, SelectList } from "@shared/ui";
 import { defaultValues, queries, roles, routes, status } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
@@ -19,7 +20,6 @@ import type { ExportColumn } from "@shared/types";
 import { validationPage } from "@shared/utils";
 
 import styles from "./EmployeesTable.module.scss";
-import { useManualObjectList } from "@/entities/objects";
 
 const EmployeesTable: FC = () => {
   const dispatch = useDispatch();

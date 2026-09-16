@@ -1,25 +1,32 @@
 import type { FC } from "react";
+
 import { DatePicker, type DatePickerProps } from "antd";
-import dayjs from "dayjs";
+import dayjs, { type Dayjs } from "dayjs";
 
 import { useQueryParams } from "@shared/lib";
-import { defaultValues, queries } from "@shared/config";
 
 interface IDateFilterProps {
+  queryKey: string;
   className?: string;
+  currentValue?: string;
+  defaultValue?: string;
 }
 
-const DateFilter: FC<IDateFilterProps> = ({ className = "" }) => {
-  const { get, set, remove } = useQueryParams();
-  const value = get(queries.DATE) ?? defaultValues.date;
+const DateFilter: FC<IDateFilterProps> = ({
+  queryKey,
+  className = "",
+  defaultValue = "",
+  currentValue = "",
+}) => {
+  const { set, remove } = useQueryParams();
 
-  const onChangeHandle: DatePickerProps["onChange"] = (date) => {
+  const onChangeHandle: DatePickerProps<Dayjs>["onChange"] = (date) => {
     if (!date || Array.isArray(date)) {
-      remove(queries.DATE);
+      remove(queryKey);
       return;
     }
 
-    set(queries.DATE, date.format("DD-MM-YYYY"));
+    set(queryKey, date.format("DD-MM-YYYY"));
   };
 
   return (
@@ -28,7 +35,16 @@ const DateFilter: FC<IDateFilterProps> = ({ className = "" }) => {
       placeholder="Sana tanlang"
       onChange={onChangeHandle}
       format="DD-MM-YYYY"
-      value={value ? dayjs(value, "DD-MM-YYYY") : null}
+      defaultValue={
+        defaultValue
+          ? dayjs(defaultValue, "DD-MM-YYYY")
+          : null
+      }
+      value={
+        currentValue
+          ? dayjs(currentValue, "DD-MM-YYYY")
+          : null
+      }
     />
   );
 };

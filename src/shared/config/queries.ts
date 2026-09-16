@@ -7,5 +7,7 @@ export const queries = {
   EVENT: 'event',
   LATE: 'late',
   EARLY: 'early',
-  DATE: 'date'
+  DATE: 'date',
+  DATE_FROM: 'date_from',
+  DATE_TO: 'date_to'
 } as const;

@@ -6,9 +6,30 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;
     padding: 16px;
     background-color: #F0F3FF;
     border-bottom: 1px solid var(--border-color);
+    @media (max-width: 1350px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+    @media (max-width: 1350px) {
+      justify-content: flex-start;
+      width: 100%;
+    }
+  }
+  &__object-filter {
+    @media (max-width: 1350px) {
+      max-width: 250px;
+      width: 100%;
+    }
   }
   &__title-cell {
     font-size: 14px;
