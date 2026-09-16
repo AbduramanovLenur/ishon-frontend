@@ -3,10 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "../api/api";
 import { employeesKeys } from "./keys";
 
-export function useEmployeeList(search: string, page: number) {
+export function useEmployeeList(search: string, page: number, objectId: string | number) {
   return useQuery({
-    queryKey: employeesKeys.list(search, page),
-    queryFn: () => api.list(search, page),
+    queryKey: employeesKeys.list(search, page, objectId),
+    queryFn: () => api.list(search, page, objectId),
   });
 }
 

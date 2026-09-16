@@ -11,6 +11,8 @@ import styles from "./EmployeeHistoryFilters.module.scss";
 const EmployeeHistoryFilters: FC = () => {
   const { get, setMany } = useQueryParams();
   const eventType = get(queries.EVENT) || defaultValues.event;
+  const late = get(queries.LATE) || defaultValues.late;
+  const early = get(queries.EARLY) || defaultValues.early;
   
   const onChangeHandle = (value: string) => {
     if (!value) {
@@ -35,17 +37,20 @@ const EmployeeHistoryFilters: FC = () => {
         options={events}
         queryKey={queries.EVENT}
         defaultValue={defaultValues.event}
+        currentValue={eventType}
         onChange={onChangeHandle}
       />
       {eventType === eventTypes.ENTER && <SelectList
         options={lateStatuses}
         queryKey={queries.LATE}
         defaultValue={defaultValues.late}
+        currentValue={late}
       />}
       {eventType === eventTypes.EXIT && <SelectList
         options={earlyStatuses}
         queryKey={queries.EARLY}
         defaultValue={defaultValues.early}
+        currentValue={early}
       />}
     </div>
   );

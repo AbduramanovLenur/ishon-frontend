@@ -5,11 +5,12 @@ import { axiosInstance } from "@shared/api";
 import type { IApiResponse, IPaginatedData } from "@shared/types";
 
 export const api = {
-  list: (search: string, page: number) => {
+  list: (search: string, page: number, objectId: string | number) => {
     return axiosInstance
       .get<IApiResponse<IPaginatedData<IEmployee>>>(endpoints.LIST, { params: {
         ...(search && { search }),
         ...(page && { page }),
+        ...(objectId && { objectId }),
       }})
       .then((response) => response.data.data);
   },

@@ -8,17 +8,24 @@ import styles from "./Tabs.module.scss";
 interface ITabsProps {
   options: SegmentedProps<string>['options'],
   isLoading?: boolean;
-  nameQuery: string;
+  queryKey: string;
   defaultValue: string;
   className?: string;
+  currentValue: string;
 };
 
-const Tabs: FC<ITabsProps> = ({ options, isLoading = false, nameQuery, defaultValue, className = '' }) => {
-  const { get, set } = useQueryParams();
-  const value = get(nameQuery) || defaultValue;
+const Tabs: FC<ITabsProps> = ({ 
+  options, 
+  isLoading = false, 
+  queryKey, 
+  defaultValue, 
+  className = '',
+  currentValue = ''
+}) => {
+  const { set } = useQueryParams();
 
   const onChangeHandle = (value: string) => {
-    set(nameQuery, value);
+    set(queryKey, value);
   }
 
   return (
@@ -28,7 +35,8 @@ const Tabs: FC<ITabsProps> = ({ options, isLoading = false, nameQuery, defaultVa
         item: styles['tabs__item'],
         label: styles['tabs__label']
       }}
-      value={value} 
+      defaultValue={defaultValue}
+      value={currentValue} 
       options={options} 
       onChange={onChangeHandle}
       disabled={isLoading}

@@ -13,6 +13,7 @@ interface ISelectListProps {
   isLoading?: boolean;
   onChange?: (value: string) => void;
   className?: string;
+  currentValue?: string;
 };
 
 const SelectList: FC<ISelectListProps> = ({
@@ -22,11 +23,10 @@ const SelectList: FC<ISelectListProps> = ({
   showAll = true,
   isLoading = false,
   onChange,
-  className = ''
+  className = '',
+  currentValue = ''
 }) => {
-  const { set, get, remove } = useQueryParams();
-
-  const currentValue = get(queryKey) || defaultValue;
+  const { set, remove } = useQueryParams();
 
   const onChangeHandle = (value: string) => {
     if (onChange) {
@@ -49,6 +49,7 @@ const SelectList: FC<ISelectListProps> = ({
   return (
     <Select 
       className={`${styles['select-list']} ${className}`}
+      defaultValue={defaultValue}
       value={currentValue}
       options={allOptions} 
       onChange={onChangeHandle}

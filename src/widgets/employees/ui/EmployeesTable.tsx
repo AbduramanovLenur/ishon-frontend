@@ -12,13 +12,14 @@ import { useDeleteAccess } from "@features/delete-access-modal";
 import { useDeleteEmployee } from "@features/delete-employee-modal";
 import { ExportExcelButton } from "@features/export-excel";
 import { useEmployeeList, type IEmployee } from "@entities/employees";
-import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
+import { ActionsDropdown, Paginator, SearchInput, SelectList } from "@shared/ui";
 import { defaultValues, queries, roles, routes, status } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
 import type { ExportColumn } from "@shared/types";
 import { validationPage } from "@shared/utils";
 
 import styles from "./EmployeesTable.module.scss";
+import { useManualObjectList } from "@/entities/objects";
 
 const EmployeesTable: FC = () => {
   const dispatch = useDispatch();
@@ -26,9 +27,16 @@ const EmployeesTable: FC = () => {
   const { get } = useQueryParams();
   const search = get(queries.SEARCH) || defaultValues.search;
   const currentPage = validationPage(Number(get(queries.PAGE)), defaultValues.page);
-  const { data, isLoading } = useEmployeeList(search, currentPage);
+  const objectId = get(queries.OBJECT) || defaultValues.object;
+  const { data, isLoading } = useEmployeeList(search, currentPage, objectId);
+  const { data: objectDate, isLoading: isLoadingObject } = useManualObjectList(true);
   const { confirmDelete: confirmDeleteEmployee } = useDeleteEmployee();
   const { confirmDelete: confirmDeleteAccess } = useDeleteAccess();
+
+  const objectList = objectDate?.map((object) => ({
+    label: object.name,
+    value: object.id
+  })) ?? [];
 
   const dataSource = data?.content || [];
   const totalElems = data?.totalElements || 0;
@@ -181,12 +189,22 @@ const EmployeesTable: FC = () => {
     <div className={styles['employees-table']}>
       <div className={styles['employees-table__top']}>
         <SearchInput placeholder="Xodimlarni qidirish..." />
-        <ExportExcelButton
-          data={dataSource}
-          columns={exportColumns}
-          fileName="xodimlar"
-          sheetName="Xodimlar"
-        />
+        <div className={styles['employees-table__wrapper']}>
+          <SelectList
+            className={styles['employees-table__object-filter']}
+            options={objectList}
+            queryKey={queries.OBJECT}
+            defaultValue={defaultValues.object}
+            currentValue={objectId}
+            isLoading={isLoadingObject}
+          />
+          <ExportExcelButton
+            data={dataSource}
+            columns={exportColumns}
+            fileName="xodimlar"
+            sheetName="Xodimlar"
+          />
+        </div>
       </div>
       <div className={styles['employees-table__middle']}>
         <Table<IEmployee>

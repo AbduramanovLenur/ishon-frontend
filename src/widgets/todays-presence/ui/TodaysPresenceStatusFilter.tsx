@@ -5,12 +5,14 @@ import { useTodaysPresenceListCount } from "@entities/todays-presence";
 import { SelectList, Tabs } from "@shared/ui";
 import { defaultValues, queries, workStatus } from "@shared/config";
 import { useMediaQuery, useQueryParams } from "@shared/lib";
+import type { TWorkStatus } from "@shared/types";
 
 import styles from "./TodaysPresenceStatusFilter.module.scss";
 
 const TodaysPresenceStatusFilter: FC = () => {
   const { get } = useQueryParams();
   const date = get(queries.DATE) || defaultValues.date;
+  const statusWork = (get(queries.STATUS_WORK) || defaultValues.statusWork) as TWorkStatus;
   const { data, isLoading } = useTodaysPresenceListCount(date);
   const isMobile = useMediaQuery('(max-width: 1200px)');
 
@@ -40,6 +42,7 @@ const TodaysPresenceStatusFilter: FC = () => {
         options={selectOptions}
         queryKey={queries.STATUS_WORK}
         defaultValue={defaultValues.statusWork}
+        currentValue={statusWork}
         showAll={false}
         isLoading={isLoading}
       />
@@ -49,8 +52,9 @@ const TodaysPresenceStatusFilter: FC = () => {
   return <Tabs 
     options={segmentedOptions} 
     isLoading={isLoading} 
-    nameQuery={queries.STATUS_WORK}
+    queryKey={queries.STATUS_WORK}
     defaultValue={defaultValues.statusWork}
+    currentValue={statusWork}
   />;
 }
 
