@@ -39,13 +39,25 @@ const GeofenceMap: FC<IGeofenceMapProps> = ({
   scrollWheelZoom = true,
   doubleClickZoom = true,
   touchZoom = true,
-  zoomControl = true
+  zoomControl = true,
+  emptyMessage,
 }) => {
   const hasValidPosition =
     latitude !== undefined &&
     longitude !== undefined &&
     !Number.isNaN(latitude) &&
     !Number.isNaN(longitude);
+
+  if (!hasValidPosition && emptyMessage) {
+    return (
+      <div
+        className={styles.empty}
+        style={{ height }}
+      >
+        <span>{emptyMessage}</span>
+      </div>
+    );
+  }
 
   const position: [number, number] = hasValidPosition
     ? [latitude, longitude]

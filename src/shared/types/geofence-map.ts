@@ -18,4 +18,5 @@ export interface IGeofenceMapProps {
   doubleClickZoom?: boolean;
   touchZoom?: boolean;
   zoomControl?: boolean;
+  emptyMessage?: string;
 }

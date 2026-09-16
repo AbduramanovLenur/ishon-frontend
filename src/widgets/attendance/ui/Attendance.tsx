@@ -144,6 +144,7 @@ const Attendance: FC = () => {
             scrollWheelZoom={false}
             touchZoom={false}
             zoomControl={false}
+            emptyMessage="Joylashuv aniqlanmagan"
           />
 
           <AttendanceActions
