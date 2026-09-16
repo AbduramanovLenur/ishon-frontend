@@ -63,8 +63,9 @@ const DashboardChart: FC = () => {
       <Tabs 
         className={styles['dashboard-chart__tabs']}
         options={options} 
-        nameQuery={queries.PERIOD}
+        queryKey={queries.PERIOD}
         defaultValue={defaultValues.period}
+        currentValue={periodValue}
       />
       <Spin spinning={isLoading}>
         <Line {...config} />
