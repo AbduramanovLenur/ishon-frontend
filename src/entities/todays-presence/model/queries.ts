@@ -18,3 +18,11 @@ export function useTodaysPresenceListCount(date: string) {
     queryFn: () => api.collectionCount(date)
   })
 }
+
+export function useTodaysPresenceExcel(status: TWorkStatus, objectId: number | string, date: string, search: string) {
+  return useQuery({
+    queryKey: todaysPresenceKeys.excelFilters(status, objectId, date, search),
+    queryFn: () => api.excel(status, objectId, date, search),
+    enabled: Boolean(date)
+  })
+}

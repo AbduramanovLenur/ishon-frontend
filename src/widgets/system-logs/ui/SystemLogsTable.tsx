@@ -2,12 +2,11 @@ import type { FC } from "react";
 import { Image, Progress, Table, Tag, type TableProps } from "antd";
 import { useNavigate } from "react-router-dom";
 
-import { useSystemLogList, type IEmployeeEvent } from "@entities/system-logs";
+import { useSystemLogList, useSystemLogsExcel, type IEmployeeEvent } from "@entities/system-logs";
 import { useManualObjectList } from "@entities/objects";
 import { DateRangeFilter, ExportExcelButton, Paginator, SearchInput, SelectList } from "@shared/ui";
 import { defaultValues, eventTypes, queries, routes } from "@shared/config";
-import { exportToExcel, useQueryParams } from "@shared/lib";
-import type { ExportColumn } from "@shared/types";
+import { downloadBlob, useQueryParams } from "@shared/lib";
 import { formatDate, formatTime, validationPage } from "@shared/utils";
 
 import styles from "./SystemLogsTable.module.scss";
@@ -21,6 +20,7 @@ export const SystemLogsTable: FC = () => {
   const dateFrom = get(queries.DATE_FROM) || defaultValues.dateFrom;
   const dateTo = get(queries.DATE_TO) || defaultValues.dateTo;
   const { data, isLoading } = useSystemLogList(search, currentPage, objectId, dateFrom, dateTo);
+  const { data: dataExcel, isLoading: isLoadingExcel } = useSystemLogsExcel(search, objectId, dateFrom, dateTo);
   const { data: objectDate, isLoading: isLoadingObject } = useManualObjectList(true);
 
   const objectList = objectDate?.map((object) => ({
@@ -35,39 +35,10 @@ export const SystemLogsTable: FC = () => {
     navigate(routes.SINGLE_EMPLOYEE(id));
   }
 
-  const exportColumns: ExportColumn<IEmployeeEvent>[] = [
-    { 
-      header: "Surat", 
-      accessor: (row) => row.photoUrl, 
-      isImage: true 
-    },
-    {
-      header: "Sana",
-      accessor: (row) => formatDate(row.eventTime),
-    },
-    {
-      header: "Vaqt",
-      accessor: (row) => formatTime(row.eventTime),
-    },
-    { header: "Ism-familiya", accessor: (row) => row.fullName || "Noma'lum xodim" },
-    {
-      header: "Koordinatalar",
-      accessor: (row) => `${row.latitude}, ${row.longitude}`,
-    },
-    {
-      header: "Obyekt nomi",
-      accessor: (row) => row.object?.name || "Noma'lum obyekt",
-    },
-    {
-      header: "Harakat",
-      accessor: (row) =>
-        row.eventType === eventTypes.ENTER ? "Keldi" : "Ketdi",
-    },
-    { 
-      header: "Aniqlik", 
-      accessor: (row) => row.similarity 
-    },
-  ];
+  const handleExportExcel = () => {
+    if (!dataExcel) return;
+    downloadBlob(dataExcel, "kirish-jurnali.xlsx");
+  };
 
   const columns: TableProps<IEmployeeEvent>['columns'] = [
     {
@@ -179,14 +150,8 @@ export const SystemLogsTable: FC = () => {
             isLoading={isLoadingObject}
           />
           <ExportExcelButton
-            onExport={() =>
-              exportToExcel({
-                data: dataSource,
-                columns: exportColumns,
-                fileName: "kirish-jurnali",
-                sheetName: "Kirish jurnali",
-              })
-            }
+            onExport={handleExportExcel}
+            disabled={isLoadingExcel || !dataExcel}
           />
         </div>
       </div>

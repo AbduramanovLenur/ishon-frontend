@@ -3,11 +3,11 @@ import { Image, Table, Tag, type TableProps } from "antd";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 
-import { useTodaysPresenceList, type IEmployee } from "@entities/todays-presence";
+import { useTodaysPresenceList, useTodaysPresenceExcel, type IEmployee } from "@entities/todays-presence";
 import { ExportExcelButton, Paginator, SearchInput } from "@shared/ui";
 import { defaultValues, queries, routes, workStatus } from "@shared/config";
-import { exportToExcel, useQueryParams } from "@shared/lib";
-import type { ExportColumn, TWorkStatus } from "@shared/types";
+import { downloadBlob, useQueryParams } from "@shared/lib";
+import type { TWorkStatus } from "@shared/types";
 import { formatDateToDisplay, formatTime, validationPage } from "@shared/utils";
 
 import styles from "./TodaysPresenceTable.module.scss";
@@ -21,6 +21,7 @@ const TodaysPresenceTable: FC = () => {
   const objectId = get(queries.OBJECT) || defaultValues.object;
   const date = get(queries.DATE) || defaultValues.date;
   const { data, isLoading } = useTodaysPresenceList(search, currentPage, statusWork, objectId, date);
+  const { data: dataExcel, isLoading: isLoadingExcel } = useTodaysPresenceExcel(statusWork, objectId, date, search);
 
   const dataSource = data?.employees?.content || [];
   const totalElems = data?.employees?.totalElements || 0;
@@ -39,40 +40,10 @@ const TodaysPresenceTable: FC = () => {
     navigate(routes.SINGLE_EMPLOYEE(id));
   }
 
-  const exportColumns: ExportColumn<IEmployee>[] = [
-    { 
-      header: "Surat", 
-      accessor: (row) => row.photoUrl, 
-      isImage: true 
-    },
-    { 
-      header: "Ism-familiya", 
-      accessor: (row) => row.fullName 
-    },
-    { 
-      header: "Lavozimi", 
-      accessor: (row) => row.position 
-    },
-    { 
-      header: "Obyekt nomi", 
-      accessor: (row) => row.objectName 
-    },
-    ...(statusWork === workStatus.AT_WORK
-      ? [{ 
-        header: "Kirish vaqti", 
-        accessor: (row: IEmployee) => formatTime(row.checkInTime) 
-      }] : []),
-    ...(statusWork === workStatus.LEFT
-      ? [{ 
-        header: "Chiqish vaqti", 
-        accessor: (row: IEmployee) => formatTime(row.checkOutTime) 
-      }] : []),
-    ...(statusWork === workStatus.NOT_CHECKED_IN
-      ? [{ 
-        header: "Oxirgi ko'rilgan sana", 
-        accessor: (row: IEmployee) => formatDateToDisplay(row.lastSeenDate) 
-      }] : []),
-  ];
+  const handleExportExcel = () => {
+    if (!dataExcel) return;
+    downloadBlob(dataExcel, "bugungi-davomat.xlsx");
+  };
 
   const columns: TableProps<IEmployee>['columns'] = [
     {
@@ -152,14 +123,8 @@ const TodaysPresenceTable: FC = () => {
       <div className={styles['todays-presence-table__top']}>
         <SearchInput placeholder="Xodimlarni qidirish..." />
         <ExportExcelButton
-          onExport={() =>
-            exportToExcel({
-              data: dataSource,
-              columns: exportColumns,
-              fileName: "bugungi-davomat",
-              sheetName: "Bugungi davomat",
-            })
-          }
+          onExport={handleExportExcel}
+          disabled={isLoadingExcel || !dataExcel}
         />
       </div>
       <div className={styles['todays-presence-table__middle']}>

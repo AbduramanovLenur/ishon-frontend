@@ -9,3 +9,10 @@ export function useSystemLogList(search: string, page: number, objectId: number 
     queryFn: () => api.list(search, page, objectId, from, to)
   })
 }
+
+export function useSystemLogsExcel(search: string, objectId: number | string, fromDate: string, toDate: string) {
+  return useQuery({
+    queryKey: systemLogsKeys.excelFilters(search, objectId, fromDate, toDate),
+    queryFn: () => api.excel(search, objectId, fromDate, toDate)
+  })
+}

@@ -22,5 +22,18 @@ export const api = {
         ...(date && { date })
       }})
       .then((response) => response.data.data)
+  },
+  excel: (status: TWorkStatus, objectId: number | string, date: string, search: string) => {
+    return axiosInstance
+      .get<Blob>(endpoints.EXCEL, {
+        params: {
+          ...(status && { status }),
+          ...(objectId && { objectId }),
+          ...(date && { date }),
+          ...(search && { search }),
+        },
+        responseType: 'blob'
+      })
+      .then((response) => response.data)
   }
 }
