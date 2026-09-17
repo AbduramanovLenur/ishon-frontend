@@ -12,6 +12,10 @@ export const events = [
   {
     label: 'Chiqish qayd etilmagan',
     value: eventTypes.NOT_LEFT
+  },
+  {
+    label: 'Ishga kelmadi',
+    value: eventTypes.NOT_CHECKED_IN
   }
 ];
 

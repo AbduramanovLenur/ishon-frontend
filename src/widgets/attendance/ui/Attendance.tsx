@@ -78,7 +78,7 @@ const Attendance: FC = () => {
   };
 
   const handleSetEventType = (
-    eventType: Exclude<(typeof eventTypes)[keyof typeof eventTypes], typeof eventTypes.NOT_LEFT>,
+    eventType: Exclude<(typeof eventTypes)[keyof typeof eventTypes], typeof eventTypes.NOT_LEFT | typeof eventTypes.NOT_CHECKED_IN>,
   ) => {
     form.setFieldsValue({ eventType });
   };
