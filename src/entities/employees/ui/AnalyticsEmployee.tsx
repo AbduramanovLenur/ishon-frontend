@@ -55,7 +55,7 @@ const AnalyticsEmployee: FC<IAnalyticsEmployeeProps> = ({
     {
       id: 5,
       icon: <SelectOutlined />,
-      label: 'Qayd etilmagan',
+      label: 'Chiqish qayd etilmagan',
       value: notLeftDays,
     },
   ];
