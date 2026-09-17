@@ -9,5 +9,6 @@ export {
   useEmployeeById, 
   useEmployeeUsername, 
   useEmployeeProfile,
-  useEmployeeHistory
+  useEmployeeHistory,
+  useEmployeeExcel
 } from "./model/queries";

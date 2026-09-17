@@ -25,3 +25,10 @@ export function useManualObjectList(enabled: boolean) {
     enabled
   })
 }
+
+export function useObjectExcel(search: string) {
+  return useQuery({
+    queryKey: objectsKeys.excelFilters(search),
+    queryFn: () => api.excel(search)
+  })
+}

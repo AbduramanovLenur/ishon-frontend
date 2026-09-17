@@ -10,13 +10,11 @@ import { ResetPasswordEmployeeModal, open as openResetPasswordModal } from "@fea
 import { GrantAccessModal, open as openGrantAccessModal } from "@features/grant-access-modal";
 import { useDeleteAccess } from "@features/delete-access-modal";
 import { useDeleteEmployee } from "@features/delete-employee-modal";
-import { ExportExcelButton } from "@features/export-excel";
-import { useEmployeeList, type IEmployee } from "@entities/employees";
+import { ActionsDropdown, ExportExcelButton, Paginator, SearchInput, SelectList } from "@shared/ui";
+import { useEmployeeExcel, useEmployeeList, type IEmployee } from "@entities/employees";
 import { useManualObjectList } from "@entities/objects";
-import { ActionsDropdown, Paginator, SearchInput, SelectList } from "@shared/ui";
 import { defaultValues, queries, roles, routes, status } from "@shared/config";
-import { useQueryParams } from "@shared/lib";
-import type { ExportColumn } from "@shared/types";
+import { downloadBlob, useQueryParams } from "@shared/lib";
 import { validationPage } from "@shared/utils";
 
 import styles from "./EmployeesTable.module.scss";
@@ -29,6 +27,7 @@ const EmployeesTable: FC = () => {
   const currentPage = validationPage(Number(get(queries.PAGE)), defaultValues.page);
   const objectId = get(queries.OBJECT) || defaultValues.object;
   const { data, isLoading } = useEmployeeList(search, currentPage, objectId);
+  const { data: dataExcel, isLoading: isLoadingExcel } = useEmployeeExcel(search, objectId);
   const { data: objectDate, isLoading: isLoadingObject } = useManualObjectList(true);
   const { confirmDelete: confirmDeleteEmployee } = useDeleteEmployee();
   const { confirmDelete: confirmDeleteAccess } = useDeleteAccess();
@@ -40,33 +39,6 @@ const EmployeesTable: FC = () => {
 
   const dataSource = data?.content || [];
   const totalElems = data?.totalElements || 0;
-
-  const exportColumns: ExportColumn<IEmployee>[] = [
-    { 
-      header: "Surat", 
-      accessor: (row) => row.fileUrl, isImage: true 
-    },
-    { 
-      header: "Ism-familiya", 
-      accessor: (row) => row.fullName 
-    },
-    { 
-      header: "Lavozimi", 
-      accessor: (row) => row.position 
-    },
-    { 
-      header: "Telefon raqami", 
-      accessor: (row) => formatPhoneNumberIntl(row.phone) },
-    {
-      header: "Obyekt nomi",
-      accessor: (row) => row.assignedObject?.name || "Noma'lum obyekt",
-    },
-    {
-      header: "Holat",
-      accessor: (row) =>
-        row.status === status.ACTIVE ? "Faol" : "Faol emas",
-    },
-  ];
 
   const openManageModalHandle = (id: number | string) => {
     dispatch(openManageModal(id));
@@ -83,6 +55,11 @@ const EmployeesTable: FC = () => {
   const openResetPasswordModalHandle = (id: number | string) => {
     dispatch(openResetPasswordModal(id));
   }
+
+  const handleExportExcel = () => {
+    if (!dataExcel) return;
+    downloadBlob(dataExcel, "xodimlar.xlsx");
+  };
 
   const columns: TableProps<IEmployee>['columns'] = [
     {
@@ -199,10 +176,8 @@ const EmployeesTable: FC = () => {
             isLoading={isLoadingObject}
           />
           <ExportExcelButton
-            data={dataSource}
-            columns={exportColumns}
-            fileName="xodimlar"
-            sheetName="Xodimlar"
+            onExport={handleExportExcel}
+            disabled={isLoadingExcel || !dataExcel}
           />
         </div>
       </div>

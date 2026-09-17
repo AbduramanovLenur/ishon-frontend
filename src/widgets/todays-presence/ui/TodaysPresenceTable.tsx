@@ -3,11 +3,10 @@ import { Image, Table, Tag, type TableProps } from "antd";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 
-import { ExportExcelButton } from "@features/export-excel";
 import { useTodaysPresenceList, type IEmployee } from "@entities/todays-presence";
-import { Paginator, SearchInput } from "@shared/ui";
+import { ExportExcelButton, Paginator, SearchInput } from "@shared/ui";
 import { defaultValues, queries, routes, workStatus } from "@shared/config";
-import { useQueryParams } from "@shared/lib";
+import { exportToExcel, useQueryParams } from "@shared/lib";
 import type { ExportColumn, TWorkStatus } from "@shared/types";
 import { formatDateToDisplay, formatTime, validationPage } from "@shared/utils";
 
@@ -153,10 +152,14 @@ const TodaysPresenceTable: FC = () => {
       <div className={styles['todays-presence-table__top']}>
         <SearchInput placeholder="Xodimlarni qidirish..." />
         <ExportExcelButton
-          data={dataSource}
-          columns={exportColumns}
-          fileName="bugungi-davomat"
-          sheetName="Bugungi davomat"
+          onExport={() =>
+            exportToExcel({
+              data: dataSource,
+              columns: exportColumns,
+              fileName: "bugungi-davomat",
+              sheetName: "Bugungi davomat",
+            })
+          }
         />
       </div>
       <div className={styles['todays-presence-table__middle']}>

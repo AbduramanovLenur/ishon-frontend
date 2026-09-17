@@ -24,5 +24,15 @@ export const api = {
     return axiosInstance
       .get<IApiResponse<IManual[]>>(endpoints.MANUAL_LIST)
       .then((response) => response.data.data)
+  },
+  excel: (search: string) => {
+    return axiosInstance
+      .get<Blob>(endpoints.EXCEL, {
+        params: {
+          ...(search && { search })
+        },
+        responseType: 'blob'
+      })
+      .then((response) => response.data)
   }
 }

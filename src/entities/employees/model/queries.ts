@@ -45,3 +45,10 @@ export function useEmployeeHistory(
     queryFn: () => api.history(employeeId, eventType, late, early, page)
   });
 }
+
+export function useEmployeeExcel(search: string, objectId: string | number) {
+  return useQuery({
+    queryKey: employeesKeys.excelFilters(search, objectId),
+    queryFn: () => api.excel(search, objectId)
+  });
+}

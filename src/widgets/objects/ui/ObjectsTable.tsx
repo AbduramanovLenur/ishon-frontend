@@ -5,13 +5,11 @@ import { useDispatch } from "react-redux";
 import { useDeleteObject } from "@features/delete-object-modal";
 import { ViewObjectModal, open as openViewModal } from "@features/view-object-modal";
 import { ManageObjectModal, open as openManageModal } from "@features/manage-object-modal";
-import { ExportExcelButton } from "@features/export-excel";
-import { useObjectList, type IObject } from "@entities/objects";
-import { ActionsDropdown, Paginator, SearchInput } from "@shared/ui";
+import { useObjectList, useObjectExcel, type IObject } from "@entities/objects";
+import { ActionsDropdown, ExportExcelButton, Paginator, SearchInput } from "@shared/ui";
 import { defaultValues, queries, status } from "@shared/config";
-import { useQueryParams } from "@shared/lib";
-import type { ExportColumn } from "@shared/types";
-import { formatDate, formatHoursMinutes, getFirstChar, validationPage } from "@shared/utils";
+import { downloadBlob, useQueryParams } from "@shared/lib";
+import { formatHoursMinutes, getFirstChar, validationPage } from "@shared/utils";
 
 import styles from "./ObjectsTable.module.scss";
 
@@ -21,6 +19,7 @@ export const ObjectsTable: FC = () => {
   const search = get(queries.SEARCH) || defaultValues.search;
   const currentPage = validationPage(Number(get(queries.PAGE)), defaultValues.page);
   const { data, isLoading } = useObjectList(search, currentPage);
+  const { data: dataExcel, isLoading: isLoadingExcel } = useObjectExcel(search);
   const { confirmDelete } = useDeleteObject();
 
   const dataSource = data?.content || [];
@@ -34,33 +33,10 @@ export const ObjectsTable: FC = () => {
     dispatch(openViewModal(id));
   }
 
-  const exportColumns: ExportColumn<IObject>[] = [
-    { 
-      header: "Obyekt nomi", 
-      accessor: (row) => row.name 
-    },
-    { 
-      header: "Manzil", 
-      accessor: (row) => row.address 
-    },
-    {
-      header: "Ish boshlash",
-      accessor: (row) => formatHoursMinutes(row.shiftStartTime),
-    },
-    {
-      header: "Ish tugash",
-      accessor: (row) => formatHoursMinutes(row.shiftEndTime),
-    },
-    {
-      header: "Holat",
-      accessor: (row) =>
-        row.status === status.ACTIVE ? "Faol" : "Faol emas",
-    },
-    {
-      header: "Yaratilgan sana",
-      accessor: (row) => formatDate(row.createdAt),
-    },
-  ];
+  const handleExportExcel = () => {
+    if (!dataExcel) return;
+    downloadBlob(dataExcel, "obyektlar.xlsx");
+  };
 
   const columns: TableProps<IObject>['columns'] = [
     {
@@ -119,10 +95,8 @@ export const ObjectsTable: FC = () => {
       <div className={styles['objects-table__top']}>
         <SearchInput placeholder="Obyektlarni qidirish..." />
         <ExportExcelButton
-          data={dataSource}
-          columns={exportColumns}
-          fileName="obyektlar"
-          sheetName="Obyektlar"
+          onExport={handleExportExcel}
+          disabled={isLoadingExcel || !dataExcel}
         />
       </div>
       <div className={styles['objects-table__middle']}>

@@ -3,5 +3,6 @@ export const endpoints = {
   BY_ID: '/api/company/employee/details',
   LOGIN: '/api/company/company-admin/login',
   PROFILE: '/api/company/attendance/employee-profile',
-  HISTORY: '/api/company/attendance/employee-history'
+  HISTORY: '/api/company/attendance/employee-history',
+  EXCEL: '/api/company/excel/employees'
 } as const;

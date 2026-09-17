@@ -2,12 +2,11 @@ import type { FC } from "react";
 import { Image, Progress, Table, Tag, type TableProps } from "antd";
 import { useNavigate } from "react-router-dom";
 
-import { ExportExcelButton } from "@features/export-excel";
 import { useSystemLogList, type IEmployeeEvent } from "@entities/system-logs";
 import { useManualObjectList } from "@entities/objects";
-import { DateRangeFilter, Paginator, SearchInput, SelectList } from "@shared/ui";
+import { DateRangeFilter, ExportExcelButton, Paginator, SearchInput, SelectList } from "@shared/ui";
 import { defaultValues, eventTypes, queries, routes } from "@shared/config";
-import { useQueryParams } from "@shared/lib";
+import { exportToExcel, useQueryParams } from "@shared/lib";
 import type { ExportColumn } from "@shared/types";
 import { formatDate, formatTime, validationPage } from "@shared/utils";
 
@@ -180,10 +179,14 @@ export const SystemLogsTable: FC = () => {
             isLoading={isLoadingObject}
           />
           <ExportExcelButton
-            data={dataSource}
-            columns={exportColumns}
-            fileName="kirish-jurnali"
-            sheetName="Kirish jurnali"
+            onExport={() =>
+              exportToExcel({
+                data: dataSource,
+                columns: exportColumns,
+                fileName: "kirish-jurnali",
+                sheetName: "Kirish jurnali",
+              })
+            }
           />
         </div>
       </div>

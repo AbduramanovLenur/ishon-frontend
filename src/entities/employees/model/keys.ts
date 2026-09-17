@@ -11,5 +11,7 @@ export const employeesKeys = {
     late?: boolean | string, 
     early?: boolean | string, 
     page?: number
-  ) => [...employeesKeys.all, 'history', employeeId, eventType, late, early, page]
+  ) => [...employeesKeys.all, 'history', employeeId, eventType, late, early, page],
+  excel: () => [...employeesKeys.all, 'excel'],
+  excelFilters: (search: string, objectId: string | number) => [...employeesKeys.excel(), search, objectId]
 } as const;
