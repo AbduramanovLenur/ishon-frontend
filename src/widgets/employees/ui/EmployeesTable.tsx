@@ -14,8 +14,8 @@ import { ActionsDropdown, ExportExcelButton, Paginator, SearchInput, SelectList 
 import { useEmployeeExcel, useEmployeeList, type IEmployee } from "@entities/employees";
 import { useManualObjectList } from "@entities/objects";
 import { defaultValues, queries, roles, routes, status } from "@shared/config";
-import { downloadBlob, useQueryParams } from "@shared/lib";
-import { validationPage } from "@shared/utils";
+import { useQueryParams } from "@shared/lib";
+import { downloadBlob, validationPage } from "@shared/utils";
 
 import styles from "./EmployeesTable.module.scss";
 

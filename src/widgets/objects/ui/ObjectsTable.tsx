@@ -8,8 +8,8 @@ import { ManageObjectModal, open as openManageModal } from "@features/manage-obj
 import { useObjectList, useObjectExcel, type IObject } from "@entities/objects";
 import { ActionsDropdown, ExportExcelButton, Paginator, SearchInput } from "@shared/ui";
 import { defaultValues, queries, status } from "@shared/config";
-import { downloadBlob, useQueryParams } from "@shared/lib";
-import { formatHoursMinutes, getFirstChar, validationPage } from "@shared/utils";
+import { useQueryParams } from "@shared/lib";
+import { downloadBlob, formatHoursMinutes, getFirstChar, validationPage } from "@shared/utils";
 
 import styles from "./ObjectsTable.module.scss";
 

@@ -4,4 +4,3 @@ export { useMediaQuery } from "./useMediaQuery";
 export { useUploadFile } from "./useUploadFile";
 export { useTelegramLocation } from "./useTelegramLocation";
 export { initData, initDataUnsafe, startParam, initDataHash } from "./telegram";
-export { downloadBlob } from "./download-blob";

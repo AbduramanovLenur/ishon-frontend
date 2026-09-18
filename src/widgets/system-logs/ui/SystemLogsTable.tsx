@@ -6,8 +6,8 @@ import { useSystemLogList, useSystemLogsExcel, type IEmployeeEvent } from "@enti
 import { useManualObjectList } from "@entities/objects";
 import { DateRangeFilter, ExportExcelButton, Paginator, SearchInput, SelectList } from "@shared/ui";
 import { defaultValues, eventTypes, queries, routes } from "@shared/config";
-import { downloadBlob, useQueryParams } from "@shared/lib";
-import { formatDate, formatTime, validationPage } from "@shared/utils";
+import { useQueryParams } from "@shared/lib";
+import { downloadBlob, formatDate, formatTime, validationPage } from "@shared/utils";
 
 import styles from "./SystemLogsTable.module.scss";
 
