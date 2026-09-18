@@ -1,6 +1,7 @@
 import { Button } from 'antd';
 import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import { type FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import styles from './Attendance.module.scss';
 
@@ -14,29 +15,33 @@ const AttendanceActions: FC<IAttendanceActionsProps> = ({
   onEnter,
   onExit,
   isPending,
-}) => (
-  <div className={styles['attendance__actions']}>
-    <Button
-      type="primary"
-      htmlType="submit"
-      icon={<LoginOutlined />}
-      className={styles['attendance__btn']}
-      onClick={onEnter}
-      disabled={isPending}
-    >
-      Kirish
-    </Button>
+}) => {
+  const { t } = useTranslation();
 
-    <Button
-      htmlType="submit"
-      icon={<LogoutOutlined />}
-      className={`${styles['attendance__btn']} ${styles['attendance__btn--exit']}`}
-      onClick={onExit}
-      disabled={isPending}
-    >
-      Chiqish
-    </Button>
-  </div>
-);
+  return (
+    <div className={styles['attendance__actions']}>
+      <Button
+        type="primary"
+        htmlType="submit"
+        icon={<LoginOutlined />}
+        className={styles['attendance__btn']}
+        onClick={onEnter}
+        disabled={isPending}
+      >
+        {t("attendance.enter")}
+      </Button>
+
+      <Button
+        htmlType="submit"
+        icon={<LogoutOutlined />}
+        className={`${styles['attendance__btn']} ${styles['attendance__btn--exit']}`}
+        onClick={onExit}
+        disabled={isPending}
+      >
+        {t("attendance.exit")}
+      </Button>
+    </div>
+  );
+};
 
 export default AttendanceActions;

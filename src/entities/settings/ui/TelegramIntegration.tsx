@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Skeleton, Typography } from "antd";
 import { LinkOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 import styles from "./TelegramIntegration.module.scss";
 
@@ -10,10 +11,12 @@ interface ITelegramIntegrationProps {
 };
 
 const TelegramIntegration: FC<ITelegramIntegrationProps> = ({ telegramLink, isLoading }) => {
+  const { t } = useTranslation();
+
   return (
     <div className={styles['telegram-integration']}>
       <div className={styles['telegram-integration__label']}>
-        Telegram Integration
+        {t("settings.telegramIntegration")}
       </div>
       <div className={styles['telegram-integration__wrapper']}>
         <div className={styles['telegram-integration__icon']}>
@@ -21,14 +24,14 @@ const TelegramIntegration: FC<ITelegramIntegrationProps> = ({ telegramLink, isLo
         </div>
         <div className={styles['telegram-integration__content']}>
           <div className={styles['telegram-integration__content-label']}>
-            Bot havolasi
+            {t("settings.botLink")}
           </div>
           {isLoading ? (
             <Skeleton.Node className={styles['telegram-integration__skeleton']} />
           ) : (
-            <a 
-              className={styles['telegram-integration__content-link']} 
-              href={telegramLink} 
+            <a
+              className={styles['telegram-integration__content-link']}
+              href={telegramLink}
               target="_blank"
             >
               {telegramLink}
@@ -40,7 +43,7 @@ const TelegramIntegration: FC<ITelegramIntegrationProps> = ({ telegramLink, isLo
         </div>}
       </div>
       <div className={styles['telegram-integration__text']}>
-        Telegram akkauntlarini ulash uchun ushbu havolani xodimlar bilan ulashing.
+        {t("settings.telegramDescription")}
       </div>
     </div>
   );

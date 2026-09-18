@@ -2,6 +2,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 import type { AxiosError } from "axios";
+import { useTranslation } from "react-i18next";
 
 import { api } from "../api/api";
 
@@ -9,6 +10,7 @@ import { companiesOwnerKeys } from "@entities/directors";
 import type { IApiResponse } from "@shared/types";
 
 export const useDeleteCompanyOwner = () => {
+  const { t } = useTranslation();
   const { modal, message } = App.useApp();
   const queryClient = useQueryClient();
 
@@ -23,12 +25,12 @@ export const useDeleteCompanyOwner = () => {
         queryKey: companiesOwnerKeys.collection(),
       });
 
-      message.success("Direktor o'chirildi");
+      message.success(t("directors.deleted"));
     },
     onError: (error) => {
       const msg =
         error.response?.data?.error?.message ??
-        "Direktorni o‘chirishda xatolik yuz berdi";
+        t("directors.deleteError");
 
       message.error(msg);
     },
@@ -39,10 +41,10 @@ export const useDeleteCompanyOwner = () => {
       classNames: {
         wrapper: 'centered'
       },
-      title: "Direktorni o‘chirish kerakmi?",
+      title: t("directors.deleteConfirmTitle"),
       icon: <DeleteOutlined style={{ color: "#ff0000" }} />,
-      okText: "O'chirish",
-      cancelText: "Bekor qilish",
+      okText: t("common.delete"),
+      cancelText: t("common.cancel"),
       okButtonProps: {
         loading: mutation.isPending
       },

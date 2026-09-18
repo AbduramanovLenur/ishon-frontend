@@ -3,6 +3,7 @@ import { useState, type FC } from "react";
 import { HeaderMobile } from "./HeaderMobile";
 
 import { UserAccountAva } from "@entities/user";
+import { LanguageSwitcher } from "@features/language-switcher";
 
 import styles from "./Header.module.scss";
 
@@ -19,7 +20,10 @@ const Header: FC = () => {
         <div className={styles['header__logo']}>
           Ishon
         </div>
-        <UserAccountAva />
+        <div className={styles['header__actions']}>
+          <LanguageSwitcher />
+          <UserAccountAva />
+        </div>
         <button 
           className={styles['header__button']} 
           type="button" 

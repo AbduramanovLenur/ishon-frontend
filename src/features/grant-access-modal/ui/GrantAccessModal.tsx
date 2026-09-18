@@ -1,36 +1,36 @@
 import type { FC } from "react";
 import { Form, Input, Modal, type FormProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import type { IGrantAccessFields } from "../model/types";
 import { close, stateGrantAccessEmployee } from "../model/slice";
 import { useGrantAccess } from "../model/mutations";
 
 const GrantAccessModal: FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [form] = Form.useForm<IGrantAccessFields>();
   const { isOpen, employeeId } = useSelector(stateGrantAccessEmployee);
   const { mutateAsync, isPending } = useGrantAccess();
 
-  const closeManageModalHandle = () => {
+  const handleClose = () => {
     dispatch(close());
     form.resetFields();
   }
 
-  const onOkHandle = () => {
+  const handleOk = () => {
     form.submit();
   }
 
-  const onSubmitHandle: FormProps<IGrantAccessFields>['onFinish'] = (values) => {
+  const handleSubmit: FormProps<IGrantAccessFields>['onFinish'] = (values) => {
     if (!employeeId) return;
 
     mutateAsync({
       ...values,
       employeeId,
     }, {
-      onSuccess: () => {
-        closeManageModalHandle();
-      }
+      onSuccess: handleClose
     });
   }
 
@@ -44,18 +44,18 @@ const GrantAccessModal: FC = () => {
         title: 'modal__title',
         body: 'modal__body'
       }}
-      title="Kirish huquqlarini berish"
+      title={t("employees.grantAccessTitle")}
       open={isOpen}
-      okText="Saqlash"
-      cancelText="Yopish"
-      onOk={onOkHandle}
-      onCancel={closeManageModalHandle}
+      okText={t("common.save")}
+      cancelText={t("common.cancel")}
+      onOk={handleOk}
+      onCancel={handleClose}
       confirmLoading={isPending}
       zIndex={3000}
     >
       <Form
         form={form}
-        onFinish={onSubmitHandle}
+        onFinish={handleSubmit}
         classNames={{
           label: "modal__label",
           help: "modal__help"
@@ -64,34 +64,34 @@ const GrantAccessModal: FC = () => {
         <Form.Item<IGrantAccessFields>
           className="modal__item"
           layout="vertical"
-          label="Login" 
+          label={t("employees.login")}
           name="username"
-          rules={[{ 
+          rules={[{
             required: true,
-            message: 'Loginni kiriting'
+            message: t("employees.loginRequired")
           }]}
         >
-          <Input 
+          <Input
             className="modal__input"
           />
         </Form.Item>
         <Form.Item<IGrantAccessFields>
           className="modal__item"
           layout="vertical"
-          label="Parol"
+          label={t("employees.password")}
           name="password"
           rules={[
-            { 
+            {
               required: true,
-              message: 'Parolni kiriting'
+              message: t("employees.passwordRequired")
             },
             {
               min: 8,
-              message: "Parol kamida 8 ta belgidan iborat bo‘lishi kerak",
+              message: t("employees.passwordMinLength"),
             }
           ]}
         >
-          <Input.Password 
+          <Input.Password
             className="modal__input"
           />
         </Form.Item>

@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { Avatar, Divider, Flex, Form, Input, Modal, Skeleton, Typography, type FormProps } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import type { IResetPasswordEmployeeFields } from "../model/types";
 import { close, stateResetPasswordEmployee } from "../model/slice";
@@ -10,31 +11,30 @@ import { useResetPasswordEmployee } from "../model/mutations";
 import { useEmployeeUsername } from "@entities/employees";
 
 const ResetPasswordEmployeeModal: FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [form] = Form.useForm<IResetPasswordEmployeeFields>();
   const { isOpen, employeeId } = useSelector(stateResetPasswordEmployee);
   const { mutateAsync, isPending } = useResetPasswordEmployee();
   const { data, isLoading } = useEmployeeUsername(employeeId, isOpen);
 
-  const closeManageModalHandle = () => {
+  const handleClose = () => {
     dispatch(close());
     form.resetFields();
   }
 
-  const onOkHandle = () => {
+  const handleOk = () => {
     form.submit();
   }
 
-  const onSubmitHandle: FormProps<IResetPasswordEmployeeFields>['onFinish'] = (values) => {
+  const handleSubmit: FormProps<IResetPasswordEmployeeFields>['onFinish'] = (values) => {
     if (!employeeId) return;
 
     mutateAsync({
       ...values,
       employeeId
     }, {
-      onSuccess: () => {
-        closeManageModalHandle();
-      }
+      onSuccess: handleClose
     });
   }
 
@@ -48,12 +48,12 @@ const ResetPasswordEmployeeModal: FC = () => {
         title: 'modal__title',
         body: 'modal__body'
       }}
-      title={"Parolni yangilash"}
+      title={t("employees.resetPasswordTitle")}
       open={isOpen}
-      okText="Saqlash"
-      cancelText="Yopish"
-      onOk={onOkHandle}
-      onCancel={closeManageModalHandle}
+      okText={t("common.save")}
+      cancelText={t("common.cancel")}
+      onOk={handleOk}
+      onCancel={handleClose}
       confirmLoading={isPending}
       zIndex={3000}
     >
@@ -79,7 +79,7 @@ const ResetPasswordEmployeeModal: FC = () => {
           />
           <Flex vertical={true} gap={2}>
             <Typography.Text type="secondary" style={{ fontSize: 12, lineHeight: 1 }}>
-              Login
+              {t("employees.login")}
             </Typography.Text>
             <Typography.Text strong style={{ fontSize: 15 }}>
               {data?.login ?? '—'}
@@ -92,7 +92,7 @@ const ResetPasswordEmployeeModal: FC = () => {
 
       <Form
         form={form}
-        onFinish={onSubmitHandle}
+        onFinish={handleSubmit}
         classNames={{
           label: "modal__label",
           help: "modal__help"
@@ -101,40 +101,40 @@ const ResetPasswordEmployeeModal: FC = () => {
         <Form.Item<IResetPasswordEmployeeFields>
           className="modal__item"
           layout="vertical"
-          label="Yangi parol"
+          label={t("employees.newPassword")}
           name="newPassword"
           rules={[
-            { 
+            {
               required: true,
-              message: 'Yangi parolni kiriting'
+              message: t("employees.newPasswordRequired")
             },
             {
               min: 8,
-              message: "Parol kamida 8 ta belgidan iborat bo‘lishi kerak",
+              message: t("employees.passwordMinLength"),
             }
           ]}
         >
-          <Input.Password 
+          <Input.Password
             className="modal__input"
           />
         </Form.Item>
         <Form.Item<IResetPasswordEmployeeFields>
           className="modal__item"
           layout="vertical"
-          label="Yangi parolni tasdiqlash"
+          label={t("employees.confirmNewPassword")}
           name="confirmNewPassword"
           rules={[
-            { 
+            {
               required: true,
-              message: 'Yangi parolni tasdiqlang'
+              message: t("employees.confirmNewPasswordRequired")
             },
             {
               min: 8,
-              message: "Parol kamida 8 ta belgidan iborat bo‘lishi kerak",
+              message: t("employees.passwordMinLength"),
             }
           ]}
         >
-          <Input.Password 
+          <Input.Password
             className="modal__input"
           />
         </Form.Item>

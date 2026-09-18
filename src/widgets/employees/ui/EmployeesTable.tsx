@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { KeyOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { formatPhoneNumberIntl } from 'react-phone-number-input';
+import { useTranslation } from "react-i18next";
 
 import { ManageEmployeeModal, open as openManageModal } from "@features/manage-employee-modal";
 import { ResetPasswordEmployeeModal, open as openResetPasswordModal } from "@features/reset-password-employee-modal";
@@ -20,6 +21,7 @@ import { downloadBlob, validationPage } from "@shared/utils";
 import styles from "./EmployeesTable.module.scss";
 
 const EmployeesTable: FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { get } = useQueryParams();
@@ -27,43 +29,43 @@ const EmployeesTable: FC = () => {
   const currentPage = validationPage(Number(get(queries.PAGE)), defaultValues.page);
   const objectId = get(queries.OBJECT) || defaultValues.object;
   const { data, isLoading } = useEmployeeList(search, currentPage, objectId);
-  const { data: dataExcel, isLoading: isLoadingExcel } = useEmployeeExcel(search, objectId);
-  const { data: objectDate, isLoading: isLoadingObject } = useManualObjectList(true);
+  const { data: excelData, isLoading: isExcelLoading } = useEmployeeExcel(search, objectId);
+  const { data: objectData, isLoading: isObjectLoading } = useManualObjectList(true);
   const { confirmDelete: confirmDeleteEmployee } = useDeleteEmployee();
   const { confirmDelete: confirmDeleteAccess } = useDeleteAccess();
 
-  const objectList = objectDate?.map((object) => ({
+  const objectList = objectData?.map((object) => ({
     label: object.name,
     value: object.id
   })) ?? [];
 
-  const dataSource = data?.content || [];
-  const totalElems = data?.totalElements || 0;
+  const tableData = data?.content || [];
+  const totalRecords = data?.totalElements || 0;
 
-  const openManageModalHandle = (id: number | string) => {
+  const handleOpenManageModal = (id: number | string) => {
     dispatch(openManageModal(id));
   }
 
-  const openViewHandle = (id: number | string) => {
+  const handleOpenView = (id: number | string) => {
     navigate(routes.SINGLE_EMPLOYEE(id));
   }
 
-  const openGrantAccessModalHandle = (id: number | string) => {
+  const handleOpenGrantAccessModal = (id: number | string) => {
     dispatch(openGrantAccessModal(id));
   }
 
-  const openResetPasswordModalHandle = (id: number | string) => {
+  const handleOpenResetPasswordModal = (id: number | string) => {
     dispatch(openResetPasswordModal(id));
   }
 
   const handleExportExcel = () => {
-    if (!dataExcel) return;
-    downloadBlob(dataExcel, "xodimlar.xlsx");
+    if (!excelData) return;
+    downloadBlob(excelData, "xodimlar.xlsx");
   };
 
   const columns: TableProps<IEmployee>['columns'] = [
     {
-      title: "Surat",
+      title: t("employees.photo"),
       render: (_, record) => (
         <Image
           className={styles['employees-table__ava']}
@@ -77,7 +79,7 @@ const EmployeesTable: FC = () => {
       )
     },
     {
-      title: "Ism-familiya",
+      title: t("employees.fullName"),
       render: (_, record) => (
         <div className={styles['employees-table__name']}>
           {record?.fullName}
@@ -86,11 +88,11 @@ const EmployeesTable: FC = () => {
       )
     },
     {
-      title: "Lavozimi",
+      title: t("employees.position"),
       width: 220,
       render: (_, record) => (
-        <Tag 
-          color={'#D9DFF5'} 
+        <Tag
+          color={'#D9DFF5'}
           style={{ color: '#4F46E5', whiteSpace: 'normal' }}
         >
           { record?.position }
@@ -98,24 +100,24 @@ const EmployeesTable: FC = () => {
       )
     },
     {
-      title: 'Telefon raqami',
+      title: t("employees.phone"),
       width: 220,
       render: (_, record) =>  formatPhoneNumberIntl(record?.phone)
     },
     {
-      title: "Obyekt nomi",
+      title: t("objects.name"),
       width: 200,
       render: (_, record) => (
         !record?.assignedObject?.name ? (
-          <Tag 
-            color={'#fff7e6'} 
+          <Tag
+            color={'#fff7e6'}
             style={{ color: '#d46b08' }}
           >
-            Noma’lum obyekt
+            {t("employees.unknownObject")}
           </Tag>
         ) : (
-          <Tag 
-            color={'#EEF2FF'} 
+          <Tag
+            color={'#EEF2FF'}
             style={{ color: '#6D5ACF', whiteSpace: 'normal' }}
           >
             { record.assignedObject.name }
@@ -124,34 +126,34 @@ const EmployeesTable: FC = () => {
       )
     },
     {
-      title: 'Holat',
+      title: t("common.status"),
       width: 100,
       render: (_, record) => (
         record?.status === status.ACTIVE ? (
-          <Tag color={'#D9DFF5'} style={{ color: '#4F46E5' }}>Faol</Tag>
+          <Tag color={'#D9DFF5'} style={{ color: '#4F46E5' }}>{t("common.active")}</Tag>
         ) : (
-          <Tag color={'#DCE2F3'} style={{ color: '#464555' }}>Faol emas</Tag>
+          <Tag color={'#DCE2F3'} style={{ color: '#464555' }}>{t("common.inactive")}</Tag>
         )
       )
     },
     {
-      title: 'Harakatlar',
+      title: t("common.actions"),
       width: 100,
       render: (_, record) => (
-        <ActionsDropdown 
-          delete={{ 
-            onClick: () => confirmDeleteEmployee(record?.employeeId) 
+        <ActionsDropdown
+          delete={{
+            onClick: () => confirmDeleteEmployee(record?.employeeId)
           }}
           edit={{
-            onClick: () => openManageModalHandle(record?.employeeId)
+            onClick: () => handleOpenManageModal(record?.employeeId)
           }}
           access={{
             visible: record?.type === roles.EMPLOYEE,
-            onClick: () => openGrantAccessModalHandle(record?.employeeId)
+            onClick: () => handleOpenGrantAccessModal(record?.employeeId)
           }}
           reset={{
             visible: record?.type === roles.COMPANY_ADMIN,
-            onClick: () => openResetPasswordModalHandle(record?.employeeId)
+            onClick: () => handleOpenResetPasswordModal(record?.employeeId)
           }}
           revoke={{
             visible: record?.type === roles.COMPANY_ADMIN,
@@ -161,11 +163,11 @@ const EmployeesTable: FC = () => {
       )
     }
   ];
-  
+
   return (
     <div className={styles['employees-table']}>
       <div className={styles['employees-table__top']}>
-        <SearchInput placeholder="Xodimlarni qidirish..." />
+        <SearchInput placeholder={t("employees.search")} />
         <div className={styles['employees-table__wrapper']}>
           <SelectList
             className={styles['employees-table__object-filter']}
@@ -173,11 +175,11 @@ const EmployeesTable: FC = () => {
             queryKey={queries.OBJECT}
             defaultValue={defaultValues.object}
             currentValue={objectId}
-            isLoading={isLoadingObject}
+            isLoading={isObjectLoading}
           />
           <ExportExcelButton
             onExport={handleExportExcel}
-            disabled={isLoadingExcel || !dataExcel}
+            disabled={isExcelLoading || !excelData}
           />
         </div>
       </div>
@@ -185,7 +187,7 @@ const EmployeesTable: FC = () => {
         <Table<IEmployee>
           classNames={{
             header: {
-              cell: styles['companies-table__title-cell']
+              cell: styles['employees-table__title-cell']
             }
           }}
           rowKey="employeeId"
@@ -197,21 +199,21 @@ const EmployeesTable: FC = () => {
                 return;
               }
 
-              openViewHandle(record?.employeeId);
+              handleOpenView(record?.employeeId);
             },
             style: {
               cursor: 'pointer'
             }
           })}
-          dataSource={dataSource}
+          dataSource={tableData}
           columns={columns}
           pagination={false}
           loading={isLoading}
           scroll={{ x: 'max-content' }}
         />
       </div>
-      {defaultValues.pageSize < totalElems && <div className={styles['employees-table__bottom']}>
-        <Paginator total={totalElems} />
+      {defaultValues.pageSize < totalRecords && <div className={styles['employees-table__bottom']}>
+        <Paginator total={totalRecords} />
       </div>}
       <ManageEmployeeModal />
       <GrantAccessModal />

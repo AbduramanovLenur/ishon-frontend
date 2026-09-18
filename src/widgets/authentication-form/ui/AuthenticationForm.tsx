@@ -1,6 +1,7 @@
 import { type FC } from "react";
 
 import { AuthForm } from "@features/auth-form";
+import { LanguageSwitcher } from "@features/language-switcher";
 
 import styles from "./AuthenticationForm.module.scss";
 
@@ -11,6 +12,9 @@ const AuthenticationForm : FC = () => {
         <div className={styles["auth__wrapper"]}>
           <div className={styles["auth__logo"]}>
             Ishon
+          </div>
+          <div className={styles["auth__switcher"]}>
+            <LanguageSwitcher />
           </div>
           <AuthForm />
         </div>

@@ -2,6 +2,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 import type { AxiosError } from "axios";
+import { useTranslation } from "react-i18next";
 
 import { api } from "../api/api";
 
@@ -9,6 +10,7 @@ import { employeesKeys } from "@entities/employees";
 import type { IApiResponse } from "@shared/types";
 
 export const useDeleteAccess = () => {
+  const { t } = useTranslation();
   const { modal, message } = App.useApp();
   const queryClient = useQueryClient();
 
@@ -23,12 +25,12 @@ export const useDeleteAccess = () => {
         queryKey: employeesKeys.collection()
       });
 
-      message.success("Administrator huquqlari bekor qilindi");
+      message.success(t("employees.accessRevoked"));
     },
     onError: (error) => {
       const msg =
         error.response?.data?.error?.message ??
-        "Administrator huquqlarini bekor qilishda xatolik yuz berdi";
+        t("employees.revokeAccessError");
 
       message.error(msg);
     },
@@ -39,10 +41,10 @@ export const useDeleteAccess = () => {
       classNames: {
         wrapper: 'centered'
       },
-      title: "Administrator huquqlarini bekor qilish kerakmi?",
+      title: t("employees.revokeAccessConfirmTitle"),
       icon: <DeleteOutlined style={{ color: "#ff0000" }} />,
-      okText: "O'chirish",
-      cancelText: "Bekor qilish",
+      okText: t("common.delete"),
+      cancelText: t("common.cancel"),
       okButtonProps: {
         loading: mutation.isPending
       },

@@ -2,6 +2,7 @@ import { useEffect, type FC } from "react";
 import { Image, Table, Tag, type TableProps } from "antd";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { useTodaysPresenceList, useTodaysPresenceExcel, type IEmployee } from "@entities/todays-presence";
 import { ExportExcelButton, Paginator, SearchInput } from "@shared/ui";
@@ -13,6 +14,7 @@ import { downloadBlob, formatDateToDisplay, formatTime, validationPage } from "@
 import styles from "./TodaysPresenceTable.module.scss";
 
 const TodaysPresenceTable: FC = () => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { get, set } = useQueryParams();
   const search = get(queries.SEARCH) || defaultValues.search;
@@ -21,10 +23,10 @@ const TodaysPresenceTable: FC = () => {
   const objectId = get(queries.OBJECT) || defaultValues.object;
   const date = get(queries.DATE) || defaultValues.date;
   const { data, isLoading } = useTodaysPresenceList(search, currentPage, statusWork, objectId, date);
-  const { data: dataExcel, isLoading: isLoadingExcel } = useTodaysPresenceExcel(statusWork, objectId, date, search);
+  const { data: excelData, isLoading: isExcelLoading } = useTodaysPresenceExcel(statusWork, objectId, date, search);
 
-  const dataSource = data?.employees?.content || [];
-  const totalElems = data?.employees?.totalElements || 0;
+  const tableData = data?.employees?.content || [];
+  const totalRecords = data?.employees?.totalElements || 0;
 
   useEffect(() => {
     if (!statusWork) {
@@ -36,18 +38,18 @@ const TodaysPresenceTable: FC = () => {
     }
   }, [date, set, statusWork]);
 
-  const openViewHandle = (id: number | string) => {
+  const handleOpenView = (id: number | string) => {
     navigate(routes.SINGLE_EMPLOYEE(id));
   }
 
   const handleExportExcel = () => {
-    if (!dataExcel) return;
-    downloadBlob(dataExcel, "bugungi-davomat.xlsx");
+    if (!excelData) return;
+    downloadBlob(excelData, "bugungi-davomat.xlsx");
   };
 
   const columns: TableProps<IEmployee>['columns'] = [
     {
-      title: "Surat",
+      title: t("employees.photo"),
       width: 50,
       render: (_, record) => (
         <Image
@@ -62,15 +64,15 @@ const TodaysPresenceTable: FC = () => {
       )
     },
     {
-      title: "Ism-familiya",
+      title: t("employees.fullName"),
       render: (_, record) => record?.fullName
     },
     {
-      title: "Lavozimi",
+      title: t("employees.position"),
       width: 200,
       render: (_, record) => (
-        <Tag 
-          color={'#D9DFF5'} 
+        <Tag
+          color={'#D9DFF5'}
           style={{ color: '#4F46E5', whiteSpace: 'normal' }}
         >
           { record?.position }
@@ -78,11 +80,11 @@ const TodaysPresenceTable: FC = () => {
       )
     },
     {
-      title: "Obyekt nomi",
+      title: t("objects.name"),
       width: 250,
       render: (_, record) => (
-        <Tag 
-          color={'#f0f9ff'} 
+        <Tag
+          color={'#f0f9ff'}
           style={{ color: '#0284c7', whiteSpace: 'normal' }}
         >
           { record?.objectName }
@@ -92,27 +94,27 @@ const TodaysPresenceTable: FC = () => {
     ...(statusWork === workStatus.AT_WORK
       ? [
           {
-            title: "Kirish vaqti",
+            title: t("todaysPresence.checkInTime"),
             render: (_: unknown, record: IEmployee) =>
-              formatTime(record?.checkInTime),
+              formatTime(record?.checkInTime, i18n.language),
           },
         ]
       : []),
     ...(statusWork === workStatus.LEFT
       ? [
           {
-            title: "Chiqish vaqti",
+            title: t("todaysPresence.checkOutTime"),
             render: (_: unknown, record: IEmployee) =>
-              formatTime(record?.checkOutTime),
+              formatTime(record?.checkOutTime, i18n.language),
           },
         ]
       : []),
     ...(statusWork === workStatus.NOT_CHECKED_IN
       ? [
           {
-            title: "Oxirgi ko‘rilgan sana",
+            title: t("todaysPresence.lastSeenDate"),
             render: (_: unknown, record: IEmployee) =>
-              formatDateToDisplay(record?.lastSeenDate),
+              formatDateToDisplay(record?.lastSeenDate, t),
           },
         ]
       : []),
@@ -121,10 +123,10 @@ const TodaysPresenceTable: FC = () => {
   return (
     <div className={styles['todays-presence-table']}>
       <div className={styles['todays-presence-table__top']}>
-        <SearchInput placeholder="Xodimlarni qidirish..." />
+        <SearchInput placeholder={t("employees.search")} />
         <ExportExcelButton
           onExport={handleExportExcel}
-          disabled={isLoadingExcel || !dataExcel}
+          disabled={isExcelLoading || !excelData}
         />
       </div>
       <div className={styles['todays-presence-table__middle']}>
@@ -143,21 +145,21 @@ const TodaysPresenceTable: FC = () => {
                 return;
               }
 
-              openViewHandle(record?.employeeId);
+              handleOpenView(record?.employeeId);
             },
             style: {
               cursor: 'pointer'
             }
           })}
-          dataSource={dataSource}
+          dataSource={tableData}
           columns={columns}
           pagination={false}
           loading={isLoading}
           scroll={{ x: 'max-content' }}
         />
       </div>
-      {defaultValues.pageSize < totalElems && <div className={styles['todays-presence-table__bottom']}>
-        <Paginator total={totalElems} />
+      {defaultValues.pageSize < totalRecords && <div className={styles['todays-presence-table__bottom']}>
+        <Paginator total={totalRecords} />
       </div>}
     </div>
   );

@@ -1,60 +1,62 @@
+import type { TFunction } from "i18next";
+
 import type { INavigation } from "../types/navigations";
 import { roles } from "./roles";
 import { routes } from "./routes";
 
-export const navigations: INavigation[] = [
+export const getNavigations = (t: TFunction): INavigation[] => [
   {
     id: 1,
-    label: 'Kompaniyalar',
+    label: t("navigation.companies"),
     path: routes.COMPANIES,
     icon: 'companies',
     roles: [roles.ADMIN]
   },
   {
     id: 2,
-    label: 'Direktorlar',
+    label: t("navigation.directors"),
     path: routes.DIRECTORS,
     icon: 'directors',
     roles: [roles.ADMIN]
   },
   {
     id: 3,
-    label: 'Dashboard',
+    label: t("navigation.dashboard"),
     path: routes.DASHBOARD,
     icon: 'dashboard',
     roles: [roles.COMPANY_OWNER, roles.COMPANY_ADMIN]
   },
   {
     id: 4,
-    label: 'Obyektlar',
+    label: t("navigation.objects"),
     path: routes.OBJECTS,
     icon: 'objects',
     roles: [roles.COMPANY_OWNER, roles.COMPANY_ADMIN]
   },
   {
     id: 5,
-    label: 'Xodimlar',
+    label: t("navigation.employees"),
     path: routes.EMPLOYEES,
     icon: 'employees',
     roles: [roles.COMPANY_OWNER, roles.COMPANY_ADMIN]
   },
   {
     id: 6,
-    label: 'Jurnallar',
+    label: t("navigation.logs"),
     path: routes.LOGS,
     icon: 'logs',
     roles: [roles.COMPANY_OWNER, roles.COMPANY_ADMIN]
   },
   {
     id: 7,
-    label: 'Bugungi davomat',
+    label: t("navigation.todaysPresence"),
     path: routes.TODAYS_PRESENCE,
     icon: 'todays-presence',
     roles: [roles.COMPANY_OWNER, roles.COMPANY_ADMIN]
   },
   {
     id: 8,
-    label: 'Sozlamalar',
+    label: t("navigation.settings"),
     path: routes.SETTINGS,
     icon: 'settings',
     roles: [roles.COMPANY_OWNER, roles.COMPANY_ADMIN]

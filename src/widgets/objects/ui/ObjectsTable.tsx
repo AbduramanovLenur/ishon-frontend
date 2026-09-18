@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Table, Tag, type TableProps } from "antd";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import { useDeleteObject } from "@features/delete-object-modal";
 import { ViewObjectModal, open as openViewModal } from "@features/view-object-modal";
@@ -14,33 +15,34 @@ import { downloadBlob, formatHoursMinutes, getFirstChar, validationPage } from "
 import styles from "./ObjectsTable.module.scss";
 
 export const ObjectsTable: FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { get } = useQueryParams();
   const search = get(queries.SEARCH) || defaultValues.search;
   const currentPage = validationPage(Number(get(queries.PAGE)), defaultValues.page);
   const { data, isLoading } = useObjectList(search, currentPage);
-  const { data: dataExcel, isLoading: isLoadingExcel } = useObjectExcel(search);
+  const { data: excelData, isLoading: isExcelLoading } = useObjectExcel(search);
   const { confirmDelete } = useDeleteObject();
 
-  const dataSource = data?.content || [];
-  const totalElems = data?.totalElements || 0;
+  const tableData = data?.content || [];
+  const totalRecords = data?.totalElements || 0;
 
-  const openManageModalHandle = (id: number | string) => {
+  const handleOpenManageModal = (id: number | string) => {
     dispatch(openManageModal(id));
   }
 
-  const openViewModalHandle = (id: number | string) => {
+  const handleOpenViewModal = (id: number | string) => {
     dispatch(openViewModal(id));
   }
 
   const handleExportExcel = () => {
-    if (!dataExcel) return;
-    downloadBlob(dataExcel, "obyektlar.xlsx");
+    if (!excelData) return;
+    downloadBlob(excelData, "obyektlar.xlsx");
   };
 
   const columns: TableProps<IObject>['columns'] = [
     {
-      title: "Obyekt nomi",
+      title: t("objects.name"),
       width: 350,
       render: (_, record) => (
         <span className={styles['objects-table__badge-cell']}>
@@ -54,28 +56,27 @@ export const ObjectsTable: FC = () => {
       )
     },
     {
-      title: "Manzil",
+      title: t("objects.address"),
       render: (_, record) => record?.address
     },
     {
-      title: "Ish soatlari",
+      title: t("objects.workHours"),
       width: 200,
       render: (_, record) => `${formatHoursMinutes(record?.shiftStartTime)} - ${formatHoursMinutes(record?.shiftEndTime)}`
     },
     {
-      title: 'Holat',
+      title: t("common.status"),
       width: 120,
       render: (_, record) => (
-        
         record?.status === status.ACTIVE ? (
-          <Tag color={'#D9DFF5'} style={{ color: '#4F46E5' }}>Faol</Tag>
+          <Tag color={'#D9DFF5'} style={{ color: '#4F46E5' }}>{t("common.active")}</Tag>
         ) : (
-          <Tag color={'#DCE2F3'} style={{ color: '#464555' }}>Faol emas</Tag>
+          <Tag color={'#DCE2F3'} style={{ color: '#464555' }}>{t("common.inactive")}</Tag>
         )
       )
     },
     {
-      title: 'Harakatlar',
+      title: t("common.actions"),
       width: 100,
       render: (_, record) => (
         <ActionsDropdown 
@@ -83,7 +84,7 @@ export const ObjectsTable: FC = () => {
             onClick: () => confirmDelete(record?.objectId)
           }}
           edit={{
-            onClick: () => openManageModalHandle(record?.objectId)
+            onClick: () => handleOpenManageModal(record?.objectId)
           }}
         />
       )
@@ -93,10 +94,10 @@ export const ObjectsTable: FC = () => {
   return (
     <div className={styles['objects-table']}>
       <div className={styles['objects-table__top']}>
-        <SearchInput placeholder="Obyektlarni qidirish..." />
+        <SearchInput placeholder={t("objects.search")} />
         <ExportExcelButton
           onExport={handleExportExcel}
-          disabled={isLoadingExcel || !dataExcel}
+          disabled={isExcelLoading || !excelData}
         />
       </div>
       <div className={styles['objects-table__middle']}>
@@ -109,21 +110,21 @@ export const ObjectsTable: FC = () => {
           rowKey="objectId"
           onRow={(record) => ({
             onClick: () => {
-              openViewModalHandle(record?.objectId);
+              handleOpenViewModal(record?.objectId);
             },
             style: { 
               cursor: 'pointer' 
             }
           })}
-          dataSource={dataSource}
+          dataSource={tableData}
           columns={columns}
           pagination={false}
           loading={isLoading}
           scroll={{ x: 'max-content' }}
         />
       </div>
-      {defaultValues.pageSize < totalElems && <div className={styles['objects-table__bottom']}>
-        <Paginator total={totalElems} />
+      {defaultValues.pageSize < totalRecords && <div className={styles['objects-table__bottom']}>
+        <Paginator total={totalRecords} />
       </div>}
       <ManageObjectModal />
       <ViewObjectModal />

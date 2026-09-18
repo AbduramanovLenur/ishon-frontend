@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 import type { AxiosError } from "axios";
+import { useTranslation } from "react-i18next";
 
 import { api } from "../api/api";
 import type { ICreateCompanyOwnerFields, IUpdateCompanyOwnerFields } from "./types";
@@ -9,13 +10,14 @@ import { companiesOwnerKeys, type ICompanyOwner } from "@entities/directors";
 import type { IApiResponse } from "@shared/types";
 
 export function useCreateCompanyOwner () {
+  const { t } = useTranslation();
   const { message } = App.useApp();
   const queryClient = useQueryClient();
 
   return {
     ...useMutation<
-      IApiResponse<ICompanyOwner>, 
-      AxiosError<IApiResponse<ICompanyOwner>>, 
+      IApiResponse<ICompanyOwner>,
+      AxiosError<IApiResponse<ICompanyOwner>>,
       ICreateCompanyOwnerFields
     >({
       mutationFn: api.create,
@@ -23,14 +25,14 @@ export function useCreateCompanyOwner () {
         queryClient.invalidateQueries({
           queryKey: companiesOwnerKeys.collection()
         });
-        
-        message.success('Direktor yaratildi');
+
+        message.success(t("directors.created"));
       },
       onError: (error) => {
         const msg =
           error.response?.data?.error?.message ??
-          "Direktorni yaratishda xatolik yuz berdi";
-          
+          t("directors.createError");
+
         message.error(msg);
       },
     }),
@@ -38,13 +40,14 @@ export function useCreateCompanyOwner () {
 }
 
 export function useUpdateCompanyOwner() {
+  const { t } = useTranslation();
   const { message } = App.useApp();
   const queryClient = useQueryClient();
 
   return {
     ...useMutation<
-      IApiResponse<ICompanyOwner>, 
-      AxiosError<IApiResponse<ICompanyOwner>>, 
+      IApiResponse<ICompanyOwner>,
+      AxiosError<IApiResponse<ICompanyOwner>>,
       IUpdateCompanyOwnerFields
     >({
       mutationFn: api.update,
@@ -55,14 +58,14 @@ export function useUpdateCompanyOwner() {
         queryClient.invalidateQueries({
           queryKey: companiesOwnerKeys.byId(variables.companyOwnerId)
         });
-        
-        message.success('Direktor yangilandi');
+
+        message.success(t("directors.updated"));
       },
       onError: (error) => {
         const msg =
           error.response?.data?.error?.message ??
-          "Direktorni yangilashda xatolik yuz berdi";
-          
+          t("directors.updateError");
+
         message.error(msg);
       },
     }),

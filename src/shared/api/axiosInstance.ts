@@ -1,15 +1,12 @@
 import axios, { AxiosError } from 'axios';
 
+import i18n from '../config/i18n';
 import { env, routes } from '../config';
 import { insideTelegram } from '../lib/telegram';
 import { clearTokens, getAccessToken } from './tokenStorage';
 
 export const axiosInstance = axios.create({
   baseURL: env.API_BASE_URL,
-  headers: { 
-    // 'Content-Type': 'application/json' 
-    'Accept-Language': 'uz,ru;q=0.9,en;q=0.8'
-  },
 });
 
 axiosInstance.interceptors.request.use((config) => {
@@ -18,6 +15,8 @@ axiosInstance.interceptors.request.use((config) => {
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
+
+  config.headers['Accept-Language'] = i18n.language;
 
   return config;
 });

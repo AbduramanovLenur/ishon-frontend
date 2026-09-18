@@ -8,6 +8,7 @@
     overflow: auto;
   }
   &__wrapper {
+    position: relative;
     padding: 32px;
     border-radius: 12px;
     background-color: var(--White);
@@ -43,5 +44,10 @@
       font-size: 24px;
       margin-bottom: 24px;
     }
+  }
+  &__switcher {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
   }
 }

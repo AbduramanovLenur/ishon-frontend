@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { Skeleton } from "antd";
+import { useTranslation } from "react-i18next";
 
 import { useCompanyById } from "../model/queries";
 
@@ -10,19 +11,20 @@ interface ICompanyDetailsProps {
 };
 
 const CompanyDetails: FC<ICompanyDetailsProps> = ({ companyId }) => {
+  const { t } = useTranslation();
   const hasId = !!companyId;
   const { data, isLoading } = useCompanyById(companyId, hasId);
 
   return (
     <div className={styles['company-details']}>
       {
-        isLoading ? 
-          <Skeleton.Node className={styles['company-details__skeleton']} /> : 
+        isLoading ?
+          <Skeleton.Node className={styles['company-details__skeleton']} /> :
           (
             data?.name && (
               <div className={styles['company-details__value']}>
                 <div className={styles['company-details__value-label']}>
-                  Kompaniya nomi
+                  {t("companies.name")}
                 </div>
                 <div className={styles['company-details__value-text']}>
                   {data.name}
@@ -32,13 +34,13 @@ const CompanyDetails: FC<ICompanyDetailsProps> = ({ companyId }) => {
           )
       }
       {
-        isLoading ? 
-          <Skeleton.Node className={styles['company-details__skeleton']} /> : 
+        isLoading ?
+          <Skeleton.Node className={styles['company-details__skeleton']} /> :
           (
             data?.address && (
               <div className={styles['company-details__value']}>
                 <div className={styles['company-details__value-label']}>
-                Kompaniya manzili
+                  {t("companies.address")}
                 </div>
                 <div className={styles['company-details__value-text']}>
                   {data.address}
@@ -48,13 +50,13 @@ const CompanyDetails: FC<ICompanyDetailsProps> = ({ companyId }) => {
           )
       }
       {
-        isLoading ? 
-          <Skeleton.Node className={styles['company-details__skeleton']} /> : 
+        isLoading ?
+          <Skeleton.Node className={styles['company-details__skeleton']} /> :
           (
             data?.objectLimit && (
               <div className={styles['company-details__value']}>
                 <div className={styles['company-details__value-label']}>
-                Obyektlar soni
+                  {t("companies.objectLimit")}
                 </div>
                 <div className={styles['company-details__value-text']}>
                   {data.objectLimit}
@@ -64,13 +66,13 @@ const CompanyDetails: FC<ICompanyDetailsProps> = ({ companyId }) => {
           )
       }
       {
-        isLoading ? 
-          <Skeleton.Node className={styles['company-details__skeleton']} /> : 
+        isLoading ?
+          <Skeleton.Node className={styles['company-details__skeleton']} /> :
           (
             data?.employeeLimit && (
               <div className={styles['company-details__value']}>
                 <div className={styles['company-details__value-label']}>
-                Xodimlar soni
+                  {t("companies.employeeLimit")}
                 </div>
                 <div className={styles['company-details__value-text']}>
                   {data.employeeLimit}

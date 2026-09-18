@@ -1,6 +1,7 @@
 import type { FC, ReactNode } from "react";
 import { Button, Tooltip } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 interface ExportExcelButtonProps {
   onExport: () => void;
@@ -11,12 +12,14 @@ interface ExportExcelButtonProps {
 
 const ExportExcelButton: FC<ExportExcelButtonProps> = ({
   onExport,
-  tooltip = "Excelga yuklab olish",
+  tooltip,
   icon,
   disabled,
 }) => {
+  const { t } = useTranslation();
+
   return (
-    <Tooltip title={tooltip}>
+    <Tooltip title={tooltip || t("common.exportExcel")}>
       <Button
         type="default"
         icon={icon || <DownloadOutlined />}

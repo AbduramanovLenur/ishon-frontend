@@ -2,6 +2,7 @@ import { Form, Input } from "antd";
 import { useEffect, type FC } from "react";
 import type { FormInstance } from "antd/lib/form";
 import { useGeolocated } from 'react-geolocated';
+import { useTranslation } from "react-i18next";
 
 import type { IManageObjectFields } from "../model/types";
 
@@ -14,6 +15,7 @@ interface IObjectLocationFieldProps {
 }
 
 const ObjectLocationField: FC<IObjectLocationFieldProps> = ({ form, isOpen, isEdit }) => {
+  const { t } = useTranslation();
   const { coords } = useGeolocated({
     positionOptions: {
       enableHighAccuracy: true,
@@ -67,7 +69,7 @@ const ObjectLocationField: FC<IObjectLocationFieldProps> = ({ form, isOpen, isEd
 
       <Form.Item
         className="modal__item"
-        label="Obyekt joylashuvi"
+        label={t("objects.location")}
         layout="vertical"
       >
         <GeofenceMap

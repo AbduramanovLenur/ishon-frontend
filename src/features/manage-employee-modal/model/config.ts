@@ -1,32 +1,33 @@
 import { days } from "@shared/config";
+import type { TFunction } from "i18next";
 
-export const workingDaysOptions = [
+export const getWorkingDaysOptions = (t: TFunction) => [
   {
-    label: "Dushanba",
+    label: t("days.monday"),
     value: days.MONDAY,
   },
   {
-    label: "Seshanba",
+    label: t("days.tuesday"),
     value: days.TUESDAY,
   },
   {
-    label: "Chorshanba",
+    label: t("days.wednesday"),
     value: days.WEDNESDAY,
   },
   {
-    label: "Payshanba",
+    label: t("days.thursday"),
     value: days.THURSDAY,
   },
   {
-    label: "Juma",
+    label: t("days.friday"),
     value: days.FRIDAY,
   },
   {
-    label: "Shanba",
+    label: t("days.saturday"),
     value: days.SATURDAY,
   },
   {
-    label: "Yakshanba",
+    label: t("days.sunday"),
     value: days.SUNDAY,
   },
 ];

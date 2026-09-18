@@ -1,6 +1,7 @@
 import { useEffect, type FC } from "react";
 import { Form, Input, Modal, Select, type FormProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 import PhoneInput from 'react-phone-number-input';
 
 import { close, stateManageCompanyOwner } from "../model/slice";
@@ -13,13 +14,14 @@ import { useManualCompanyList } from "@entities/companies";
 import 'react-phone-number-input/style.css';
 
 const ManageDirectorModal: FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [form] = Form.useForm<IManageCompanyOwnerFields>();
   const { isOpen, companyOwnerId } = useSelector(stateManageCompanyOwner);
   const { mutateAsync: mutateAsyncCreate, isPending: isPendingCreate } = useCreateCompanyOwner();
   const { mutateAsync: mutateAsyncUpdate, isPending: isPendingUpdate } = useUpdateCompanyOwner();
   const isEdit = !!companyOwnerId;
-  const title = !isEdit ? "Direktor yaratish" : "Direktorni yangilash";
+  const title = isEdit ? t("directors.edit") : t("directors.create");
   const { data, isLoading } = useCompanyOwnerById(companyOwnerId, isEdit);
   const { data: manualCompanyList, isLoading: isLoadingManualCompanyList } = useManualCompanyList(isOpen);
 
@@ -40,32 +42,28 @@ const ManageDirectorModal: FC = () => {
     }
   }, [data, isEdit, form]);
 
-  const closeManageModalHandle = () => {
+  const handleClose = () => {
     dispatch(close());
     form.resetFields();
   }
 
-  const onOkHandle = () => {
+  const handleOk = () => {
     form.submit();
   }
 
-  const onSubmitHandle: FormProps<IManageCompanyOwnerFields>['onFinish'] = (values) => {
+  const handleSubmit: FormProps<IManageCompanyOwnerFields>['onFinish'] = (values) => {
     if (isEdit) {
       mutateAsyncUpdate({
         ...values,
         companyOwnerId
       }, {
-        onSuccess: () => {
-          closeManageModalHandle();
-        }
+        onSuccess: handleClose
       })
       return;
     }
 
     mutateAsyncCreate(values, {
-      onSuccess: () => {
-        closeManageModalHandle();
-      }
+      onSuccess: handleClose
     });
   }
 
@@ -81,16 +79,16 @@ const ManageDirectorModal: FC = () => {
       }}
       title={title}
       open={isOpen}
-      okText="Saqlash"
-      cancelText="Yopish"
-      onOk={onOkHandle}
-      onCancel={closeManageModalHandle}
+      okText={t("common.save")}
+      cancelText={t("common.cancel")}
+      onOk={handleOk}
+      onCancel={handleClose}
       confirmLoading={isPendingCreate || isPendingUpdate}
       zIndex={3000}
     >
-      <Form 
+      <Form
         form={form}
-        onFinish={onSubmitHandle}
+        onFinish={handleSubmit}
         classNames={{
           label: "modal__label",
           help: "modal__help"
@@ -99,14 +97,14 @@ const ManageDirectorModal: FC = () => {
         <Form.Item<IManageCompanyOwnerFields>
           className="modal__item"
           layout="vertical"
-          label="To‘liq ism-familiya"
+          label={t("directors.fullName")}
           name="fullName"
-          rules={[{ 
+          rules={[{
             required: true,
-            message: 'To‘liq ism-familiyangizni kiriting'
+            message: t("directors.fullNameRequired")
           }]}
         >
-          <Input 
+          <Input
             className="modal__input"
             disabled={isEdit && isLoading}
           />
@@ -114,14 +112,14 @@ const ManageDirectorModal: FC = () => {
         <Form.Item<IManageCompanyOwnerFields>
           className="modal__item"
           layout="vertical"
-          label="Login"
+          label={t("directors.login")}
           name="username"
-          rules={[{ 
+          rules={[{
             required: true,
-            message: 'Loginni kiriting'
+            message: t("directors.loginRequired")
           }]}
         >
-          <Input 
+          <Input
             className="modal__input"
             disabled={isEdit && isLoading}
           />
@@ -130,20 +128,20 @@ const ManageDirectorModal: FC = () => {
           <Form.Item<IManageCompanyOwnerFields>
             className="modal__item"
             layout="vertical"
-            label="Parol"
+            label={t("directors.password")}
             name="password"
             rules={[
-              { 
+              {
                 required: true,
-                message: 'Parolni kiriting'
+                message: t("directors.passwordRequired")
               },
               {
                 min: 8,
-                message: "Parol kamida 8 ta belgidan iborat bo‘lishi kerak",
+                message: t("directors.passwordMin"),
               }
             ]}
           >
-            <Input.Password 
+            <Input.Password
               className="modal__input"
             />
           </Form.Item>
@@ -151,14 +149,14 @@ const ManageDirectorModal: FC = () => {
         <Form.Item<IManageCompanyOwnerFields>
           className="modal__item"
           layout="vertical"
-          label="Lavozim"
+          label={t("directors.position")}
           name="position"
-          rules={[{ 
+          rules={[{
             required: true,
-            message: 'Lavozimni kiriting'
+            message: t("directors.positionRequired")
           }]}
         >
-          <Input 
+          <Input
             className="modal__input"
             disabled={isEdit && isLoading}
           />
@@ -166,29 +164,29 @@ const ManageDirectorModal: FC = () => {
         <Form.Item<IManageCompanyOwnerFields>
           className="modal__item"
           layout="vertical"
-          label="Kompaniya"
+          label={t("directors.company")}
           name="companyId"
-          rules={[{ 
+          rules={[{
             required: true,
-            message: 'Kompaniyani tanlang'
+            message: t("directors.companyRequired")
           }]}
         >
-          <Select 
+          <Select
             className="modal__select"
-            options={companyList} 
-            loading={isLoadingManualCompanyList || (isLoading && isEdit)} 
+            options={companyList}
+            loading={isLoadingManualCompanyList || (isLoading && isEdit)}
             disabled={isLoadingManualCompanyList || (isLoading && isEdit)}
           />
         </Form.Item>
         <Form.Item<IManageCompanyOwnerFields>
           className="modal__item"
           layout="vertical"
-          label="Telefon raqami"
+          label={t("directors.phone")}
           name="phone"
           rules={[
             {
               required: true,
-              message: 'Telefon raqamini kiriting'
+              message: t("directors.phoneRequired")
             },
           ]}
         >

@@ -1,6 +1,7 @@
 import { useEffect, type FC } from "react";
 import { Form, Input, InputNumber, Modal, Switch, type FormProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import { close, stateManageCompany } from "../model/slice";
 import type { IManageCompanyFields } from "../model/types";
@@ -10,13 +11,14 @@ import { useCompanyById } from "@entities/companies";
 import { status } from "@shared/config";
 
 const ManageCompanyModal: FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [form] = Form.useForm<IManageCompanyFields>();
   const { isOpen, companyId } = useSelector(stateManageCompany);
   const { mutateAsync: mutateAsyncCreate, isPending: isPendingCreate } = useCreateCompany();
   const { mutateAsync: mutateAsyncUpdate, isPending: isPendingUpdate } = useUpdateCompany();
   const isEdit = !!companyId;
-  const title = !isEdit ? "Kompaniya yaratish" : "Kompaniyani yangilash";
+  const title = isEdit ? t("companies.edit") : t("companies.create");
   const { data, isLoading } = useCompanyById(companyId, isEdit);
 
   useEffect(() => {
@@ -31,38 +33,34 @@ const ManageCompanyModal: FC = () => {
     }
   }, [data, isEdit, form]);
 
-  const closeManageModalHandle = () => {
+  const handleClose = () => {
     dispatch(close());
     form.resetFields();
   }
 
-  const onOkHandle = () => {
+  const handleOk = () => {
     form.submit();
   }
 
-  const onSubmitHandle: FormProps<IManageCompanyFields>['onFinish'] = (values) => {
+  const handleSubmit: FormProps<IManageCompanyFields>['onFinish'] = (values) => {
     if (isEdit) {
       mutateAsyncUpdate({
         ...values,
         companyId,
         status: values.status ? status.ACTIVE : status.INACTIVE
       }, {
-        onSuccess: () => {
-          closeManageModalHandle();
-        }
+        onSuccess: handleClose
       })
       return;
     }
 
     mutateAsyncCreate(values, {
-      onSuccess: () => {
-        closeManageModalHandle();
-      }
+      onSuccess: handleClose
     });
   }
 
   return (
-    <Modal 
+    <Modal
       centered
       classNames={{
         close: 'centered',
@@ -73,16 +71,16 @@ const ManageCompanyModal: FC = () => {
       }}
       title={title}
       open={isOpen}
-      okText="Saqlash"
-      cancelText="Yopish"
-      onOk={onOkHandle}
-      onCancel={closeManageModalHandle}
+      okText={t("common.save")}
+      cancelText={t("common.cancel")}
+      onOk={handleOk}
+      onCancel={handleClose}
       confirmLoading={isPendingCreate || isPendingUpdate}
       zIndex={3000}
     >
-      <Form 
+      <Form
         form={form}
-        onFinish={onSubmitHandle}
+        onFinish={handleSubmit}
         classNames={{
           label: "modal__label",
           help: "modal__help"
@@ -91,65 +89,65 @@ const ManageCompanyModal: FC = () => {
         <Form.Item<IManageCompanyFields>
           className="modal__item"
           layout="vertical"
-          label="Kompaniya nomi" 
+          label={t("companies.name")}
           name="name"
-          rules={[{ 
+          rules={[{
             required: true,
-            message: 'Kompaniya nomini kiriting'
+            message: t("companies.nameRequired")
           }]}
         >
-          <Input 
+          <Input
             className="modal__input"
-            disabled={isEdit && isLoading} 
+            disabled={isEdit && isLoading}
           />
         </Form.Item>
         <Form.Item<IManageCompanyFields>
           className="modal__item"
-          layout="vertical" 
-          label="Kompaniya manzili" 
-          name="address" 
-          rules={[{ 
+          layout="vertical"
+          label={t("companies.address")}
+          name="address"
+          rules={[{
             required: true,
-            message: 'Kompaniya manzilini kiriting'
+            message: t("companies.addressRequired")
           }]}
         >
-          <Input 
-            disabled={isEdit && isLoading} 
+          <Input
+            disabled={isEdit && isLoading}
           />
         </Form.Item>
         <Form.Item<IManageCompanyFields>
           className="modal__item"
-          layout="vertical" 
-          label="Obyektlar soni" 
-          name="objectLimit" 
-          rules={[{ 
+          layout="vertical"
+          label={t("companies.objectLimit")}
+          name="objectLimit"
+          rules={[{
             required: true,
-            message: 'Obyektlar sonini kiriting'
+            message: t("companies.objectLimitRequired")
           }]}
         >
-          <InputNumber 
-            min={0} 
-            disabled={isEdit && isLoading} 
+          <InputNumber
+            min={0}
+            disabled={isEdit && isLoading}
           />
         </Form.Item>
         <Form.Item<IManageCompanyFields>
           className="modal__item"
-          layout="vertical" 
-          label="Xodimlar soni" 
-          name="employeeLimit" 
-          rules={[{ 
+          layout="vertical"
+          label={t("companies.employeeLimit")}
+          name="employeeLimit"
+          rules={[{
             required: true,
-            message: 'Xodimlar sonini kiriting'
+            message: t("companies.employeeLimitRequired")
           }]}
         >
-          <InputNumber 
-            min={0} 
-            disabled={isEdit && isLoading} 
+          <InputNumber
+            min={0}
+            disabled={isEdit && isLoading}
           />
         </Form.Item>
         {isEdit && <Form.Item<IManageCompanyFields>
           name="status"
-          label="Holat"
+          label={t("common.status")}
           valuePropName="checked"
           className="modal__switch not-margened-item"
         >

@@ -2,6 +2,7 @@ import type { FC } from "react";
 import type { RangePickerProps } from "antd/es/date-picker";
 import { DatePicker } from "antd";
 import dayjs, { type Dayjs } from "dayjs";
+import { useTranslation } from "react-i18next";
 
 import { queries } from "@shared/config";
 import { useQueryParams } from "@shared/lib";
@@ -15,9 +16,10 @@ const DateRangeFilter: FC<IDateRangeFilterProps> = ({
   currentFromValue = "",
   currentToValue = "",
 }) => {
+  const { t } = useTranslation();
   const { setMany } = useQueryParams();
 
-  const onChangeHandle: RangePickerProps["onChange"] = (dates) => {
+  const handleChange: RangePickerProps["onChange"] = (dates) => {
     const [from, to] = dates ?? [];
 
     setMany({
@@ -44,9 +46,9 @@ const DateRangeFilter: FC<IDateRangeFilterProps> = ({
 
   return (
     <DatePicker.RangePicker
-      placeholder={["Sana", "Sana"]}
+      placeholder={[t("common.date"), t("common.date")]}
       format="DD-MM-YYYY"
-      onChange={onChangeHandle}
+      onChange={handleChange}
       value={value}
     />
   );

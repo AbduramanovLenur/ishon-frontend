@@ -29,8 +29,8 @@ const EmployeeHistoryList: FC = () => {
     currentPage
   );
 
-  const historyData = data?.content ?? [];
-  const totalElements = data?.totalElements ?? 0;
+  const tableData = data?.content ?? [];
+  const totalRecords = data?.totalElements ?? 0;
 
   return (
     <div className={styles['history-employee']}>
@@ -38,15 +38,15 @@ const EmployeeHistoryList: FC = () => {
         <Skeleton.Node className={styles['history-employee__skeleton']} />
       ) : (
         <ul className={styles['history-employee__list']}>
-          {historyData.map((item) => (
+          {tableData.map((item) => (
             <li className={styles['history-employee__item']}>
               <HistoryItem item={item} />
             </li>
           ))}
         </ul>
       )}
-      {defaultValues.pageSize < totalElements && <div className={styles['objects-table__bottom']}>
-        <Paginator total={totalElements} />
+      {defaultValues.pageSize < totalRecords && <div className={styles['objects-table__bottom']}>
+        <Paginator total={totalRecords} />
       </div>}
     </div>
   );

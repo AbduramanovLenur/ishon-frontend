@@ -1,17 +1,22 @@
 import { useEffect, type FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Result, Button } from "antd";
 
 import { Attendance } from "@widgets/attendance";
 import { useSession } from "@features/face-verification";
+import { LanguageSwitcher } from "@features/language-switcher";
 import { initData, startParam } from "@shared/lib/telegram";
 
+import styles from "./AttendancePage.module.scss";
+
 const AttendancePage: FC = () => {
-  const { 
-    mutateAsync, 
-    isError, 
+  const { t } = useTranslation();
+  const {
+    mutateAsync,
+    isError,
     isPending,
-    isSuccess 
+    isSuccess
   } = useSession();
 
   useEffect(() => {
@@ -26,21 +31,33 @@ const AttendancePage: FC = () => {
   }, [mutateAsync]);
 
   if (isPending) {
-    return <Result status="info" title="Sessiya o'rnatilmoqda..." />;
+    return (
+      <div className={styles['attendance-page']}>
+        <div className={styles['attendance-page__switcher']}>
+          <LanguageSwitcher />
+        </div>
+        <Result status="info" title={t("attendance.sessionPending")} />
+      </div>
+    );
   }
 
   if (isError) {
     return (
-      <Result
-        status="error"
-        title="Sessiya o'rnatilmadi"
-        subTitle="Sessiyani o'rnatishda xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring."
-        extra={
-          <Button type="primary" onClick={() => window.location.reload()}>
-            Qaytadan urinish
-          </Button>
-        }
-      />
+      <div className={styles['attendance-page']}>
+        <div className={styles['attendance-page__switcher']}>
+          <LanguageSwitcher />
+        </div>
+        <Result
+          status="error"
+          title={t("attendance.sessionError")}
+          subTitle={t("attendance.sessionErrorDescription")}
+          extra={
+            <Button type="primary" onClick={() => window.location.reload()}>
+              {t("attendance.retry")}
+            </Button>
+          }
+        />
+      </div>
     );
   }
 

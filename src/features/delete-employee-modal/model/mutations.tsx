@@ -2,6 +2,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 import type { AxiosError } from "axios";
+import { useTranslation } from "react-i18next";
 
 import { api } from "../api/api";
 
@@ -10,6 +11,7 @@ import { employeesKeys } from "@entities/employees";
 import type { IApiResponse } from "@shared/types";
 
 export const useDeleteEmployee = () => {
+  const { t } = useTranslation();
   const { modal, message } = App.useApp();
   const queryClient = useQueryClient();
 
@@ -30,12 +32,12 @@ export const useDeleteEmployee = () => {
         queryKey: todaysPresenceKeys.listCount()
       });
 
-      message.success("Xodim o'chirildi");
+      message.success(t("employees.deleted"));
     },
     onError: (error) => {
       const msg =
         error.response?.data?.error?.message ??
-        "Xodimni o'chirishda xatolik yuz berdi";
+        t("employees.deleteError");
 
       message.error(msg);
     },
@@ -46,10 +48,10 @@ export const useDeleteEmployee = () => {
       classNames: {
         wrapper: 'centered'
       },
-      title: "Xodimni o'chirish kerakmi?",
+      title: t("employees.deleteConfirmTitle"),
       icon: <DeleteOutlined style={{ color: "#ff0000" }} />,
-      okText: "O'chirish",
-      cancelText: "Bekor qilish",
+      okText: t("common.delete"),
+      cancelText: t("common.cancel"),
       okButtonProps: {
         loading: mutation.isPending
       },

@@ -3,11 +3,12 @@ import { Checkbox, Form, Input, Modal, Select, Skeleton, Switch, Upload, type Fo
 import { useDispatch, useSelector } from "react-redux";
 import { PlusOutlined } from "@ant-design/icons";
 import PhoneInput from 'react-phone-number-input';
+import { useTranslation } from "react-i18next";
 
 import type { IManageEmployeeFields } from "../model/types";
 import { close, stateManageEmployee } from "../model/slice";
 import { useCreateEmployee, useUpdateEmployee } from "../model/mutations";
-import { workingDaysOptions } from "../model/config";
+import { getWorkingDaysOptions } from "../model/config";
 
 import { useEmployeeById } from "@entities/employees";
 import { useManualObjectList } from "@entities/objects";
@@ -17,14 +18,15 @@ import { useUploadFile } from "@shared/lib";
 import 'react-phone-number-input/style.css';
 
 const ManageEmployeeModal: FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [form] = Form.useForm<IManageEmployeeFields>();
   const { isOpen, employeeId } = useSelector(stateManageEmployee);
-  const { mutateAsync: mutateAsyncCreate, isPending: isPendingCreate } = useCreateEmployee();
-  const { mutateAsync: mutateAsyncUpdate, isPending: isPendingUpdate } = useUpdateEmployee();
-  const { mutateAsync: mutateAsyncUpload } = useUploadFile();
+  const { mutateAsync: createEmployee, isPending: isCreating } = useCreateEmployee();
+  const { mutateAsync: updateEmployee, isPending: isUpdating } = useUpdateEmployee();
+  const { mutateAsync: uploadFile } = useUploadFile();
   const isEdit = !!employeeId;
-  const title = !isEdit ? "Xodim yaratish" : "Xodim yangilash";
+  const title = isEdit ? t("employees.edit") : t("employees.create");
   const { data, isLoading: isLoadingEmployee } = useEmployeeById(employeeId, isEdit);
   const { data: manualObjects, isLoading: isLoadingObjects } = useManualObjectList(isOpen);
 
@@ -32,6 +34,8 @@ const ManageEmployeeModal: FC = () => {
     label: object.name,
     value: object.id
   })) ?? [];
+
+  const workingDaysOptions = getWorkingDaysOptions(t);
 
   useEffect(() => {
     if (isEdit && data) {
@@ -56,16 +60,16 @@ const ManageEmployeeModal: FC = () => {
     }
   }, [data, isEdit, form]);
 
-  const closeManageModalHandle = () => {
-    dispatch(close());  
+  const handleClose = () => {
+    dispatch(close());
     form.resetFields();
   }
 
-  const onOkHandle = () => {
+  const handleOk = () => {
     form.submit();
   }
 
-  const onSubmitHandle: FormProps<IManageEmployeeFields>['onFinish'] = async (values) => {
+  const handleSubmit: FormProps<IManageEmployeeFields>['onFinish'] = async (values) => {
     let fileId = isEdit ? (data?.fileId ?? '') : '';
 
     const file = values.image?.[0]?.originFileObj;
@@ -74,34 +78,29 @@ const ManageEmployeeModal: FC = () => {
       const formData = new FormData();
       formData.append('file', file);
 
-      const uploadResponse = await mutateAsyncUpload(formData);
+      const uploadResponse = await uploadFile(formData);
 
       fileId = uploadResponse.data?.fileId ?? '';
     }
 
     if (isEdit) {
-      await mutateAsyncUpdate({
+      await updateEmployee({
         ...values,
         employeeId,
         fileId,
         status: values.status ? status.ACTIVE : status.INACTIVE
       }, {
-          onSuccess: () => {
-            closeManageModalHandle();
-          },
-        },
-      );
+        onSuccess: handleClose,
+      });
 
       return;
     }
 
-    await mutateAsyncCreate({
+    await createEmployee({
       ...values,
       fileId
     }, {
-      onSuccess: () => {
-        closeManageModalHandle();
-      },
+      onSuccess: handleClose,
     });
   };
 
@@ -124,16 +123,16 @@ const ManageEmployeeModal: FC = () => {
       }}
       title={title}
       open={isOpen}
-      okText="Saqlash"
-      cancelText="Yopish"
-      onOk={onOkHandle}
-      onCancel={closeManageModalHandle}
-      confirmLoading={isPendingCreate || isPendingUpdate}
+      okText={t("common.save")}
+      cancelText={t("common.cancel")}
+      onOk={handleOk}
+      onCancel={handleClose}
+      confirmLoading={isCreating || isUpdating}
       zIndex={3000}
     >
-      <Form 
+      <Form
         form={form}
-        onFinish={onSubmitHandle}
+        onFinish={handleSubmit}
         classNames={{
           label: "modal__label",
           help: "modal__help"
@@ -142,14 +141,14 @@ const ManageEmployeeModal: FC = () => {
         <Form.Item<IManageEmployeeFields>
           className="modal__item"
           layout="vertical"
-          label="Xodim rasmi"
+          label={t("employees.photo")}
           name="image"
           valuePropName="fileList"
           getValueFromEvent={(event) => Array.isArray(event) ? event : event?.fileList}
           rules={[
             {
               required: !isEdit,
-              message: "Xodim rasmini yuklang",
+              message: t("employees.photoRequired"),
             },
           ]}
         >
@@ -167,7 +166,7 @@ const ManageEmployeeModal: FC = () => {
               >
                   <div>
                       <PlusOutlined />
-                      <div style={{ marginTop: 8 }}>Yuklash</div>
+                      <div style={{ marginTop: 8 }}>{t("employees.upload")}</div>
                   </div>
               </Upload>
           )}
@@ -175,42 +174,42 @@ const ManageEmployeeModal: FC = () => {
         <Form.Item<IManageEmployeeFields>
           className="modal__item"
           layout="vertical"
-          label="To‘liq ism-familiya" 
+          label={t("employees.fullNameLabel")}
           name="fullName"
-          rules={[{ 
+          rules={[{
             required: true,
-            message: 'To‘liq ism-familiyangizni kiriting'
+            message: t("employees.fullNameRequired")
           }]}
         >
-          <Input 
+          <Input
             className="modal__input"
-            disabled={isEdit && isLoadingEmployee} 
+            disabled={isEdit && isLoadingEmployee}
           />
         </Form.Item>
         <Form.Item<IManageEmployeeFields>
           className="modal__item"
           layout="vertical"
-          label="Lavozim" 
+          label={t("employees.position")}
           name="position"
-          rules={[{ 
+          rules={[{
             required: true,
-            message: 'Lavozimni kiriting'
+            message: t("employees.positionRequired")
           }]}
         >
-          <Input 
+          <Input
             className="modal__input"
-            disabled={isEdit && isLoadingEmployee} 
+            disabled={isEdit && isLoadingEmployee}
           />
         </Form.Item>
         <Form.Item<IManageEmployeeFields>
           className="modal__item"
           layout="vertical"
-          label="Telefon raqami"
+          label={t("employees.phone")}
           name="phone"
           rules={[
             {
               required: true,
-              message: 'Telefon raqamini kiriting'
+              message: t("employees.phoneRequired")
             },
           ]}
         >
@@ -225,12 +224,12 @@ const ManageEmployeeModal: FC = () => {
         <Form.Item<IManageEmployeeFields>
           className="modal__item"
           layout="vertical"
-          label="Ish kunlari"
+          label={t("employees.workingDays")}
           name="workingDays"
           rules={[
             {
               required: true,
-              message: "Ish kunlarini tanlang",
+              message: t("employees.workingDaysRequired"),
             },
           ]}
         >
@@ -242,23 +241,23 @@ const ManageEmployeeModal: FC = () => {
         <Form.Item<IManageEmployeeFields>
           className="modal__item"
           layout="vertical"
-          label="Obyekt"
+          label={t("employees.object")}
           name="assignedObjectId"
-          rules={[{ 
+          rules={[{
             required: true,
-            message: 'Obyektni tanlang'
+            message: t("employees.objectRequired")
           }]}
         >
-          <Select 
+          <Select
             className="modal__select"
-            options={objectList} 
-            loading={isLoadingObjects || (isLoadingEmployee && isEdit)} 
+            options={objectList}
+            loading={isLoadingObjects || (isLoadingEmployee && isEdit)}
             disabled={isLoadingObjects || (isLoadingEmployee && isEdit)}
           />
         </Form.Item>
         {isEdit && <Form.Item<IManageEmployeeFields>
           name="status"
-          label="Holat"
+          label={t("common.status")}
           valuePropName="checked"
           className="modal__switch not-margened-item"
         >

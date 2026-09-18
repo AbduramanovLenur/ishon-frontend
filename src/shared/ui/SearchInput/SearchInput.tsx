@@ -29,7 +29,7 @@ const SearchInput: FC<ISearchProps> = ({
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(0);
 
-  const onChangeHandle = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
     clearTimeout(timeoutRef.current);
@@ -49,7 +49,7 @@ const SearchInput: FC<ISearchProps> = ({
       className={`${styles['search-input']} ${className}`}
       placeholder={placeholder}
       defaultValue={urlValue}
-      onChange={onChangeHandle}
+      onChange={handleChange}
       allowClear
     />
   );

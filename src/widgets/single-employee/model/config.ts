@@ -1,42 +1,43 @@
+import type { TFunction } from "i18next";
 import { earlyValues, eventTypes, lateValues } from "@shared/config";
 
-export const events = [
+export const getEvents = (t: TFunction) => [
   {
-    label: 'Kirish',
+    label: t("eventTypes.entry"),
     value: eventTypes.ENTER
   },
   {
-    label: 'Chiqish',
+    label: t("eventTypes.exit"),
     value: eventTypes.EXIT
   },
   {
-    label: 'Chiqish qayd etilmagan',
+    label: t("eventTypes.notLeft"),
     value: eventTypes.NOT_LEFT
   },
   {
-    label: 'Ishga kelmadi',
+    label: t("eventTypes.notCheckedIn"),
     value: eventTypes.NOT_CHECKED_IN
   }
 ];
 
-export const lateStatuses = [
-  { 
-    label: 'O‘z vaqtida', 
+export const getLateStatuses = (t: TFunction) => [
+  {
+    label: t("eventTypes.onTime"),
     value: String(lateValues.FALSE)
   },
-  { 
-    label: 'Kechikdi',
+  {
+    label: t("eventTypes.late"),
     value: String(lateValues.TRUE)
   },
 ];
 
-export const earlyStatuses = [
-  { 
-    label: 'O‘z vaqtida', 
+export const getEarlyStatuses = (t: TFunction) => [
+  {
+    label: t("eventTypes.onTime"),
     value: String(earlyValues.FALSE)
   },
-  { 
-    label: 'Erta ketdi', 
+  {
+    label: t("eventTypes.early"),
     value: String(earlyValues.TRUE)
   },
 ];

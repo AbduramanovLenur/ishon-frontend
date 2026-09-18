@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Table, type TableProps, Tag } from "antd";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { formatPhoneNumberIntl } from "react-phone-number-input";
 
 import { ResetPasswordCompanyOwnerModal } from "@features/reset-password-company-owner-modal";
@@ -17,6 +18,7 @@ import { defaultValues, queries } from "@shared/config";
 import styles from "./DirectorsTable.module.scss";
 
 export const DirectorsTable: FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { get } = useQueryParams();
   const search = get(queries.SEARCH) || defaultValues.search;
@@ -24,24 +26,24 @@ export const DirectorsTable: FC = () => {
   const { data, isLoading } = useCompanyOwnerList(search, currentPage);
   const { confirmDelete } = useDeleteCompanyOwner();
 
-  const dataSource = data?.content || [];
-  const totalElems = data?.totalElements || 0;
+  const tableData = data?.content || [];
+  const totalRecords = data?.totalElements || 0;
 
-  const openManageModalHandle = (id: number | string) => {
+  const handleOpenManageModal = (id: number | string) => {
     dispatch(openManageModal(id));
   }
 
-  const openResetPasswordModalHandle = (id: number | string) => {
+  const handleOpenResetPasswordModal = (id: number | string) => {
     dispatch(openResetPasswordModal(id));
   }
 
-  const openViewModalHandle = (id: number | string) => {
+  const handleOpenViewModal = (id: number | string) => {
     dispatch(openViewModal(id));
   }
 
   const columns: TableProps<ICompanyOwner>['columns'] = [
     {
-      title: 'Ism-familiya',
+      title: t("directors.fullName"),
       width: 300,
       render: (_, record) => (
         <span className={styles['directors-table__badge-cell']}>
@@ -55,11 +57,11 @@ export const DirectorsTable: FC = () => {
       ),
     },
     {
-      title: 'Login',
+      title: t("directors.login"),
       render: (_, record) => (
-        <Tag 
+        <Tag
           className={styles['directors-table__tag']}
-          color={'#2db7f5'} 
+          color={'#2db7f5'}
           variant="solid"
         >
           {record?.username}
@@ -67,17 +69,17 @@ export const DirectorsTable: FC = () => {
       ),
     },
     {
-      title: 'Lavozimi',
+      title: t("directors.position"),
       width: 200,
       render: (_, record) => record?.position
     },
     {
-      title: 'Kompaniya',
+      title: t("directors.company"),
       width: 250,
       render: (_, record) => (
-        <Tag 
+        <Tag
           className={styles['directors-table__tag']}
-          color={'#D9DFF5'} 
+          color={'#D9DFF5'}
           variant="solid"
           style={{ color: "#5C6274" }}
         >
@@ -86,23 +88,23 @@ export const DirectorsTable: FC = () => {
       ),
     },
     {
-      title: 'Telefon raqami',
+      title: t("directors.phone"),
       render: (_, record) => formatPhoneNumberIntl(record?.phone)
     },
     {
-      title: 'Harakatlar',
+      title: t("common.actions"),
       width: 100,
       render: (_, record) => (
-        <ActionsDropdown 
-          delete={{ 
+        <ActionsDropdown
+          delete={{
             onClick: () => confirmDelete(record?.companyOwnerId)
           }}
           edit={{
-            onClick: () => openManageModalHandle(record?.companyOwnerId)
+            onClick: () => handleOpenManageModal(record?.companyOwnerId)
           }}
           reset={{
             visible: true,
-            onClick: () => openResetPasswordModalHandle(record?.companyOwnerId)
+            onClick: () => handleOpenResetPasswordModal(record?.companyOwnerId)
           }}
         />
       )
@@ -112,10 +114,10 @@ export const DirectorsTable: FC = () => {
   return (
     <div className={styles['directors-table']}>
       <div className={styles['directors-table__top']}>
-        <SearchInput placeholder="Direktorlarni qidirish..." />
+        <SearchInput placeholder={t("directors.search")} />
       </div>
       <div className={styles['directors-table__middle']}>
-        <Table<ICompanyOwner> 
+        <Table<ICompanyOwner>
           classNames={{
             header: {
               cell: styles['directors-table__title-cell']
@@ -124,21 +126,21 @@ export const DirectorsTable: FC = () => {
           rowKey="companyOwnerId"
           onRow={(record) => ({
             onClick: () => {
-              openViewModalHandle(record?.companyOwnerId);
+              handleOpenViewModal(record?.companyOwnerId);
             },
-            style: { 
-              cursor: 'pointer' 
+            style: {
+              cursor: 'pointer'
             }
           })}
-          dataSource={dataSource}
+          dataSource={tableData}
           columns={columns}
           pagination={false}
           loading={isLoading}
           scroll={{ x: 'max-content' }}
         />
       </div>
-      {defaultValues.pageSize < totalElems && <div className={styles['directors-table__bottom']}>
-        <Paginator total={totalElems} />
+      {defaultValues.pageSize < totalRecords && <div className={styles['directors-table__bottom']}>
+        <Paginator total={totalRecords} />
       </div>}
       <ManageDirectorModal />
       <ResetPasswordCompanyOwnerModal />

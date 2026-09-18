@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import { DirectorsTable } from "./DirectorsTable";
 
@@ -9,9 +10,10 @@ import { PrimaryButton, TopContent } from "@shared/ui";
 import styles from "./Directors.module.scss";
 
 const Directors: FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const openManageModalHandle = () => {
+  const handleOpenManageModal = () => {
     dispatch(open(null));
   }
 
@@ -19,11 +21,11 @@ const Directors: FC = () => {
     <section className={styles['directors']}>
       <div className={styles['directors__inner']}>
         <TopContent
-          title="Direktorlar" 
-          text="Direktorlarni boshqarish va nazorat qilish."
+          title={t("directors.title")}
+          text={t("directors.description")}
         >
-          <PrimaryButton onClick={openManageModalHandle}>
-            Direktor yaratish
+          <PrimaryButton onClick={handleOpenManageModal}>
+            {t("directors.create")}
           </PrimaryButton>
         </TopContent>
         <DirectorsTable />

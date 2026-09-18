@@ -2,6 +2,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { App } from "antd";
 import type { AxiosError } from "axios";
+import { useTranslation } from "react-i18next";
 
 import { api } from "../api/api";
 
@@ -9,6 +10,7 @@ import { objectsKeys } from "@entities/objects";
 import type { IApiResponse } from "@shared/types";
 
 export const useDeleteObject = () => {
+  const { t } = useTranslation();
   const { modal, message } = App.useApp();
   const queryClient = useQueryClient();
 
@@ -23,12 +25,12 @@ export const useDeleteObject = () => {
         queryKey: objectsKeys.collection(),
       });
 
-      message.success("Obyekt o'chirildi");
+      message.success(t("objects.deleted"));
     },
     onError: (error) => {
       const msg =
         error.response?.data?.error?.message ??
-        "Obyektni o‘chirishda xatolik yuz berdi";
+        t("objects.deleteError");
 
       message.error(msg);
     },
@@ -39,10 +41,10 @@ export const useDeleteObject = () => {
       classNames: {
         wrapper: 'centered'
       },
-      title: "Obyektni o‘chirish kerakmi?",
+      title: t("objects.deleteConfirmTitle"),
       icon: <DeleteOutlined style={{ color: "#ff0000" }} />,
-      okText: "O'chirish",
-      cancelText: "Bekor qilish",
+      okText: t("common.delete"),
+      cancelText: t("common.cancel"),
       okButtonProps: {
         loading: mutation.isPending
       },

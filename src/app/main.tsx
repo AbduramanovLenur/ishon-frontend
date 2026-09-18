@@ -5,6 +5,7 @@ import App from './App';
 import './index.scss';
 
 import '@shared/lib/telegram';
+import '@shared/config/i18n';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

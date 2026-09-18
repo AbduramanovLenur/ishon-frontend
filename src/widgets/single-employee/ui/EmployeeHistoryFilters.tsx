@@ -1,6 +1,7 @@
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 
-import { earlyStatuses, events, lateStatuses } from "../model/config";
+import { getEvents, getLateStatuses, getEarlyStatuses } from "../model/config";
 
 import { SelectList } from "@shared/ui";
 import { useQueryParams } from "@shared/lib";
@@ -9,12 +10,17 @@ import { defaultValues, eventTypes, queries } from "@shared/config";
 import styles from "./EmployeeHistoryFilters.module.scss";
 
 const EmployeeHistoryFilters: FC = () => {
+  const { t } = useTranslation();
   const { get, setMany } = useQueryParams();
   const eventType = get(queries.EVENT) || defaultValues.event;
   const late = get(queries.LATE) || defaultValues.late;
   const early = get(queries.EARLY) || defaultValues.early;
-  
-  const onChangeHandle = (value: string) => {
+
+  const events = getEvents(t);
+  const lateStatuses = getLateStatuses(t);
+  const earlyStatuses = getEarlyStatuses(t);
+
+  const handleChange = (value: string) => {
     if (!value) {
       setMany({
         [queries.EVENT]: null,
@@ -38,7 +44,7 @@ const EmployeeHistoryFilters: FC = () => {
         queryKey={queries.EVENT}
         defaultValue={defaultValues.event}
         currentValue={eventType}
-        onChange={onChangeHandle}
+        onChange={handleChange}
       />
       {eventType === eventTypes.ENTER && <SelectList
         options={lateStatuses}

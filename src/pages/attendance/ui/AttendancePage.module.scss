@@ -1,0 +1,11 @@
+.attendance-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  &__switcher {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px 16px 0;
+  }
+}

@@ -1,10 +1,12 @@
 import { useEffect, useState, type FC } from 'react';
 import { Form, Input, Popover, message, type FormProps } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 
 import type { IAttendanceFields } from '../model/types';
 
 import { useAttendance, useUploadFacePicture } from '@features/face-verification';
+import { LanguageSwitcher } from '@features/language-switcher';
 import { GeofenceMap, WebcamCapture } from '@shared/ui';
 import { eventTypes } from '@shared/config';
 
@@ -14,6 +16,7 @@ import AttendanceActions from './AttendanceActions';
 import styles from './Attendance.module.scss';
 
 const Attendance: FC = () => {
+  const { t } = useTranslation();
   const [form] = Form.useForm<IAttendanceFields>();
   const [photoKey, setPhotoKey] = useState(0);
   const { latitude, longitude, isGeolocationAvailable, isGeolocationEnabled } = useTelegramLocation();
@@ -34,24 +37,24 @@ const Attendance: FC = () => {
     form.setFieldsValue({ photo: null });
   };
 
-  const onSubmitHandle: FormProps<IAttendanceFields>['onFinish'] = async (values) => {
+  const handleSubmit: FormProps<IAttendanceFields>['onFinish'] = async (values) => {
     if (!values.photo) {
-      message.warning('Iltimos, avval rasmga oling!');
+      message.warning(t("attendance.takePhoto"));
       return;
     }
 
     if (!isGeolocationAvailable) {
-      message.error("Geolokatsiya qo'llab-quvvatlanmaydi");
+      message.error(t("attendance.geoNotSupported"));
       return;
     }
 
     if (!isGeolocationEnabled) {
-      message.error('Geolokatsiyaga ruxsat berilmagan');
+      message.error(t("attendance.geoNotPermitted"));
       return;
     }
 
     if (values.latitude == null || values.longitude == null) {
-      message.warning('Joylashuv aniqlanmadi!');
+      message.warning(t("attendance.locationNotDetected"));
       return;
     }
 
@@ -71,27 +74,32 @@ const Attendance: FC = () => {
       eventType: values.eventType,
       latitude: values.latitude,
       longitude: values.longitude,
-    }).then(() => {
-      form.setFieldsValue({ photo: null });
-      setPhotoKey((k) => k + 1);
+    }, {
+      onSuccess: () => {
+        form.setFieldsValue({ photo: null });
+        setPhotoKey((k) => k + 1);
+      }
     });
   };
 
   const handleSetEventType = (
-    eventType: Exclude<(typeof eventTypes)[keyof typeof eventTypes], typeof eventTypes.NOT_LEFT | typeof eventTypes.NOT_CHECKED_IN>,
+    eventType: Exclude<
+      (typeof eventTypes)[keyof typeof eventTypes], 
+      typeof eventTypes.NOT_LEFT | typeof eventTypes.NOT_CHECKED_IN
+    >,
   ) => {
     form.setFieldsValue({ eventType });
   };
 
   const helpContent = (
     <div className={styles['attendance__help']}>
-      <p className={styles['attendance__help-title']}>Yordam</p>
+      <p className={styles['attendance__help-title']}>{t("attendance.helpTitle")}</p>
       <ol className={styles['attendance__help-list']}>
-        <li>Telegram ilovasining <b>sozlamalari</b> bo'limiga boring va geolokatsiya hamda kamera uchun ruxsat bering.</li>
-        <li>Qurilmangizda <b>geolokatsiyani</b> yoqing.</li>
-        <li>Telegram mini app'ga kiring.</li>
-        <li>Geolokatsiya va kamera uchun ruxsat so'rovchi oyna paydo bo'ladi — <b>barcha ruxsatlarni bering</b>.</li>
-        <li>Agar geolokatsiya aniqlanmasa, mini app'ni qayta yuklang yoki yuqori o'ngdagi <b>uch nuqta</b> (...) tugmasini bosing va <b>qayta yuklash</b>ni tanlang.</li>
+        <li dangerouslySetInnerHTML={{ __html: t("attendance.helpStep1") }} />
+        <li dangerouslySetInnerHTML={{ __html: t("attendance.helpStep2") }} />
+        <li dangerouslySetInnerHTML={{ __html: t("attendance.helpStep3") }} />
+        <li dangerouslySetInnerHTML={{ __html: t("attendance.helpStep4") }} />
+        <li dangerouslySetInnerHTML={{ __html: t("attendance.helpStep5") }} />
       </ol>
     </div>
   );
@@ -99,8 +107,11 @@ const Attendance: FC = () => {
   return (
     <div className={styles['attendance']}>
       <div className={styles['attendance__inner']}>
+        <div className={styles['attendance__switcher']}>
+          <LanguageSwitcher />
+        </div>
         <div className={styles['attendance__header']}>
-          <h1 className={styles['attendance__title']}>Kuzatish</h1>
+          <h1 className={styles['attendance__title']}>{t("attendance.title")}</h1>
           <Popover content={helpContent} trigger="click" placement="topRight">
             <button type="button" className={styles['attendance__help-btn']}>
               <QuestionCircleOutlined />
@@ -109,13 +120,13 @@ const Attendance: FC = () => {
         </div>
 
         <p className={styles['attendance__subtitle']}>
-          Yuzingizni skanerlash uchun ramkaga joylashtiring
+          {t("attendance.subtitle")}
         </p>
 
         <Form
           form={form}
           className={styles['attendance__form']}
-          onFinish={onSubmitHandle}
+          onFinish={handleSubmit}
         >
           <Form.Item name="photo" hidden>
             <Input />
@@ -144,7 +155,7 @@ const Attendance: FC = () => {
             scrollWheelZoom={false}
             touchZoom={false}
             zoomControl={false}
-            emptyMessage="Joylashuv aniqlanmagan"
+            emptyMessage={t("attendance.locationNotDetermined")}
           />
 
           <AttendanceActions

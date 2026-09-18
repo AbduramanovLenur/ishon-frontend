@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Skeleton } from "antd";
 import { EnvironmentOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 import { useObjectById } from "../model/queries";
 
@@ -14,11 +15,12 @@ interface IObjectDetailsProps {
 };
 
 const ObjectDetails: FC<IObjectDetailsProps> = ({ objectId }) => {
+  const { t } = useTranslation();
   const hasId = !!objectId;
   const { data, isLoading } = useObjectById(objectId, hasId);
 
   const hasLocation =
-    data?.name != null && 
+    data?.name != null &&
     data?.address != null
 
   const hasGeofence =
@@ -43,7 +45,7 @@ const ObjectDetails: FC<IObjectDetailsProps> = ({ objectId }) => {
     <div className={styles['object-details']}>
       {hasLocation && (
         <div className={styles['object-details__label']}>
-          Joylashuv ma’lumotlari
+          {t("objects.locationInfo")}
         </div>
       )}
       {isLoading ? (
@@ -79,7 +81,7 @@ const ObjectDetails: FC<IObjectDetailsProps> = ({ objectId }) => {
       )}
       {hasGeofence && (
         <div className={styles['object-details__label']}>
-          Geofence parametrlari
+          {t("objects.geofenceParams")}
         </div>
       )}
       <div className={`${styles['object-details__overlay']} ${styles['object-details__coordinates']}`}>
@@ -89,7 +91,7 @@ const ObjectDetails: FC<IObjectDetailsProps> = ({ objectId }) => {
           hasCoordinates && (
             <div className={styles['object-details__wrapper']}>
               <div className={styles['object-details__small-title']}>
-                Koordinatalar
+                {t("objects.coordinates")}
               </div>
               <div className={styles['object-details__value']}>
                 { data.latitude }, { data.longitude }
@@ -103,7 +105,7 @@ const ObjectDetails: FC<IObjectDetailsProps> = ({ objectId }) => {
           data?.geofenceRadiusMeters && (
             <div className={styles['object-details__wrapper']}>
               <div className={styles['object-details__small-title']}>
-                Radius
+                {t("objects.radiusLabel")}
               </div>
               <div className={styles['object-details__value']}>
                 { data.geofenceRadiusMeters } m
@@ -114,7 +116,7 @@ const ObjectDetails: FC<IObjectDetailsProps> = ({ objectId }) => {
       </div>
       {hasShift && (
         <div className={styles['object-details__label']}>
-          Ish jadvali
+          {t("objects.workSchedule")}
         </div>
       )}
       <div className={styles['object-details__overlay']}>
@@ -124,7 +126,7 @@ const ObjectDetails: FC<IObjectDetailsProps> = ({ objectId }) => {
           hasShiftTime && (
             <div className={styles['object-details__wrapper']}>
               <div className={styles['object-details__small-title']}>
-                Ish vaqti
+                {t("objects.workTime")}
               </div>
               <div className={styles['object-details__value']}>
                 { formatHoursMinutes(data.shiftStartTime) } - { formatHoursMinutes(data.shiftEndTime) }
@@ -138,7 +140,7 @@ const ObjectDetails: FC<IObjectDetailsProps> = ({ objectId }) => {
           data?.attendanceClosingTime && (
             <div className={styles['object-details__wrapper']}>
               <div className={styles['object-details__small-title']}>
-                Avtomatik yopilish vaqti
+                {t("objects.closingTime")}
               </div>
               <div className={styles['object-details__value']}>
                 { formatHoursMinutes(data.attendanceClosingTime) }
@@ -152,10 +154,10 @@ const ObjectDetails: FC<IObjectDetailsProps> = ({ objectId }) => {
           data?.lateEntryGraceMinutes !== null && (
             <div className={styles['object-details__wrapper']}>
               <div className={styles['object-details__small-title']}>
-                Kechikish uchun ruxsat etilgan vaqt
+                {t("objects.lateGracePeriod")}
               </div>
               <div className={styles['object-details__value']}>
-                { data?.lateEntryGraceMinutes } daq
+                { data?.lateEntryGraceMinutes } {t("objects.minutes")}
               </div>
             </div>
           )
@@ -166,10 +168,10 @@ const ObjectDetails: FC<IObjectDetailsProps> = ({ objectId }) => {
           data?.earlyLeaveGraceMinutes !== null && (
             <div className={styles['object-details__wrapper']}>
               <div className={styles['object-details__small-title']}>
-                Erta ketish uchun ruxsat etilgan vaqt
+                {t("objects.earlyGracePeriod")}
               </div>
               <div className={styles['object-details__value']}>
-                { data?.earlyLeaveGraceMinutes } daq
+                { data?.earlyLeaveGraceMinutes } {t("objects.minutes")}
               </div>
             </div>
           )

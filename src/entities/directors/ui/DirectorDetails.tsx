@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { ContactsOutlined } from "@ant-design/icons";
 import { Skeleton, Tag } from "antd";
+import { useTranslation } from "react-i18next";
 
 import { useCompanyOwnerById } from "../model/queries";
 
@@ -11,6 +12,7 @@ interface IDirectorDetailsProps {
 };
 
 const DirectorDetails: FC<IDirectorDetailsProps> = ({ companyOwnerId }) => {
+  const { t } = useTranslation();
   const hasId = !!companyOwnerId;
   const { data, isLoading } = useCompanyOwnerById(companyOwnerId, hasId);
 
@@ -46,11 +48,11 @@ const DirectorDetails: FC<IDirectorDetailsProps> = ({ companyOwnerId }) => {
           data?.username && (
             <div className={styles['company-owner-details__info']}>
               <div className={styles['company-owner-details__info-label']}>
-                Login
+                {t("directors.login")}
               </div>
               <div className={styles['company-owner-details__info-value']}>
-                <Tag 
-                  color={'#2db7f5'} 
+                <Tag
+                  color={'#2db7f5'}
                   variant="solid"
                 >
                   { data.username }
@@ -65,7 +67,7 @@ const DirectorDetails: FC<IDirectorDetailsProps> = ({ companyOwnerId }) => {
           data?.companyName && (
             <div className={styles['company-owner-details__info']}>
               <div className={styles['company-owner-details__info-label']}>
-                Kompaniya nomi
+                {t("companies.name")}
               </div>
               <div className={styles['company-owner-details__info-value']}>
                 { data.companyName }
@@ -79,7 +81,7 @@ const DirectorDetails: FC<IDirectorDetailsProps> = ({ companyOwnerId }) => {
           data?.phone && (
             <div className={styles['company-owner-details__info']}>
               <div className={styles['company-owner-details__info-label']}>
-                Telefon raqami
+                {t("directors.phone")}
               </div>
               <div className={styles['company-owner-details__info-value']}>
                 { data.phone }

@@ -3,6 +3,7 @@ import type { FC } from "react";
 import SidebarNav from "./SidebarNav";
 
 import { UserAccount } from "@entities/user";
+import { LanguageSwitcher } from "@features/language-switcher";
 
 import styles from "./Sidebar.module.scss";
 
@@ -13,7 +14,10 @@ const Sidebar: FC = () => {
         Ishon
       </div>
       <SidebarNav />
-      <UserAccount />
+      <div className={styles['sidebar__bottom']}>
+        <LanguageSwitcher mode="vertical" />
+        <UserAccount />
+      </div>
     </aside>
   );
 }

@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Table, Tag, type TableProps } from "antd";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import { useDeleteCompany } from "@features/delete-company-modal";
 import { ManageCompanyModal } from "@features/manage-company-modal";
@@ -15,6 +16,7 @@ import { getFirstChar, validationPage } from "@shared/utils";
 import styles from "./CompaniesTable.module.scss";
 
 const CompaniesTable: FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { get } = useQueryParams();
   const search = get(queries.SEARCH) || defaultValues.search;
@@ -22,20 +24,20 @@ const CompaniesTable: FC = () => {
   const { data, isLoading } = useCompanyList(search, currentPage);
   const { confirmDelete } = useDeleteCompany();
 
-  const dataSource = data?.content || [];
-  const totalElems = data?.totalElements || 0;
+  const tableData = data?.content || [];
+  const totalRecords = data?.totalElements || 0;
 
-  const openManageModalHandle = (id: number | string) => {
+  const handleOpenManageModal = (id: number | string) => {
     dispatch(openManageModal(id));
   }
 
-  const openViewModalHandle = (id: number | string) => {
+  const handleOpenViewModal = (id: number | string) => {
     dispatch(openViewModal(id));
   }
 
   const columns: TableProps<ICompany>['columns'] = [
     {
-      title: 'Kompaniya nomi',
+      title: t("companies.name"),
       width: 350,
       render: (_, record) => (
         <span className={styles['companies-table__badge-cell']}>
@@ -49,39 +51,38 @@ const CompaniesTable: FC = () => {
       ),
     },
     {
-      title: 'Manzil',
+      title: t("objects.address"),
       width: 250,
       render: (_, record) => record?.address,
     },
     {
-      title: 'Obyektlar',
+      title: t("companies.objects"),
       render: (_, record) => record?.objectLimit,
     },
     {
-      title: 'Xodimlar',
+      title: t("companies.employees"),
       render: (_, record) => record?.employeeLimit,
     },
     {
-      title: 'Holat',
+      title: t("common.status"),
       render: (_, record) => (
-        
         record?.status === status.ACTIVE ? (
-          <Tag color={'#D9DFF5'} style={{ color: '#4F46E5' }}>Faol</Tag>
+          <Tag color={'#D9DFF5'} style={{ color: '#4F46E5' }}>{t("common.active")}</Tag>
         ) : (
-          <Tag color={'#DCE2F3'} style={{ color: '#464555' }}>Faol emas</Tag>
+          <Tag color={'#DCE2F3'} style={{ color: '#464555' }}>{t("common.inactive")}</Tag>
         )
       )
     },
     {
-      title: 'Harakatlar',
+      title: t("common.actions"),
       width: 100,
       render: (_, record) => (
-        <ActionsDropdown 
-          delete={{ 
-            onClick: () => confirmDelete(record?.id) 
+        <ActionsDropdown
+          delete={{
+            onClick: () => confirmDelete(record?.id)
           }}
           edit={{
-            onClick: () => openManageModalHandle(record?.id)
+            onClick: () => handleOpenManageModal(record?.id)
           }}
         />
       )
@@ -91,7 +92,7 @@ const CompaniesTable: FC = () => {
   return (
     <div className={styles['companies-table']}>
       <div className={styles['companies-table__top']}>
-        <SearchInput placeholder="Kompaniyalarni qidirish..." />
+        <SearchInput placeholder={t("companies.search")} />
       </div>
       <div className={styles['companies-table__middle']}>
         <Table<ICompany>
@@ -103,21 +104,21 @@ const CompaniesTable: FC = () => {
           rowKey="id"
           onRow={(record) => ({
             onClick: () => {
-              openViewModalHandle(record?.id);
+              handleOpenViewModal(record?.id);
             },
             style: {
               cursor: 'pointer'
             }
           })}
-          dataSource={dataSource}
+          dataSource={tableData}
           columns={columns}
           pagination={false}
           loading={isLoading}
           scroll={{ x: 'max-content' }}
         />
       </div>
-      {defaultValues.pageSize < totalElems && <div className={styles['companies-table__bottom']}>
-        <Paginator total={totalElems} />
+      {defaultValues.pageSize < totalRecords && <div className={styles['companies-table__bottom']}>
+        <Paginator total={totalRecords} />
       </div>}
       <ManageCompanyModal />
       <ViewCompanyModal />

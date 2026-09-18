@@ -3,10 +3,11 @@ import { Image, Tag } from "antd";
 import { HomeOutlined, PhoneOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import { Skeleton } from "antd";
 import { formatPhoneNumberIntl } from "react-phone-number-input";
+import { useTranslation } from "react-i18next";
 
 import type { TDays } from "@shared/types";
 import { formatHoursMinutes } from "@shared/utils";
-import { daysLabels } from "@shared/config";
+import { getDaysLabels } from "@shared/config";
 
 import styles from "./ProfileEmployee.module.scss";
 
@@ -33,6 +34,9 @@ const ProfileEmployee: FC<IProfileEmployeeProps> = ({
   workingDays,
   isLoading,
 }) => {
+  const { t } = useTranslation();
+  const daysLabels = getDaysLabels(t);
+
   if (isLoading) {
     return <Skeleton.Node className={styles["profile-employee__skeleton"]} />;
   }

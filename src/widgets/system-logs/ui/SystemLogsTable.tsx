@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Image, Progress, Table, Tag, type TableProps } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { useSystemLogList, useSystemLogsExcel, type IEmployeeEvent } from "@entities/system-logs";
 import { useManualObjectList } from "@entities/objects";
@@ -12,6 +13,7 @@ import { downloadBlob, formatDate, formatTime, validationPage } from "@shared/ut
 import styles from "./SystemLogsTable.module.scss";
 
 export const SystemLogsTable: FC = () => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { get } = useQueryParams();
   const search = get(queries.SEARCH) || defaultValues.search;
@@ -20,29 +22,29 @@ export const SystemLogsTable: FC = () => {
   const dateFrom = get(queries.DATE_FROM) || defaultValues.dateFrom;
   const dateTo = get(queries.DATE_TO) || defaultValues.dateTo;
   const { data, isLoading } = useSystemLogList(search, currentPage, objectId, dateFrom, dateTo);
-  const { data: dataExcel, isLoading: isLoadingExcel } = useSystemLogsExcel(search, objectId, dateFrom, dateTo);
-  const { data: objectDate, isLoading: isLoadingObject } = useManualObjectList(true);
+  const { data: excelData, isLoading: isExcelLoading } = useSystemLogsExcel(search, objectId, dateFrom, dateTo);
+  const { data: objectData, isLoading: isObjectLoading } = useManualObjectList(true);
 
-  const objectList = objectDate?.map((object) => ({
+  const objectList = objectData?.map((object) => ({
     label: object.name,
     value: object.id
   })) ?? [];
 
-  const dataSource = data?.content || [];
-  const totalElems = data?.totalElements || 0;
+  const tableData = data?.content || [];
+  const totalRecords = data?.totalElements || 0;
 
-  const openViewHandle = (id: number | string) => {
+  const handleOpenView = (id: number | string) => {
     navigate(routes.SINGLE_EMPLOYEE(id));
   }
 
   const handleExportExcel = () => {
-    if (!dataExcel) return;
-    downloadBlob(dataExcel, "kirish-jurnali.xlsx");
+    if (!excelData) return;
+    downloadBlob(excelData, "kirish-jurnali.xlsx");
   };
 
   const columns: TableProps<IEmployeeEvent>['columns'] = [
     {
-      title: "Surat",
+      title: t("employees.photo"),
       render: (_, record) => (
         <Image
           className={styles['system-logs-table__ava']}
@@ -56,37 +58,37 @@ export const SystemLogsTable: FC = () => {
       )
     },
     {
-      title: "Sana va vaqt",
+      title: t("logs.dateTime"),
       render: (_, record) => (
         <div className={styles['system-logs-table__info']}>
           <div className={styles['system-logs-table__date']}>
-            { formatDate(record?.eventTime) }
+            { formatDate(record?.eventTime, t) }
           </div>
           <div className={styles['system-logs-table__time']}>
-            { formatTime(record?.eventTime) }
+            { formatTime(record?.eventTime, i18n.language) }
           </div>
         </div>
       )
     },
     {
-      title: "Ism-familiya",
+      title: t("employees.fullName"),
       width: 200,
       render: (_, record) => (
-        record?.fullName ? 
-        record?.fullName : 
-        <Tag 
-          color={'#fff7e6'} 
+        record?.fullName ?
+        record?.fullName :
+        <Tag
+          color={'#fff7e6'}
           style={{ color: '#d46b08' }}
         >
-          Noma’lum xodim
+          {t("logs.unknownEmployee")}
         </Tag>
       )
     },
     {
-      title: "Koordinatalar",
+      title: t("objects.coordinates"),
       render: (_, record) => (
-        <Tag 
-          color={'#D9DFF5'} 
+        <Tag
+          color={'#D9DFF5'}
           style={{ color: '#4F46E5' }}
         >
           { record?.latitude }, { record?.longitude }
@@ -94,50 +96,50 @@ export const SystemLogsTable: FC = () => {
       )
     },
     {
-      title: "Obyekt nomi",
+      title: t("objects.name"),
       width: 250,
       render: (_, record) => (
-        record?.object?.name ? 
-        record?.object.name : 
-        <Tag 
-          color={'#fff7e6'} 
+        record?.object?.name ?
+        record?.object.name :
+        <Tag
+          color={'#fff7e6'}
           style={{ color: '#d46b08' }}
         >
-          Noma’lum obyekt
+          {t("employees.unknownObject")}
         </Tag>
       )
     },
     {
-      title: "Harakat",
+      title: t("logs.action"),
       render: (_, record) => (
-        record?.eventType === eventTypes.ENTER ? 
-        <Tag 
-          color={"#f6ffed"} 
+        record?.eventType === eventTypes.ENTER ?
+        <Tag
+          color={"#f6ffed"}
           style={{ color: '#389e0d' }}
         >
-          Keldi
-        </Tag> : 
-        <Tag 
-          color={"#e6f4ff"} 
+          {t("logs.came")}
+        </Tag> :
+        <Tag
+          color={"#e6f4ff"}
           style={{ color: '#1677ff' }}
         >
-          Ketdi
+          {t("logs.left")}
         </Tag>
       )
     },
     {
-      title: "Aniqlik",
+      title: t("logs.accuracy"),
       width: 150,
       render: (_, record) => <Progress percent={record?.similarity} />
     }
   ];
-  
+
   return (
     <div className={styles['system-logs-table']}>
       <div className={styles['system-logs-table__top']}>
-        <SearchInput placeholder="Xodimlarni qidirish..." />
+        <SearchInput placeholder={t("employees.search")} />
         <div className={styles['system-logs-table__wrapper']}>
-          <DateRangeFilter 
+          <DateRangeFilter
             currentFromValue={dateFrom}
             currentToValue={dateTo}
           />
@@ -147,11 +149,11 @@ export const SystemLogsTable: FC = () => {
             queryKey={queries.OBJECT}
             defaultValue={defaultValues.object}
             currentValue={objectId}
-            isLoading={isLoadingObject}
+            isLoading={isObjectLoading}
           />
           <ExportExcelButton
             onExport={handleExportExcel}
-            disabled={isLoadingExcel || !dataExcel}
+            disabled={isExcelLoading || !excelData}
           />
         </div>
       </div>
@@ -171,21 +173,21 @@ export const SystemLogsTable: FC = () => {
                 return;
               }
 
-              openViewHandle(record?.employeeId);
+              handleOpenView(record?.employeeId);
             },
             style: {
               cursor: 'pointer'
             }
           })}
-          dataSource={dataSource}
+          dataSource={tableData}
           columns={columns}
           pagination={false}
           loading={isLoading}
           scroll={{ x: 'max-content' }}
         />
       </div>
-      {defaultValues.pageSize < totalElems && <div className={styles['system-logs-table__bottom']}>
-        <Paginator total={totalElems} />
+      {defaultValues.pageSize < totalRecords && <div className={styles['system-logs-table__bottom']}>
+        <Paginator total={totalRecords} />
       </div>}
     </div>
   );

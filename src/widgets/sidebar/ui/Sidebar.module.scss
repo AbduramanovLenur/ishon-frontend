@@ -29,4 +29,10 @@
       font-size: 26px;
     }
   }
+  &__bottom {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 }

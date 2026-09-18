@@ -1,0 +1,42 @@
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--Brown);
+  background: none;
+  border: none;
+  font-size: 14px;
+  padding: 0;
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
+
+  &--vertical {
+    font-size: 13px;
+    padding: 0 10px 0 12px;
+    height: 35px;
+    border-radius: 12px;
+    width: 100%;
+    @media (max-width: 480px) {
+      font-size: 11px;
+    }
+  }
+
+  &__icon {
+    font-size: 16px;
+    @media (max-width: 480px) {
+      font-size: 14px;
+    }
+  }
+
+  &__popup {
+    z-index: 2101;
+    &-item {
+      @media (max-width: 480px) {
+        --ant-font-size: 12px;
+      }
+    }
+  }
+}

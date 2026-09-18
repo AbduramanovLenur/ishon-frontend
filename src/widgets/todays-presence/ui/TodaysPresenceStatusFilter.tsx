@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import type { SegmentedProps, SelectProps } from "antd";
+import { useTranslation } from "react-i18next";
 
 import { useTodaysPresenceListCount } from "@entities/todays-presence";
 import { SelectList, Tabs } from "@shared/ui";
@@ -10,6 +11,7 @@ import type { TWorkStatus } from "@shared/types";
 import styles from "./TodaysPresenceStatusFilter.module.scss";
 
 const TodaysPresenceStatusFilter: FC = () => {
+  const { t } = useTranslation();
   const { get } = useQueryParams();
   const date = get(queries.DATE) || defaultValues.date;
   const statusWork = (get(queries.STATUS_WORK) || defaultValues.statusWork) as TWorkStatus;
@@ -22,17 +24,17 @@ const TodaysPresenceStatusFilter: FC = () => {
   const notLeftStatus = data?.notLeft || 0;
 
   const segmentedOptions: SegmentedProps<string>["options"] = [
-    { label: `Ishda (${atWorkStatus})`, value: workStatus.AT_WORK },
-    { label: `Ketgan (${leftStatus})`, value: workStatus.LEFT },
-    { label: `Kirish qayd etilmagan (${notCheckedInStatus})`, value: workStatus.NOT_CHECKED_IN },
-    { label: `Chiqish qayd etilmagan (${notLeftStatus})`, value: workStatus.NOT_LEFT },
+    { label: `${t("todaysPresence.atWork")} (${atWorkStatus})`, value: workStatus.AT_WORK },
+    { label: `${t("todaysPresence.left")} (${leftStatus})`, value: workStatus.LEFT },
+    { label: `${t("todaysPresence.notCheckedIn")} (${notCheckedInStatus})`, value: workStatus.NOT_CHECKED_IN },
+    { label: `${t("todaysPresence.notLeft")} (${notLeftStatus})`, value: workStatus.NOT_LEFT },
   ];
 
   const selectOptions: SelectProps<string>["options"] = [
-    { label: `Ishda (${atWorkStatus})`, value: workStatus.AT_WORK },
-    { label: `Ketgan (${leftStatus})`, value: workStatus.LEFT },
-    { label: `Kirish qayd etilmagan (${notCheckedInStatus})`, value: workStatus.NOT_CHECKED_IN },
-    { label: `Chiqish qayd etilmagan (${notLeftStatus})`, value: workStatus.NOT_LEFT },
+    { label: `${t("todaysPresence.atWork")} (${atWorkStatus})`, value: workStatus.AT_WORK },
+    { label: `${t("todaysPresence.left")} (${leftStatus})`, value: workStatus.LEFT },
+    { label: `${t("todaysPresence.notCheckedIn")} (${notCheckedInStatus})`, value: workStatus.NOT_CHECKED_IN },
+    { label: `${t("todaysPresence.notLeft")} (${notLeftStatus})`, value: workStatus.NOT_LEFT },
   ];
 
   if (isMobile) {
@@ -49,9 +51,9 @@ const TodaysPresenceStatusFilter: FC = () => {
     );
   }
 
-  return <Tabs 
-    options={segmentedOptions} 
-    isLoading={isLoading} 
+  return <Tabs
+    options={segmentedOptions}
+    isLoading={isLoading}
     queryKey={queries.STATUS_WORK}
     defaultValue={defaultValues.statusWork}
     currentValue={statusWork}

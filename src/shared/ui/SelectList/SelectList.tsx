@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { Select, type SelectProps } from "antd";
+import { useTranslation } from "react-i18next";
 
 import { useQueryParams } from "../../lib";
 
@@ -26,14 +27,15 @@ const SelectList: FC<ISelectListProps> = ({
   className = '',
   currentValue = ''
 }) => {
+  const { t } = useTranslation();
   const { set, remove } = useQueryParams();
 
-  const onChangeHandle = (value: string) => {
+  const handleChange = (value: string) => {
     if (onChange) {
       onChange(value);
       return;
     }
-    
+
     if (!value) {
       remove(queryKey);
       return;
@@ -43,16 +45,16 @@ const SelectList: FC<ISelectListProps> = ({
   };
 
   const allOptions = showAll
-    ? [{ label: 'Barchasi', value: '' }, ...options]
+    ? [{ label: t("common.all"), value: '' }, ...options]
     : options;
 
   return (
-    <Select 
+    <Select
       className={`${styles['select-list']} ${className}`}
       defaultValue={defaultValue}
       value={currentValue}
-      options={allOptions} 
-      onChange={onChangeHandle}
+      options={allOptions}
+      onChange={handleChange}
       disabled={isLoading}
     />
   );

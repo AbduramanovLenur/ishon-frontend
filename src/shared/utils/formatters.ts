@@ -1,23 +1,26 @@
-import { months } from "../config";
+import type { TFunction } from "i18next";
+import { getMonths } from "../config";
 
-export const formatDate = (date: string | Date): string => {
+export const formatDate = (date: string | Date, t: TFunction): string => {
   const value = new Date(date);
+  const months = getMonths(t);
 
   return `${months[value.getMonth()]} ${value.getDate()}, ${value.getFullYear()}`;
 };
 
-export const formatDateToDisplay = (date: string): string => {
+export const formatDateToDisplay = (date: string, t: TFunction): string => {
   if (!date) {
     return '';
   }
 
   const [day, month, year] = date.split('-');
+  const months = getMonths(t);
 
   return `${months[Number(month) - 1]} ${day}, ${year}`;
 };
 
-export const formatTime = (date: string | Date): string => {
-  return new Intl.DateTimeFormat("uz-UZ", {
+export const formatTime = (date: string | Date, lang?: string): string => {
+  return new Intl.DateTimeFormat(lang || "uz-UZ", {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,

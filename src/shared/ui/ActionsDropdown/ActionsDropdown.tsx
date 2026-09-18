@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { DeleteOutlined, EditOutlined, InboxOutlined, KeyOutlined, MoreOutlined, RedoOutlined } from "@ant-design/icons";
 import { Button, Dropdown, type MenuProps } from "antd";
+import { useTranslation } from "react-i18next";
 
 import type { IAction } from "../../types";
 
@@ -21,38 +22,40 @@ const ActionsDropdown: FC<IActionsDropdownProps> = ({
   access = { visible: false },
   revoke = { visible: false }
 }) => {
+  const { t } = useTranslation();
+
   const items: MenuProps["items"] = [
     edit?.visible !== false && {
       key: "edit",
-      label: edit?.text || "Tahrirlash",
+      label: edit?.text || t("common.edit"),
       icon: <EditOutlined />,
       className: styles['actions-dropdown__edit']
     },
 
     deleteAction?.visible !== false && {
       key: "delete",
-      label: deleteAction?.text || "O‘chirish",
+      label: deleteAction?.text || t("common.delete"),
       icon: <DeleteOutlined />,
       className: styles['actions-dropdown__delete']
     },
 
     access?.visible !== false && {
       key: "access",
-      label: access?.text || "Ruxsat berish",
+      label: access?.text || t("common.grantAccess"),
       icon: <KeyOutlined />,
       className: styles['actions-dropdown__access']
     },
 
     reset?.visible !== false && {
       key: "reset",
-      label: reset?.text || "Qayta o‘rnatish",
+      label: reset?.text || t("common.reset"),
       icon: <RedoOutlined />,
       className: styles['actions-dropdown__reset']
     },
 
     revoke?.visible !== false && {
       key: "revoke",
-      label: revoke?.text || "Bekor qilish",
+      label: revoke?.text || t("common.revoke"),
       icon: <InboxOutlined />,
       className: styles['actions-dropdown__revoke']
     }

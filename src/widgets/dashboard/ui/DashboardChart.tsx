@@ -1,6 +1,7 @@
 import { useEffect, type FC } from "react";
 import { Line } from '@ant-design/plots';
 import { Spin, type SegmentedProps } from "antd";
+import { useTranslation } from "react-i18next";
 
 import { useStatisticsChart } from "@entities/statistics";
 import { defaultValues, periods, queries } from "@shared/config";
@@ -12,6 +13,7 @@ import { Tabs } from "@shared/ui";
 import styles from "./DashboardChart.module.scss";
 
 const DashboardChart: FC = () => {
+  const { t } = useTranslation();
   const { get, set } = useQueryParams();
   const periodValue = (get(queries.PERIOD) || defaultValues.period) as TPeriod;
   const { data, isLoading } = useStatisticsChart(periodValue);
@@ -21,7 +23,7 @@ const DashboardChart: FC = () => {
 
     set(queries.PERIOD, periods.WEEK);
   }, [periodValue, set]);
-  
+
   const chartData = transformAttendanceDateData(data?.chart ?? []);
 
   const config = {
@@ -46,7 +48,7 @@ const DashboardChart: FC = () => {
     tooltip: {
       items: [
         {
-          name: "Davomat",
+          name: t("dashboard.attendance"),
           channel: "y",
         },
       ],
@@ -54,15 +56,15 @@ const DashboardChart: FC = () => {
   };
 
   const options: SegmentedProps<string>["options"] = [
-    { label: "Hafta", value: periods.WEEK },
-    { label: "Oy", value: periods.MONTH },
+    { label: t("dashboard.week"), value: periods.WEEK },
+    { label: t("dashboard.month"), value: periods.MONTH },
   ];
 
   return (
     <div className={styles['dashboard-chart']}>
-      <Tabs 
+      <Tabs
         className={styles['dashboard-chart__tabs']}
-        options={options} 
+        options={options}
         queryKey={queries.PERIOD}
         defaultValue={defaultValues.period}
         currentValue={periodValue}

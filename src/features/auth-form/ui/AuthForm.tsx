@@ -1,5 +1,6 @@
 import { type FC } from "react";
 import { Button, Form, Input, type FormProps } from "antd";
+import { useTranslation } from "react-i18next";
 
 import type { IAuthFields } from "../model/types";
 import { useLogin } from "../model/mutations";
@@ -7,10 +8,11 @@ import { useLogin } from "../model/mutations";
 import styles from "./AuthForm.module.scss";
 
 const AuthForm: FC = () => {
-  const [form] = Form.useForm<IAuthFields>();
+  const { t } = useTranslation();
+  const [form] = Form.useForm<IAuthFields>(); 
   const { mutateAsync, isPending } = useLogin();
 
-  const onSubmitHandle: FormProps<IAuthFields>['onFinish'] = (values) => {
+  const handleSubmit: FormProps<IAuthFields>['onFinish'] = (values) => {
     mutateAsync(values);
   }
 
@@ -20,39 +22,39 @@ const AuthForm: FC = () => {
         className={styles['auth-form__form']}
         form={form}
         layout="vertical"
-        onFinish={onSubmitHandle}
+        onFinish={handleSubmit}
       >
         <Form.Item<IAuthFields>
           className={styles['auth-form__item']}
-          label="Login"
+          label={t("auth.login")}
           name="username"
           rules={[
             {
               required: true,
-              message: "Loginni kiriting",
+              message: t("auth.loginRequired"),
             },
           ]}
         >
-          <Input 
+          <Input
             className={styles['auth-form__login']}
-            placeholder="Loginni kiriting" 
+            placeholder={t("auth.loginPlaceholder")}
           />
         </Form.Item>
 
         <Form.Item<IAuthFields>
           className={styles['auth-form__item']}
-          label="Parol"
+          label={t("auth.password")}
           name="password"
           rules={[
             {
               required: true,
-              message: "Parolni kiriting",
+              message: t("auth.passwordRequired"),
             },
           ]}
         >
-          <Input.Password 
+          <Input.Password
             className={styles['auth-form__password']}
-            placeholder="Parolni kiriting" 
+            placeholder={t("auth.passwordPlaceholder")}
           />
         </Form.Item>
 
@@ -65,7 +67,7 @@ const AuthForm: FC = () => {
             block
             disabled={isPending}
           >
-            Kirish
+            {t("auth.submit")}
           </Button>
         </Form.Item>
       </Form>

@@ -1,7 +1,7 @@
 import { useEffect, type FC } from "react";
-import { ConfigProvider, Flex, Form, Input, InputNumber, Modal, Switch, TimePicker, type FormProps } from "antd";
+import { Flex, Form, Input, InputNumber, Modal, Switch, TimePicker, type FormProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import uzUZ from "antd/locale/uz_UZ";
+import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
 
 import ObjectLocationField from "./ObjectLocationField";
@@ -15,13 +15,14 @@ import { defaultValues, status } from "@shared/config";
 import styles from "./ManageObjectModal.module.scss";
 
 const ManageObjectModal: FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [form] = Form.useForm<IManageObjectFields>();
   const { isOpen, objectId } = useSelector(stateManageObject);
-  const { mutateAsync: mutateAsyncCreate, isPending: isPendingCreate } = useCreateObject();
-  const { mutateAsync: mutateAsyncUpdate, isPending: isPendingUpdate } = useUpdateObject();
+  const { mutateAsync: createObject, isPending: isCreating } = useCreateObject();
+  const { mutateAsync: updateObject, isPending: isUpdating } = useUpdateObject();
   const isEdit = !!objectId;
-  const title = !isEdit ? "Obyekt yaratish" : "Obyektni yangilash";
+  const title = isEdit ? t("objects.edit") : t("objects.create");
   const { data, isLoading } = useObjectById(objectId, isEdit);
 
   useEffect(() => {
@@ -42,175 +43,131 @@ const ManageObjectModal: FC = () => {
     }
   }, [data, isEdit, form]);
 
-  const closeManageModalHandle = () => {
+  const handleClose = () => {
     dispatch(close());
     form.resetFields();
   }
 
-  const onOkHandle = () => {
+  const handleOk = () => {
     form.submit();
   }
 
-  const onSubmitHandle: FormProps<IManageObjectFields>['onFinish'] = (values) => {
-    if (isEdit) {
-      mutateAsyncUpdate({
-        ...values,
-        objectId,
-        shiftStartTime: values.shiftStartTime.format("HH:mm"),
-        shiftEndTime: values.shiftEndTime.format("HH:mm"),
-        attendanceClosingTime: values.attendanceClosingTime.format("HH:mm"),
-        status: values.status ? status.ACTIVE : status.INACTIVE
-      }, {
-        onSuccess: () => {
-          closeManageModalHandle();
-        }
-      })
-      return;
-    }
-
-    mutateAsyncCreate({
+  const handleSubmit: FormProps<IManageObjectFields>['onFinish'] = (values) => {
+    const formattedValues = {
       ...values,
       shiftStartTime: values.shiftStartTime.format("HH:mm"),
       shiftEndTime: values.shiftEndTime.format("HH:mm"),
-      attendanceClosingTime: values.attendanceClosingTime.format("HH:mm")
-    }, {
-      onSuccess: () => {
-        closeManageModalHandle();
-      }
-    });
+      attendanceClosingTime: values.attendanceClosingTime.format("HH:mm"),
+    };
+
+    if (isEdit) {
+      updateObject(
+        { ...formattedValues, objectId, status: values.status ? status.ACTIVE : status.INACTIVE },
+        { onSuccess: handleClose }
+      );
+      return;
+    }
+
+    createObject(formattedValues, { onSuccess: handleClose });
   }
 
   return (
-    <ConfigProvider locale={uzUZ}>
-      <Modal
-        centered
+    <Modal
+      centered
+      classNames={{
+        close: 'centered',
+        container: 'modal__container',
+        header: 'modal__header',
+        title: 'modal__title',
+        body: 'modal__body'
+      }}
+      styles={{
+        body: {
+          maxHeight: "70vh",
+          overflowY: "auto",
+          paddingRight: 8,
+        },
+      }}
+      title={title}
+      open={isOpen}
+      okText={t("common.save")}
+      cancelText={t("common.cancel")}
+      onOk={handleOk}
+      onCancel={handleClose}
+      confirmLoading={isCreating || isUpdating}
+      zIndex={3000}
+      destroyOnHidden
+    >
+      <Form
+        form={form}
+        onFinish={handleSubmit}
         classNames={{
-          close: 'centered',
-          container: 'modal__container',
-          header: 'modal__header',
-          title: 'modal__title',
-          body: 'modal__body'
+          label: "modal__label",
+          help: "modal__help"
         }}
-        styles={{
-          body: {
-            maxHeight: "70vh",
-            overflowY: "auto",
-            paddingRight: 8,
-          },
-        }}
-        title={title}
-        open={isOpen}
-        okText="Saqlash"
-        cancelText="Yopish"
-        onOk={onOkHandle}
-        onCancel={closeManageModalHandle}
-        confirmLoading={isPendingCreate || isPendingUpdate}
-        zIndex={3000}
-        destroyOnHidden
       >
-        <Form 
-          form={form}
-          onFinish={onSubmitHandle}
-          classNames={{
-            label: "modal__label",
-            help: "modal__help"
-          }}
+        <Form.Item<IManageObjectFields>
+          className="modal__item"
+          layout="vertical"
+          label={t("objects.name")}
+          name="name"
+          rules={[{
+            required: true,
+            message: t("objects.nameRequired")
+          }]}
         >
-          <Form.Item<IManageObjectFields>
-            className="modal__item"
-            layout="vertical"
-            label="Obyekt nomi"
-            name="name"
-            rules={[{ 
-              required: true,
-              message: 'Obyekt nomini kiriting'
-            }]}
-          >
-            <Input 
-              className="modal__input"
-              disabled={isEdit && isLoading}
-            />
-          </Form.Item>
-          <Form.Item<IManageObjectFields>
-            className="modal__item"
-            layout="vertical"
-            label="Manzil"
-            name="address"
-            rules={[{ 
-              required: true,
-              message: 'Manzilni kiriting'
-            }]}
-          >
-            <Input 
-              className="modal__input"
-              disabled={isEdit && isLoading}
-            />
-          </Form.Item>
-          <ObjectLocationField
-            form={form}
-            isOpen={isOpen}
-            isEdit={isEdit}
+          <Input
+            className="modal__input"
+            disabled={isEdit && isLoading}
           />
+        </Form.Item>
+        <Form.Item<IManageObjectFields>
+          className="modal__item"
+          layout="vertical"
+          label={t("objects.address")}
+          name="address"
+          rules={[{
+            required: true,
+            message: t("objects.addressRequired")
+          }]}
+        >
+          <Input
+            className="modal__input"
+            disabled={isEdit && isLoading}
+          />
+        </Form.Item>
+        <ObjectLocationField
+          form={form}
+          isOpen={isOpen}
+          isEdit={isEdit}
+        />
+        <Form.Item<IManageObjectFields>
+          className="modal__item"
+          layout="vertical"
+          label={t("objects.radius")}
+          name="geofenceRadiusMeters"
+          rules={[{
+            required: true,
+            message: t("objects.radiusRequired")
+          }]}
+          initialValue={defaultValues.radius}
+        >
+          <InputNumber
+            className="modal__input"
+            disabled={isEdit && isLoading}
+            min={0}
+            suffix="m"
+          />
+        </Form.Item>
+        <Flex className={styles['object-manage-modal__flex']}>
           <Form.Item<IManageObjectFields>
-            className="modal__item"
+            className="modal__item not-margened-item"
             layout="vertical"
-            label="Geofence radiusi"
-            name="geofenceRadiusMeters"
-            rules={[{ 
+            label={t("objects.shiftStart")}
+            name="shiftStartTime"
+            rules={[{
               required: true,
-              message: 'Geofence radiusini kiriting'
-            }]}
-            initialValue={defaultValues.radius}
-          >
-            <InputNumber
-              className="modal__input"
-              disabled={isEdit && isLoading}
-              min={0}
-              suffix="m"
-            />
-          </Form.Item>
-          <Flex className={styles['object-manage-modal__flex']}>
-            <Form.Item<IManageObjectFields>
-              className="modal__item not-margened-item"
-              layout="vertical"
-              label="Ish kuni boshlanish vaqti"
-              name="shiftStartTime"
-              rules={[{ 
-                required: true,
-                message: 'Ish kuni boshlanish vaqtini kiriting'
-              }]}
-            >
-              <TimePicker
-                format="HH:mm"
-                style={{ width: "100%" }}
-                className="modal__timepicker"
-              />
-            </Form.Item>
-            <Form.Item<IManageObjectFields>
-              className="modal__item not-margened-item"
-              layout="vertical"
-              label="Ish kuni tugash vaqti"
-              name="shiftEndTime"
-              rules={[{ 
-                required: true,
-                message: 'Ish kuni tugash vaqtini kiriting'
-              }]}
-            >
-              <TimePicker
-                format="HH:mm"
-                style={{ width: "100%" }}
-                className="modal__timepicker"
-              />
-            </Form.Item>
-          </Flex>
-          <Form.Item<IManageObjectFields>
-            className="modal__item"
-            layout="vertical"
-            label="Avtomatik yopilish vaqti"
-            name="attendanceClosingTime"
-            rules={[{ 
-              required: true,
-              message: 'Avtomatik yopilish vaqtini kiriting'
+              message: t("objects.shiftStartRequired")
             }]}
           >
             <TimePicker
@@ -219,53 +176,85 @@ const ManageObjectModal: FC = () => {
               className="modal__timepicker"
             />
           </Form.Item>
-          <Flex className={styles['object-manage-modal__flex']}>
-            <Form.Item<IManageObjectFields>
-              className="modal__item not-margened-item"
-              layout="vertical"
-              label="Kechikishga ruxsat etilgan vaqt (daq.)"
-              name="lateEntryGraceMinutes"
-              rules={[{ 
-                required: true,
-                message: 'Kechikishga ruxsat etilgan vaqtni kiriting'
-              }]}
-            >
-              <InputNumber
-                className="modal__input"
-                disabled={isEdit && isLoading}
-                min={0}
-                suffix="daq"
-              />
-            </Form.Item>
-            <Form.Item<IManageObjectFields>
-              className="modal__item not-margened-item"
-              layout="vertical"
-              label="Erta ketishga ruxsat etilgan vaqt (daq.)"
-              name="earlyLeaveGraceMinutes"
-              rules={[{ 
-                required: true,
-                message: 'Erta ketishga ruxsat etilgan vaqtni kiriting'
-              }]}
-            >
-              <InputNumber
-                className="modal__input"
-                disabled={isEdit && isLoading}
-                min={0}
-                suffix="daq"
-              />
-            </Form.Item>
-          </Flex>
-          {isEdit && <Form.Item<IManageObjectFields>
-            name="status"
-            label="Holat"
-            valuePropName="checked"
-            className="modal__switch not-margened-item"
+          <Form.Item<IManageObjectFields>
+            className="modal__item not-margened-item"
+            layout="vertical"
+            label={t("objects.shiftEnd")}
+            name="shiftEndTime"
+            rules={[{
+              required: true,
+              message: t("objects.shiftEndRequired")
+            }]}
           >
-            <Switch />
-          </Form.Item>}
-        </Form>
-      </Modal>
-    </ConfigProvider>
+            <TimePicker
+              format="HH:mm"
+              style={{ width: "100%" }}
+              className="modal__timepicker"
+            />
+          </Form.Item>
+        </Flex>
+        <Form.Item<IManageObjectFields>
+          className="modal__item"
+          layout="vertical"
+          label={t("objects.closingTime")}
+          name="attendanceClosingTime"
+          rules={[{
+            required: true,
+            message: t("objects.closingTimeRequired")
+          }]}
+        >
+          <TimePicker
+            format="HH:mm"
+            style={{ width: "100%" }}
+            className="modal__timepicker"
+          />
+        </Form.Item>
+        <Flex className={styles['object-manage-modal__flex']}>
+          <Form.Item<IManageObjectFields>
+            className="modal__item not-margened-item"
+            layout="vertical"
+            label={t("objects.lateGrace")}
+            name="lateEntryGraceMinutes"
+            rules={[{
+              required: true,
+              message: t("objects.lateGraceRequired")
+            }]}
+          >
+            <InputNumber
+              className="modal__input"
+              disabled={isEdit && isLoading}
+              min={0}
+              suffix={t("objects.minutes")}
+            />
+          </Form.Item>
+          <Form.Item<IManageObjectFields>
+            className="modal__item not-margened-item"
+            layout="vertical"
+            label={t("objects.earlyGrace")}
+            name="earlyLeaveGraceMinutes"
+            rules={[{
+              required: true,
+              message: t("objects.earlyGraceRequired")
+            }]}
+          >
+            <InputNumber
+              className="modal__input"
+              disabled={isEdit && isLoading}
+              min={0}
+              suffix={t("objects.minutes")}
+            />
+          </Form.Item>
+        </Flex>
+        {isEdit && <Form.Item<IManageObjectFields>
+          name="status"
+          label={t("common.status")}
+          valuePropName="checked"
+          className="modal__switch not-margened-item"
+        >
+          <Switch />
+        </Form.Item>}
+      </Form>
+    </Modal>
   );
 }
 

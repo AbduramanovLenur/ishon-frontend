@@ -1,9 +1,10 @@
 import type { FC } from "react";
 import { Image, Tag } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 import type { IEmployeeEvent } from "../model/types";
-import { eventTypes } from "../model/config";
+import { getEventTypes } from "../model/config";
 
 import { formatDate, formatDateToDisplay, formatTime } from "@shared/utils";
 
@@ -14,22 +15,25 @@ interface IHistoryItemProps {
 };
 
 const HistoryItem: FC<IHistoryItemProps> = ({ item }) => {
-  const tags = [
+  const { t, i18n } = useTranslation();
+  const eventTypeLabels = getEventTypes(t);
+
+  const statusTags = [
     item.type && {
       id: 1,
-      text: eventTypes[item.type],
+      text: eventTypeLabels[item.type as keyof typeof eventTypeLabels],
       color: '#2db7f5',
       textColor: undefined,
     },
     item.late && {
       id: 2,
-      text: eventTypes.LATE,
+      text: eventTypeLabels.LATE,
       color: '#DCFCE7',
       textColor: '#389e0d',
     },
     item.earlyLeave && {
       id: 3,
-      text: eventTypes.EARLY,
+      text: eventTypeLabels.EARLY,
       color: '#FCE7F3',
       textColor: '#9D174D',
     },
@@ -39,7 +43,7 @@ const HistoryItem: FC<IHistoryItemProps> = ({ item }) => {
     <div className={styles['history-item']}>
       <div className={styles['history-item__info']}>
         <div className={styles['history-item__wrapper']}>
-          {tags.map((tag) => (
+          {statusTags.map((tag) => (
             <Tag
               key={tag.id}
               className={styles['history-item__tag']}
@@ -52,23 +56,23 @@ const HistoryItem: FC<IHistoryItemProps> = ({ item }) => {
           ))}
           {item.eventTime ? (
             <div className={styles['history-item__date']}>
-              {formatDate(item.eventTime)}
+              {formatDate(item.eventTime, t)}
             </div>
           ) : item.attendanceDate ? (
             <div className={styles['history-item__date']}>
-              {formatDateToDisplay(item.attendanceDate)}
+              {formatDateToDisplay(item.attendanceDate, t)}
             </div>
           ) : null}
         </div>
         {item?.eventTime && <div className={styles['history-item__information']}>
-          {formatTime(item.eventTime)}
+          {formatTime(item.eventTime, i18n.language)}
         </div>}
         {item?.object?.name && <div className={styles['history-item__object']}>
           <HomeOutlined />
           {item.object.name}
         </div>}
       </div>
-      {item?.snapshotUrl && <Image 
+      {item?.snapshotUrl && <Image
         classNames={{
           root: styles['history-item__picture']
         }}

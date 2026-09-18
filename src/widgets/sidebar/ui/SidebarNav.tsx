@@ -1,17 +1,19 @@
 import type { FC } from "react";
 import { NavLink } from "react-router-dom";
 import { Skeleton } from "antd";
+import { useTranslation } from "react-i18next";
 
 import styles from "./SidebarNav.module.scss";
 
 import { useLogout } from "@features/auth-form";
 import { useUser } from "@entities/user";
-import { navigations } from "@shared/config/navigations";
+import { getNavigations } from "@shared/config/navigations";
 
 const SidebarNav: FC = () => {
+  const { t } = useTranslation();
   const { data: user, isLoading } = useUser();
   const { logout } = useLogout();
-  const items = navigations.filter(
+  const items = getNavigations(t).filter(
     (nav) => user?.type && nav.roles.includes(user.type)
   );
 
@@ -31,11 +33,11 @@ const SidebarNav: FC = () => {
                   }
                 >
                   <span>
-                    <svg 
-                      width="20" 
-                      height="20" 
-                      viewBox="0 0 20 20" 
-                      fill="none" 
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <use href={`/icons/sprite.svg#icon-${item.icon}`}></use>
@@ -58,17 +60,17 @@ const SidebarNav: FC = () => {
         <li className={styles["sidebar-nav__item"]}>
           <button className={styles["sidebar-nav__logout"]} type="button" onClick={logout}>
             <span>
-              <svg 
-                width="20" 
-                height="20" 
-                viewBox="0 0 20 20" 
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <use href={`/icons/sprite.svg#icon-logout`}></use>
               </svg>
             </span>
-            <span>Chiqish</span>
+            <span>{t("navigation.logout")}</span>
           </button>
         </li>
       </ul>

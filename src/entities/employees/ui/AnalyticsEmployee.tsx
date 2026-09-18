@@ -1,12 +1,13 @@
 import type { FC } from "react";
 import { Skeleton } from "antd";
-import { 
+import {
   CloseOutlined,
   FieldTimeOutlined,
   ReconciliationOutlined,
   ScheduleOutlined,
   SelectOutlined
 } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 import styles from "./AnalyticsEmployee.module.scss";
 
@@ -27,35 +28,37 @@ const AnalyticsEmployee: FC<IAnalyticsEmployeeProps> = ({
   notLeftDays,
   isLoading
 }) => {
+  const { t } = useTranslation();
+
   const analytics = [
     {
       id: 1,
       icon: <ReconciliationOutlined />,
-      label: 'Ishlangan kunlar',
+      label: t("employees.workedDays"),
       value: workedDays,
     },
     {
       id: 2,
       icon: <CloseOutlined />,
-      label: 'Qoldirilgan kunlar',
+      label: t("employees.missedDays"),
       value: notCheckedInDays,
     },
     {
       id: 3,
       icon: <ScheduleOutlined />,
-      label: 'Kechikib kelishlar',
+      label: t("employees.lateArrivals"),
       value: lateArrivals,
     },
     {
       id: 4,
       icon: <FieldTimeOutlined />,
-      label: 'Erta ketishlar',
+      label: t("employees.earlyLeaves"),
       value: earlyLeaves,
     },
     {
       id: 5,
       icon: <SelectOutlined />,
-      label: 'Chiqish qayd etilmagan',
+      label: t("employees.notLeftDays"),
       value: notLeftDays,
     },
   ];

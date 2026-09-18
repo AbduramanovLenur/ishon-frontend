@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import EmployeesTable from "./EmployeesTable";
 
@@ -9,9 +10,10 @@ import { PrimaryButton, TopContent } from "@shared/ui";
 import styles from "./Employees.module.scss";
 
 const Employees: FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const openManageModalHandle = () => {
+  const handleOpenManageModal = () => {
     dispatch(open(null));
   }
 
@@ -19,11 +21,11 @@ const Employees: FC = () => {
     <section className={styles['employees']}>
       <div className={styles['employees__inner']}>
         <TopContent
-          title="Xodimlar"
-          text="Barcha obyektlarda xodimlar kirish huquqlari va biometrik profillarini boshqaring."
+          title={t("employees.title")}
+          text={t("employees.description")}
         >
-          <PrimaryButton onClick={openManageModalHandle}>
-            Xodim yaratish
+          <PrimaryButton onClick={handleOpenManageModal}>
+            {t("employees.create")}
           </PrimaryButton>
         </TopContent>
         <EmployeesTable />
