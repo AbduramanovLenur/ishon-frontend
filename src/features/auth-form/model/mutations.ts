@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { App } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { api } from "../api/api";
 import type { IAuthData, IAuthFields } from "./types";
@@ -20,14 +21,15 @@ import { routes } from "@shared/config";
 import type { IApiResponse } from "@shared/types";
 
 export function useLogin() {
+  const { t } = useTranslation();
   const { message } = App.useApp();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   return {
     ...useMutation<
-      IAuthData, 
-      AxiosError<IApiResponse<IAuthData>>, 
+      IAuthData,
+      AxiosError<IApiResponse<IAuthData>>,
       IAuthFields
     >({
       mutationFn: api.login,
@@ -37,16 +39,16 @@ export function useLogin() {
         });
 
         setTokens({ accessToken: data.accessToken });
-        
-        message.success(`Xush kelibsiz ${data.user.fullName}!`);
+
+        message.success(t("authMutations.welcome", { name: data.user.fullName }));
 
         navigate(routes.HOME);
       },
       onError: (error) => {
         const msg =
           error.response?.data?.error?.message ??
-          "Kirishda xatolik yuz berdi. Qayta urinib ko'ring.";
-          
+          t("authMutations.loginError");
+
         message.error(msg);
       },
     }),
@@ -54,6 +56,7 @@ export function useLogin() {
 }
 
 export function useLogout() {
+  const { t } = useTranslation();
   const { message } = App.useApp();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -71,7 +74,7 @@ export function useLogout() {
     queryClient.removeQueries({ queryKey: todaysPresenceKeys.all });
 
     navigate(routes.AUTH, { replace: true });
-    message.success("Siz akkauntdan chiqdingiz");
+    message.success(t("authMutations.loggedOut"));
   };
 
   return { logout };

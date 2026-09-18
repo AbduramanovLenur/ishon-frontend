@@ -30,6 +30,12 @@ export function useCreateEmployee() {
         queryClient.invalidateQueries({
           queryKey: todaysPresenceKeys.listCount()
         });
+        queryClient.invalidateQueries({
+          queryKey: employeesKeys.excel()
+        });
+        queryClient.invalidateQueries({
+          queryKey: todaysPresenceKeys.excel()
+        });
         
         message.success('Xodim yaratildi');
       },
@@ -67,6 +73,12 @@ export function useUpdateEmployee() {
         });
         queryClient.invalidateQueries({
           queryKey: todaysPresenceKeys.collection()
+        });
+        queryClient.invalidateQueries({
+          queryKey: employeesKeys.excel()
+        });
+        queryClient.invalidateQueries({
+          queryKey: todaysPresenceKeys.excel()
         });
         
         message.success('Xodim yangilandi');

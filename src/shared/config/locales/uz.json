@@ -271,6 +271,11 @@
     "sessionSuccess": "Sessiya muvaffaqiyatli o'rnatildi",
     "sessionError": "Sessiyani o'rnatishda xatolik yuz berdi"
   },
+  "authMutations": {
+    "welcome": "Xush kelibsiz {{name}}!",
+    "loginError": "Kirishda xatolik yuz berdi. Qayta urinib ko'ring.",
+    "loggedOut": "Siz akkauntdan chiqdingiz"
+  },
   "resetPassword": {
     "title": "Parolni yangilash",
     "newPassword": "Yangi parol",

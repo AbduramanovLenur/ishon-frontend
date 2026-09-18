@@ -31,6 +31,12 @@ export const useDeleteEmployee = () => {
       queryClient.invalidateQueries({
         queryKey: todaysPresenceKeys.listCount()
       });
+      queryClient.invalidateQueries({
+        queryKey: employeesKeys.excel()
+      });
+      queryClient.invalidateQueries({
+        queryKey: todaysPresenceKeys.excel()
+      });
 
       message.success(t("employees.deleted"));
     },

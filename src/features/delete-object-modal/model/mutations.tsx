@@ -22,7 +22,10 @@ export const useDeleteObject = () => {
     mutationFn: api.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: objectsKeys.collection(),
+        queryKey: objectsKeys.collection()
+      });
+      queryClient.invalidateQueries({
+        queryKey: objectsKeys.excel()
       });
 
       message.success(t("objects.deleted"));

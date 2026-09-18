@@ -26,6 +26,9 @@ export function useCreateObject () {
         queryClient.invalidateQueries({
           queryKey: objectsKeys.manualList()
         });
+        queryClient.invalidateQueries({
+          queryKey: objectsKeys.excel()
+        });
         
         message.success('Obyekt yaratildi');
       },
@@ -60,6 +63,9 @@ export function useUpdateObject() {
         });
         queryClient.invalidateQueries({
           queryKey: objectsKeys.manualList()
+        });
+        queryClient.invalidateQueries({
+          queryKey: objectsKeys.excel()
         });
         
         message.success('Obyekt yangilandi');

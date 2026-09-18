@@ -26,6 +26,9 @@ export function useGrantAccess() {
         queryClient.invalidateQueries({
           queryKey: employeesKeys.byId(variables.employeeId)
         });
+        queryClient.invalidateQueries({
+          queryKey: employeesKeys.excel()
+        });
 
         message.success('Kirish huquqlari muvaffaqiyatli berildi');
       },

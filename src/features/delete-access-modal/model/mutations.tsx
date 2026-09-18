@@ -24,6 +24,9 @@ export const useDeleteAccess = () => {
       queryClient.invalidateQueries({
         queryKey: employeesKeys.collection()
       });
+      queryClient.invalidateQueries({
+        queryKey: employeesKeys.excel()
+      });
 
       message.success(t("employees.accessRevoked"));
     },

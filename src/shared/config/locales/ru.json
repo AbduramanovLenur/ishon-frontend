@@ -271,6 +271,11 @@
     "sessionSuccess": "Сессия успешно установлена",
     "sessionError": "Ошибка при установке сессии"
   },
+  "authMutations": {
+    "welcome": "Добро пожаловать, {{name}}!",
+    "loginError": "Ошибка входа. Попробуйте снова.",
+    "loggedOut": "Вы вышли из аккаунта"
+  },
   "resetPassword": {
     "title": "Обновить пароль",
     "newPassword": "Новый пароль",
