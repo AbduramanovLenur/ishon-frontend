@@ -173,10 +173,14 @@ export const SystemLogsTable: FC = () => {
                 return;
               }
 
-              handleOpenView(record?.employeeId);
+              if (!record?.employeeId) {
+                return;
+              }
+
+              handleOpenView(record.employeeId);
             },
             style: {
-              cursor: 'pointer'
+              cursor: record?.employeeId ? 'pointer' : 'default'
             }
           })}
           dataSource={tableData}
