@@ -441,8 +441,6 @@ Open Online Turnstile
 
 ---
 
-Конечно. Ниже — полноценная английская версия README в том же профессиональном стиле, готовая для копирования.
-
 # Face ID Attendance System
 
 > **Face ID-based attendance and access management system with Telegram Web App integration.**
