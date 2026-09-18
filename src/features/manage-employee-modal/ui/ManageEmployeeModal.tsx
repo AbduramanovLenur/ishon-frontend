@@ -22,8 +22,8 @@ const ManageEmployeeModal: FC = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm<IManageEmployeeFields>();
   const { isOpen, employeeId } = useSelector(stateManageEmployee);
-  const { mutateAsync: createEmployee, isPending: isCreating } = useCreateEmployee();
-  const { mutateAsync: updateEmployee, isPending: isUpdating } = useUpdateEmployee();
+  const { mutateAsync: mutateAsyncCreate, isPending: isCreating } = useCreateEmployee();
+  const { mutateAsync: mutateAsyncUpdate, isPending: isUpdating } = useUpdateEmployee();
   const { mutateAsync: uploadFile } = useUploadFile();
   const isEdit = !!employeeId;
   const title = isEdit ? t("employees.edit") : t("employees.create");
@@ -84,7 +84,7 @@ const ManageEmployeeModal: FC = () => {
     }
 
     if (isEdit) {
-      await updateEmployee({
+      await mutateAsyncUpdate({
         ...values,
         employeeId,
         fileId,
@@ -96,7 +96,7 @@ const ManageEmployeeModal: FC = () => {
       return;
     }
 
-    await createEmployee({
+    await mutateAsyncCreate({
       ...values,
       fileId
     }, {

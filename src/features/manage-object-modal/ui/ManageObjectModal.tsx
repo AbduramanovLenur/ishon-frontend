@@ -19,8 +19,8 @@ const ManageObjectModal: FC = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm<IManageObjectFields>();
   const { isOpen, objectId } = useSelector(stateManageObject);
-  const { mutateAsync: createObject, isPending: isCreating } = useCreateObject();
-  const { mutateAsync: updateObject, isPending: isUpdating } = useUpdateObject();
+  const { mutateAsync: mutateAsyncCreate, isPending: isCreating } = useCreateObject();
+  const { mutateAsync: mutateAsyncUpdate, isPending: isUpdating } = useUpdateObject();
   const isEdit = !!objectId;
   const title = isEdit ? t("objects.edit") : t("objects.create");
   const { data, isLoading } = useObjectById(objectId, isEdit);
@@ -61,14 +61,14 @@ const ManageObjectModal: FC = () => {
     };
 
     if (isEdit) {
-      updateObject(
+      mutateAsyncUpdate(
         { ...formattedValues, objectId, status: values.status ? status.ACTIVE : status.INACTIVE },
         { onSuccess: handleClose }
       );
       return;
     }
 
-    createObject(formattedValues, { onSuccess: handleClose });
+    mutateAsyncCreate(formattedValues, { onSuccess: handleClose });
   }
 
   return (

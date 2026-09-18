@@ -252,6 +252,25 @@
     "sessionErrorDescription": "Sessiyani o'rnatishda xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring.",
     "retry": "Qaytadan urinish"
   },
+  "faceVerification": {
+    "fileUploaded": "Fayl yuklandi",
+    "fileUploadError": "Faylni yuklashda xatolik yuz berdi",
+    "welcome": "Ishga xush kelibsiz! Ish kuningiz samarali va omadli o'tsin.",
+    "goodbye": "Ish kuningiz yakunlandi. Xayrli dam oling!",
+    "attendanceError": "Davomatni qayd etishda xatolik yuz berdi",
+    "faceNotDetected": "Xodim aniqlanmadi. Yuz tasviri orqali xodimni aniqlab bo'lmadi.",
+    "faceNotRecognized": "Yuz tasviri xodim bilan yetarlicha mos kelmadi. Iltimos, yuzingizni kameraga to'g'ri qarating va qayta urinib ko'ring.",
+    "outsideGeofence": "Siz ish obyektidan tashqaridasiz. Davomatni qayd etish uchun obyekt hududiga kiring.",
+    "objectNotAssigned": "Sizga ish obyekti biriktirilmagan. Iltimos, administrator bilan bog'laning.",
+    "notWorkingDay": "Bugun sizning ish kuningiz emas.",
+    "alreadyInside": "Siz allaqachon ishga kirganingizni qayd etgansiz.",
+    "notInside": "Siz ishga kirganingizni qayd etmagansiz. Chiqishni qayd etish mumkin emas.",
+    "outsideAttendanceWindow": "Hozir ish vaqti emas. Iltimos, belgilangan ish vaqtida qayta urinib ko'ring.",
+    "alreadyCompletedToday": "Bugungi kirish va chiqish qaydlari allaqachon amalga oshirilgan.",
+    "tooFrequentRequest": "So'rov juda tez-tez yuborilmoqda. Iltimos, 15 soniyadan so'ng qayta urinib ko'ring.",
+    "sessionSuccess": "Sessiya muvaffaqiyatli o'rnatildi",
+    "sessionError": "Sessiyani o'rnatishda xatolik yuz berdi"
+  },
   "resetPassword": {
     "title": "Parolni yangilash",
     "newPassword": "Yangi parol",

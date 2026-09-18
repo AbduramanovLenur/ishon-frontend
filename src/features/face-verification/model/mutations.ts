@@ -1,6 +1,7 @@
 import { App } from "antd";
 import { useMutation } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
+import { useTranslation } from "react-i18next";
 
 import { api } from "../api/api";
 import type { IAttendanceFaceIdFields, IAttendanceResponse, ISessionFields, ISessionResponse } from "./types";
@@ -10,6 +11,7 @@ import { eventTypes, rejectionReasons } from "@shared/config";
 import { setTokens } from "@shared/api";
 
 export function useUploadFacePicture() {
+  const { t } = useTranslation();
   const { message } = App.useApp();
 
   return {
@@ -21,13 +23,13 @@ export function useUploadFacePicture() {
       mutationFn: api.uploadFacePicture,
       onSuccess: (response) => {
         if (response.success) {
-          message.success("Fayl yuklandi");
+          message.success(t("faceVerification.fileUploaded"));
         }
       },
       onError: (error) => {
         const msg =
           error.response?.data?.error?.message ??
-          "Faylni yuklashda xatolik yuz berdi";
+          t("faceVerification.fileUploadError");
 
         message.error(msg);
       },
@@ -36,6 +38,7 @@ export function useUploadFacePicture() {
 }
 
 export function useAttendance() {
+  const { t } = useTranslation();
   const { message } = App.useApp();
 
   return {
@@ -54,15 +57,11 @@ export function useAttendance() {
           }
 
           if (variables.eventType === eventTypes.ENTER) {
-            message.success(
-              "Ishga xush kelibsiz! Ish kuningiz samarali va omadli o‘tsin."
-            );
+            message.success(t("faceVerification.welcome"));
           }
 
           if (variables.eventType === eventTypes.EXIT) {
-            message.success(
-              "Ish kuningiz yakunlandi. Xayrli dam oling!"
-            );
+            message.success(t("faceVerification.goodbye"));
           }
 
           return;
@@ -70,61 +69,41 @@ export function useAttendance() {
 
         switch (rejectionReason) {
           case rejectionReasons.FACE_NOT_DETECTED:
-            message.error(
-              "Xodim aniqlanmadi. Yuz tasviri orqali xodimni aniqlab bo‘lmadi."
-            );
+            message.error(t("faceVerification.faceNotDetected"));
             break;
           case rejectionReasons.FACE_NOT_RECOGNIZED:
-            message.error(
-              "Yuz tasviri xodim bilan yetarlicha mos kelmadi. Iltimos, yuzingizni kameraga to‘g‘ri qarating va qayta urinib ko‘ring."
-            );
+            message.error(t("faceVerification.faceNotRecognized"));
             break;
           case rejectionReasons.OUTSIDE_GEOFENCE:
-            message.error(
-              "Siz ish obyektidan tashqaridasiz. Davomatni qayd etish uchun obyekt hududiga kiring."
-            );
+            message.error(t("faceVerification.outsideGeofence"));
             break;
           case rejectionReasons.OBJECT_NOT_ASSIGNED:
-            message.error(
-              "Sizga ish obyekti biriktirilmagan. Iltimos, administrator bilan bog‘laning."
-            );
+            message.error(t("faceVerification.objectNotAssigned"));
             break;
           case rejectionReasons.NOT_WORKING_DAY:
-            message.error(
-              "Bugun sizning ish kuningiz emas."
-            );
+            message.error(t("faceVerification.notWorkingDay"));
             break;
           case rejectionReasons.ALREADY_INSIDE:
-            message.error(
-              "Siz allaqachon ishga kirganingizni qayd etgansiz."
-            );
+            message.error(t("faceVerification.alreadyInside"));
             break;
           case rejectionReasons.NOT_INSIDE:
-            message.error(
-              "Siz ishga kirganingizni qayd etmagansiz. Chiqishni qayd etish mumkin emas."
-            );
+            message.error(t("faceVerification.notInside"));
             break;
           case rejectionReasons.OUTSIDE_ATTENDANCE_WINDOW:
-            message.error(
-              "Hozir ish vaqti emas. Iltimos, belgilangan ish vaqtida qayta urinib ko‘ring.",
-            );
+            message.error(t("faceVerification.outsideAttendanceWindow"));
             break;
           case rejectionReasons.ALREADY_COMPLETED_TODAY:
-            message.error(
-              "Bugungi kirish va chiqish qaydlari allaqachon amalga oshirilgan.",
-            );
+            message.error(t("faceVerification.alreadyCompletedToday"));
             break;
           case rejectionReasons.TOO_FREQUENT_REQUEST:
-            message.error(
-              "So‘rov juda tez-tez yuborilmoqda. Iltimos, 15 soniyadan so‘ng qayta urinib ko‘ring.",
-            );
+            message.error(t("faceVerification.tooFrequentRequest"));
             break;
         }
-    } ,
+    },
       onError: (error) => {
         const msg =
           error.response?.data?.error?.message ??
-          "Davomatni qayd etishda xatolik yuz berdi";
+          t("faceVerification.attendanceError");
 
         message.error(msg);
       },
@@ -133,6 +112,7 @@ export function useAttendance() {
 }
 
 export function useSession() {
+  const { t } = useTranslation();
   const { message } = App.useApp();
 
   return {
@@ -144,14 +124,14 @@ export function useSession() {
       mutationFn: api.session,
       onSuccess: (response) => {
         if (response.success) {
-          message.success("Sessiya muvaffaqiyatli o‘rnatildi");
+          message.success(t("faceVerification.sessionSuccess"));
           setTokens({ accessToken: response.data.accessToken });
         }
       },
       onError: (error) => {
         const msg =
           error.response?.data?.error?.message ??
-          "Sessiyani o‘rnatishda xatolik yuz berdi";
+          t("faceVerification.sessionError");
 
         message.error(msg);
       },
