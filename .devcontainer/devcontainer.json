@@ -1,6 +1,6 @@
 {
   "name": "Frontend Ishon Container",
-  "dockerComposeFile": "../../compose.dev.yaml",
+  "dockerComposeFile": "../compose.yaml",
   "service": "ishon_dev",
   "workspaceFolder": "/app"
 }
