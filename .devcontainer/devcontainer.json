@@ -1,6 +1,6 @@
 {
-  "name": "React Ishon Development Container",
-  "dockerComposeFile": "../compose.dev.yaml",
+  "name": "Frontend Ishon Container",
+  "dockerComposeFile": "../../compose.dev.yaml",
   "service": "ishon_dev",
   "workspaceFolder": "/app"
 }
