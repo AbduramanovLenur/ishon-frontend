@@ -9,5 +9,10 @@ export const api = {
     return axiosInstance
       .post<IApiResponse<IAuthData>>(endpoints.LOGIN, values)
       .then((response) => response.data.data);
+  },
+  logout: () => {
+    return axiosInstance
+      .post(endpoints.LOGOUT, undefined, { skipAuthRedirect: true })
+      .then((response) => response.data);
   }
 }

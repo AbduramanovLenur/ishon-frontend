@@ -3,6 +3,7 @@ import { App, ConfigProvider } from "antd";
 import { useTranslation } from "react-i18next";
 
 import QueryProvider from "./QueryProvider";
+import SessionProvider from "./SessionProvider";
 import StoreProvider from "./StoreProvider";
 
 import { antdLocales } from "@shared/config";
@@ -20,7 +21,9 @@ const AppProviders : FC<IProps> = ({ children }) => {
       <StoreProvider>
         <QueryProvider>
           <App>
-            {children}
+            <SessionProvider>
+              {children}
+            </SessionProvider>
           </App>
         </QueryProvider>
       </StoreProvider>

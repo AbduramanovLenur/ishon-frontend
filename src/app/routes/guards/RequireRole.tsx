@@ -11,11 +11,11 @@ interface IRequireRoleProps {
 }
 
 const RequireRole: FC<IRequireRoleProps> = ({ roles }) => {
-  const { logout } = useLogout();
+  const { mutate: logout, isPending } = useLogout();
   const { data: user, error } = useUser();
   const allowedRoles = Array.isArray(roles) ? roles : [roles];
 
-  if (error) {
+  if (error && !isPending) {
     logout();
   }
 

@@ -7,6 +7,7 @@ import { clearTokens, getAccessToken } from './tokenStorage';
 
 export const axiosInstance = axios.create({
   baseURL: env.API_BASE_URL,
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use((config) => {
@@ -21,10 +22,11 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-axiosInstance.interceptors.response.use(
-  (response) => response,
+axiosInstance.interceptors.response.use((response) => response,
   (error: AxiosError) => {
-    if (error.response?.status === 401) {
+    const skipAuthRedirect = error.config?.skipAuthRedirect;
+
+    if (error.response?.status === 401 && !skipAuthRedirect) {
       clearTokens();
 
       if (insideTelegram) {

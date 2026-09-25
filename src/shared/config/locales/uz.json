@@ -274,7 +274,8 @@
   "authMutations": {
     "welcome": "Xush kelibsiz {{name}}!",
     "loginError": "Kirishda xatolik yuz berdi. Qayta urinib ko'ring.",
-    "loggedOut": "Siz akkauntdan chiqdingiz"
+    "loggedOut": "Siz akkauntdan chiqdingiz",
+    "logoutError": "Akkauntdan chiqish imkoni bo'lmadi. Qayta urinib ko'ring."
   },
   "resetPassword": {
     "title": "Parolni yangilash",

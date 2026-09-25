@@ -61,7 +61,7 @@ export function useLogout() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const logout = () => {
+  const cleanup = () => {
     clearTokens();
     queryClient.removeQueries({ queryKey: userKeys.user });
     queryClient.removeQueries({ queryKey: settingsKeys.all });
@@ -72,10 +72,23 @@ export function useLogout() {
     queryClient.removeQueries({ queryKey: statisticsKeys.all });
     queryClient.removeQueries({ queryKey: systemLogsKeys.all });
     queryClient.removeQueries({ queryKey: todaysPresenceKeys.all });
-
-    navigate(routes.AUTH, { replace: true });
-    message.success(t("authMutations.loggedOut"));
   };
 
-  return { logout };
+  return {
+    ...useMutation<void, AxiosError, void>({
+      mutationFn: api.logout,
+      onSuccess: () => {
+        cleanup();
+        navigate(routes.AUTH, { replace: true });
+        message.success(t("authMutations.loggedOut"));
+      },
+      onError: (error) => {
+        const msg =
+          error.response?.data?.error?.message ??
+          t("authMutations.logoutError");
+
+        message.error(msg);
+      },
+    }),
+  };
 }

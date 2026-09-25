@@ -3,16 +3,16 @@ import { NavLink } from "react-router-dom";
 import { Skeleton } from "antd";
 import { useTranslation } from "react-i18next";
 
-import styles from "./SidebarNav.module.scss";
-
 import { useLogout } from "@features/auth-form";
 import { useUser } from "@entities/user";
 import { getNavigations } from "@shared/config/navigations";
 
+import styles from "./SidebarNav.module.scss";
+
 const SidebarNav: FC = () => {
   const { t } = useTranslation();
   const { data: user, isLoading } = useUser();
-  const { logout } = useLogout();
+  const { mutate: logout, isPending } = useLogout();
   const items = getNavigations(t).filter(
     (nav) => user?.type && nav.roles.includes(user.type)
   );
@@ -58,7 +58,7 @@ const SidebarNav: FC = () => {
           )
         }
         <li className={styles["sidebar-nav__item"]}>
-          <button className={styles["sidebar-nav__logout"]} type="button" onClick={logout}>
+          <button className={styles["sidebar-nav__logout"]} type="button" onClick={logout} disabled={isPending}>
             <span>
               <svg
                 width="20"

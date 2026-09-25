@@ -1,25 +1,29 @@
 import { type AuthTokens } from '@shared/types';
-import { tokens } from '@shared/config';
+
+let accessToken: string | null = null;
+let refreshToken: string | null = null;
 
 export function getAccessToken(): string | null {
-  return localStorage.getItem(tokens.ACCESS_TOKEN_KEY);
+  return accessToken;
 }
 
 export function getRefreshToken(): string | null {
-  return localStorage.getItem(tokens.REFRESH_TOKEN_KEY);
+  return refreshToken;
 }
 
-export function setTokens(tokensValues: AuthTokens): void {
-  localStorage.setItem(tokens.ACCESS_TOKEN_KEY, tokensValues.accessToken);
+export function setTokens(tokens: AuthTokens): void {
+  accessToken = tokens.accessToken;
 
-  if (tokensValues.refreshToken) localStorage.setItem(tokens.REFRESH_TOKEN_KEY, tokensValues.refreshToken);
+  if (tokens.refreshToken) {
+    refreshToken = tokens.refreshToken;
+  }
 }
 
 export function clearTokens(): void {
-  localStorage.removeItem(tokens.ACCESS_TOKEN_KEY);
-  localStorage.removeItem(tokens.REFRESH_TOKEN_KEY);
+  accessToken = null;
+  refreshToken = null;
 }
 
 export function hasValidSession(): boolean {
-  return Boolean(getAccessToken());
+  return Boolean(accessToken);
 }

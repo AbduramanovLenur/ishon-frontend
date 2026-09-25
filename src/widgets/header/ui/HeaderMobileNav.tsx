@@ -16,7 +16,7 @@ interface IHeaderMobileNavProps {
 const HeaderMobileNav: FC<IHeaderMobileNavProps> = ({ onClose }) => {
   const { t } = useTranslation();
   const { data: user, isLoading } = useUser();
-  const { logout } = useLogout();
+  const { mutate: logout, isPending } = useLogout();
 
   const items = getNavigations(t).filter(
     (nav) => user?.type && nav.roles.includes(user.type)
@@ -68,6 +68,7 @@ const HeaderMobileNav: FC<IHeaderMobileNavProps> = ({ onClose }) => {
             className={styles["header-mobile__nav-logout"]}
             type="button"
             onClick={logout}
+            disabled={isPending}
           >
             <span>
               <svg
