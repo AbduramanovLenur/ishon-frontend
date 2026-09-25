@@ -2,7 +2,6 @@ import type { FC } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { Spin } from "antd";
 
-import { useLogout } from "@features/auth-form";
 import { useUser } from "@entities/user";
 import { roleHomeRoutes, roles as userRoles } from "@shared/config";
 import type { TRoles } from "@shared/types";
@@ -12,13 +11,8 @@ interface IRequireRoleProps {
 }
 
 const RequireRole: FC<IRequireRoleProps> = ({ roles }) => {
-  const { mutate: logout, isPending: isLogoutPending } = useLogout();
-  const { data: user, error, isPending: isUserPending } = useUser();
+  const { data: user, isPending: isUserPending } = useUser();
   const allowedRoles = Array.isArray(roles) ? roles : [roles];
-
-  if (error && !isLogoutPending) {
-    logout();
-  }
 
   if (isUserPending) {
     return (

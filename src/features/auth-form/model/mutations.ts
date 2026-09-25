@@ -79,13 +79,14 @@ export function useLogout() {
       mutationFn: api.logout,
       onSuccess: () => {
         cleanup();
+
         navigate(routes.AUTH, { replace: true });
+
         message.success(t("authMutations.loggedOut"));
       },
       onError: () => {
         const msg = t("authMutations.logoutError");
           
-
         message.error(msg);
       },
     }),

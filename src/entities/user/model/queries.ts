@@ -6,6 +6,6 @@ import { api } from "../api/api";
 export function useUser() {
   return useQuery({
     queryKey: userKeys.user,
-    queryFn: api.me,
+    queryFn: ({ signal }) => api.me(signal),
   })
 }
