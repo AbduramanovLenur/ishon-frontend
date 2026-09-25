@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { Spin } from "antd";
 
 import { useLogout } from "@features/auth-form";
 import { useUser } from "@entities/user";
@@ -11,12 +12,20 @@ interface IRequireRoleProps {
 }
 
 const RequireRole: FC<IRequireRoleProps> = ({ roles }) => {
-  const { mutate: logout, isPending } = useLogout();
-  const { data: user, error } = useUser();
+  const { mutate: logout, isPending: isLogoutPending } = useLogout();
+  const { data: user, error, isPending: isUserPending } = useUser();
   const allowedRoles = Array.isArray(roles) ? roles : [roles];
 
-  if (error && !isPending) {
+  if (error && !isLogoutPending) {
     logout();
+  }
+
+  if (isUserPending) {
+    return (
+      <div className="centered main-loading">
+        <Spin size="large" />
+      </div>
+    );
   }
 
   if (!user) {

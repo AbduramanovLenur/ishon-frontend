@@ -12,11 +12,9 @@ const SessionProvider: FC<IProps> = ({ children }) => {
   const isAuthPage = window.location.pathname === routes.AUTH;
 
   const { mutateAsync, isPending } = useSessionRestore();
-  // const hasRequestedSessionRestore = useRef(false);
 
   useEffect(() => {
     if (!isAuthPage) {
-      // hasRequestedSessionRestore.current = true;
       mutateAsync();
     }
   }, [isAuthPage, mutateAsync]);

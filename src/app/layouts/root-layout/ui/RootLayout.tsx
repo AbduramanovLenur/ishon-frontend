@@ -1,5 +1,6 @@
-import type { FC } from "react";
+import { Suspense, type FC } from "react";
 import { Outlet } from "react-router-dom";
+import { Spin } from "antd";
 
 import { Sidebar } from "@widgets/sidebar";
 import { Header } from "@widgets/header";
@@ -12,7 +13,15 @@ const RootLayout : FC = () => {
         <div className="content">
           <Header />
           <main className="main">
-            <Outlet />
+            <Suspense
+              fallback={
+                <div className="centered main-loading">
+                  <Spin size="large" />
+                </div>
+              }
+            >
+              <Outlet />
+            </Suspense>
           </main>
         </div>
       </div>

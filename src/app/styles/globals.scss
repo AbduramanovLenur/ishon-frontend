@@ -124,6 +124,7 @@ main {
   flex-direction: column;
   gap: 20px;
   padding: 55px 30px;
+  height: 100%;
   @media (max-width: 1440px) {
     padding: 45px 25px;
   }
@@ -159,6 +160,11 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.main-loading {
+  margin: auto;
+  min-height: 40vh;
 }
 
 .centered .ant-modal {
