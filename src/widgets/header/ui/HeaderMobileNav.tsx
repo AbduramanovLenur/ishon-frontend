@@ -67,7 +67,7 @@ const HeaderMobileNav: FC<IHeaderMobileNavProps> = ({ onClose }) => {
           <button
             className={styles["header-mobile__nav-logout"]}
             type="button"
-            onClick={logout}
+            onClick={() => logout()}
             disabled={isPending}
           >
             <span>

@@ -58,7 +58,7 @@ const SidebarNav: FC = () => {
           )
         }
         <li className={styles["sidebar-nav__item"]}>
-          <button className={styles["sidebar-nav__logout"]} type="button" onClick={logout} disabled={isPending}>
+          <button className={styles["sidebar-nav__logout"]} type="button" onClick={() => logout()} disabled={isPending}>
             <span>
               <svg
                 width="20"

@@ -82,10 +82,9 @@ export function useLogout() {
         navigate(routes.AUTH, { replace: true });
         message.success(t("authMutations.loggedOut"));
       },
-      onError: (error) => {
-        const msg =
-          error.response?.data?.error?.message ??
-          t("authMutations.logoutError");
+      onError: () => {
+        const msg = t("authMutations.logoutError");
+          
 
         message.error(msg);
       },
