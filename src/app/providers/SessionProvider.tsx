@@ -2,25 +2,20 @@ import { useEffect, type FC, type ReactNode } from "react";
 import { Spin } from "antd";
 
 import { useSessionRestore } from "@features/auth";
-import { routes } from "@shared/config";
 
 interface IProps {
   children: ReactNode;
 };
 
 const SessionProvider: FC<IProps> = ({ children }) => {
-  const isAuthPage = window.location.pathname === routes.AUTH;
-
-  const { mutateAsync, isSuccess, isError } = useSessionRestore();
-  const isRestored = isSuccess || isError;
+  const { mutateAsync, isSuccess, isError, isPending } = useSessionRestore();
+  const isRestored =  isSuccess || isError;
 
   useEffect(() => {
-    if (!isAuthPage) {
-      mutateAsync();
-    }
-  }, [isAuthPage, mutateAsync]);
+    mutateAsync();
+  }, [mutateAsync]);
 
-  if (!isRestored) {
+  if (!isRestored || isPending) {
     return <div className="spin">
       <Spin className="spin-loader" size="large" />
     </div>;
