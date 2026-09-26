@@ -1,6 +1,6 @@
 import { type FC } from "react";
 
-import { AuthForm } from "@features/auth-form";
+import { AuthForm } from "@features/auth";
 import { LanguageSwitcher } from "@features/language-switcher";
 
 import styles from "./AuthenticationForm.module.scss";

@@ -1,4 +1,4 @@
-export { axiosInstance } from "./axiosInstance";
+export { axiosInstance, setUnauthorizedHandler } from "./axiosInstance";
 export { queryClient } from "./queryClient";
 export { 
   getAccessToken, 

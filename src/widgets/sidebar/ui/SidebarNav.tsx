@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Skeleton } from "antd";
 import { useTranslation } from "react-i18next";
 
-import { useLogout } from "@features/auth-form";
+import { useLogout } from "@features/auth";
 import { useUser } from "@entities/user";
 import { getNavigations } from "@shared/config/navigations";
 

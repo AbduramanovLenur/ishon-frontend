@@ -5,17 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { api } from "../api/api";
-import type { IAuthData, IAuthFields } from "./types";
+import type { IAuthFields, IAuthData } from "./types";
 
 import { userKeys } from "@entities/user";
-import { settingsKeys } from "@entities/settings";
-import { employeesKeys } from "@entities/employees";
-import { companiesKeys } from "@entities/companies";
-import { companiesOwnerKeys } from "@entities/directors";
-import { objectsKeys } from "@entities/objects";
-import { statisticsKeys } from "@entities/statistics";
-import { systemLogsKeys } from "@entities/system-logs";
-import { todaysPresenceKeys } from "@entities/todays-presence";
 import { clearTokens, setTokens } from "@shared/api";
 import { routes } from "@shared/config";
 import type { IApiResponse } from "@shared/types";
@@ -61,24 +53,12 @@ export function useLogout() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const cleanup = () => {
-    clearTokens();
-    queryClient.removeQueries({ queryKey: userKeys.user });
-    queryClient.removeQueries({ queryKey: settingsKeys.all });
-    queryClient.removeQueries({ queryKey: employeesKeys.all });
-    queryClient.removeQueries({ queryKey: companiesKeys.all });
-    queryClient.removeQueries({ queryKey: companiesOwnerKeys.all });
-    queryClient.removeQueries({ queryKey: objectsKeys.all });
-    queryClient.removeQueries({ queryKey: statisticsKeys.all });
-    queryClient.removeQueries({ queryKey: systemLogsKeys.all });
-    queryClient.removeQueries({ queryKey: todaysPresenceKeys.all });
-  };
-
   return {
     ...useMutation<void, AxiosError, void>({
       mutationFn: api.logout,
       onSuccess: () => {
-        cleanup();
+        clearTokens();
+        queryClient.removeQueries();
 
         navigate(routes.AUTH, { replace: true });
 
@@ -86,9 +66,26 @@ export function useLogout() {
       },
       onError: () => {
         const msg = t("authMutations.logoutError");
-          
+
         message.error(msg);
       },
     }),
+  };
+}
+
+export function useSessionRestore() {
+  return {
+    ...useMutation<
+      IApiResponse<IAuthData>,
+      AxiosError<IApiResponse<IAuthData>>,
+      void
+    >({
+      mutationFn: () => api.restoreSession(),
+      onSuccess: (response) => {
+        if (response.success) {
+          setTokens({ accessToken: response.data.accessToken });
+        }
+      },
+    })
   };
 }
